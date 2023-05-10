@@ -10,7 +10,7 @@
   - [Prérequis](#prérequis)
     - [Environnement de développement](#environnement-de-développement)
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
-    - [Installation de Symfony dans l'environnement de développement sous Windows](#installation-de-symfony-dans-lenvironnement-de-développement-sous-windows)
+    - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
 
 ### Prérequis
@@ -57,7 +57,7 @@ https://nodejs.org/fr/download
 
 Retour au [Menu de navigation](#menu-de-navigation)
 
-### Installation de Symfony dans l'environnement de développement sous Windows
+### Installation de Symfony dans l'environnement de développement
 
 - Vérifier que PHP est bien installé
 
