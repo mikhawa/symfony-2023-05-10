@@ -5,6 +5,7 @@
 ## Installation de Symfony dans l'environnement de développement sous Windows
 
 ---
+
 ## Menu de navigation
 - [symfony-2023-05-10](#symfony-2023-05-10)
   - [Version installée de Symfony 6.2.10](#version-installée-de-symfony-6210)
@@ -13,6 +14,7 @@
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
+  
 ---
 
 ### Prérequis
@@ -29,8 +31,11 @@
 - Node.js (pour Webpack Encore)
 
 ---
+
 Retour au [Menu de navigation](#menu-de-navigation)
+
 ---
+
 #### Liens de téléchargement des logiciels
 
 Lien de téléchargement de composer :
