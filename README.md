@@ -96,9 +96,10 @@ git --version
 
 - Créer un nouveau projet Symfony, ici, nous ne choisirons pas la version LTS (Long Term Support), mais la dernière version stable
 
-Documentation :
+Documentation de versioning de Symfony :
 
-https://symfony.com/doc/current/setup.html#creating-symfony-applications
+https://symfony.com/releases
+
 
 Vérifions si notre poste de travail est bien configuré pour Symfony
 
@@ -114,9 +115,17 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Création d'un nouveau projet Symfony
 
+L'écriture de la commande suivante va créer un nouveau projet (dossier) Symfony, en utilisant la dernière version stable de Symfony, et en utilisant le template `webapp`, qui est un template de base pour créer une application web.
+
+symfony new `nom_du_projet` --webapp
+
 ```bash
 symfony new symfony6 --webapp
 ```
+
+Voici le lien de la documentation officielle de Symfony pour créer un nouveau projet :
+
+https://symfony.com/doc/current/setup.html
 
 - Vérifions que les dépendances sont bien installées et sécurisées
 
