@@ -7,8 +7,7 @@
 ---
 
 ## Menu de navigation
-- [symfony-2023-05-10](#symfony-2023-05-10)
-  - [Version installée de Symfony 6.2.10](#version-installée-de-symfony-6210)
+- [Accueil](#symfony-2023-05-10)
   - [Prérequis](#prérequis)
     - [Environnement de développement](#environnement-de-développement)
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
