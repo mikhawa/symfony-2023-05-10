@@ -14,6 +14,7 @@
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
   - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
+  - [Création du premier contrôleur](#création-du-premier-contrôleur)
   
 ---
 
@@ -172,6 +173,63 @@ symfony server:stop
 Vous pourrez retrouver le serveur web de Symfony à l'adresse suivante :
 
 https://127.0.0.1:8000/
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Création du premier contrôleur
+
+Dans le terminal, à la racine du projet, exécutez la commande suivante :
+
+```bash
+symfony console make:controller
+```
+
+- Nom du contrôleur à indiquer : `PublicController`
+
+2 fichiers ont été créés :
+
+- `src/Controller/PublicController.php`
+- `templates/public/index.html.twig`
+
+Le premier fichier est le contrôleur en PHP, le second est la vue en Twig.
+
+```php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class PublicController extends AbstractController
+{
+    #[Route('/public', name: 'app_public')]
+    public function index(): Response
+    {
+        return $this->render('public/index.html.twig', [
+            'controller_name' => 'PublicController',
+        ]);
+    }
+}
+```
+
+```twig
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PublicController!{% endblock %}
+
+{% block body %}
+
+...
+
+```
+
+Vous pouvez le tester en vous rendant à l'adresse suivante :
+
+https://127.0.0.1:8000/public
 
 ---
 
