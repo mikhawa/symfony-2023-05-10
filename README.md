@@ -13,6 +13,7 @@
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
+  - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
   
 ---
 
@@ -137,3 +138,34 @@ symfony check:security
 ```bash
 composer update
 ```
+
+### Lancement du serveur web de Symfony
+
+```bash
+symfony serve
+```
+
+Si le serveur est démarré en http://, quittez avec ctrl-c, et installez le certificat SSL
+
+```bash
+symfony server:ca:install
+```
+
+Une manière plus "propre" de lancer le serveur en mode deamon (invisible) est la suivante :
+
+```bash
+symfony server:start -d
+```
+
+Et pour le fermer proprement :
+
+```bash
+symfony server:stop
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
