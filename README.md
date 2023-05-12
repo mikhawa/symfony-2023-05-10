@@ -139,6 +139,12 @@ symfony check:security
 composer update
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 ### Lancement du serveur web de Symfony
 
 ```bash
@@ -162,6 +168,10 @@ Et pour le fermer proprement :
 ```bash
 symfony server:stop
 ```
+
+Vous pourrez retrouver le serveur web de Symfony à l'adresse suivante :
+
+https://127.0.0.1:8000/
 
 ---
 
