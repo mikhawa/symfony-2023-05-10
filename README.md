@@ -25,23 +25,23 @@
 
 ### Historique de Symfony
 
-Symfony est un framework web open-source écrit en PHP, qui a été créé par le développeur français Fabien Potencier en 2005. Le but principal de Symfony était de faciliter le développement d'applications web en fournissant un ensemble d'outils et de bibliothèques réutilisables, ainsi qu'une architecture claire et cohérente.
+`Symfony` est un `framework web open-source` écrit en `PHP`, qui a été créé par le développeur français `Fabien Potencier` en 2005. Le but principal de Symfony était de faciliter le développement d'applications web en fournissant un ensemble d'outils et de bibliothèques réutilisables, ainsi qu'une architecture claire et cohérente.
 
 La première version de Symfony, la version 1.0, a été publiée en octobre 2005. Elle a rapidement gagné en popularité auprès de la communauté des développeurs PHP en raison de sa simplicité et de sa flexibilité. 
 
 Aujourd'hui, Symfony est l'un des frameworks web les plus populaires pour le développement d'applications PHP. Il est utilisé par des entreprises de toutes tailles, des petites start-ups aux grandes entreprises internationales. La communauté Symfony est également très active et contribue régulièrement à l'amélioration du framework en fournissant des mises à jour, des correctifs de bugs et de nouveaux composants.
 
-Il y a plusieurs raisons pour lesquelles Symfony est un choix populaire pour le développement d'applications web en PHP :
+Il y a plusieurs raisons pour lesquelles Symfony est un choix populaire pour le `développement d'applications web` en PHP :
 
-1. Structuration et modularité : Symfony offre une structure et une organisation claire pour les projets, ce qui facilite leur maintenance et leur évolution. Le framework est également modulaire, ce qui signifie que les développeurs peuvent utiliser uniquement les composants dont ils ont besoin, sans avoir à intégrer des fonctionnalités superflues.
+1. **Structuration et modularité** : Symfony offre une `structure et une organisation claire` de type `MVC` (Model-View-Controller) pour les projets, ce qui facilite leur `maintenance` et leur `évolution`. Le framework est également `modulaire`, ce qui signifie que les développeurs peuvent utiliser uniquement les composants dont ils ont besoin, sans avoir à intégrer des fonctionnalités superflues.
 
-2. Grande flexibilité : Symfony est conçu pour être flexible et s'adapter à différents types de projets, qu'il s'agisse de petites applications ou de grandes plateformes web. Il est également facilement extensible grâce à sa capacité à intégrer des bibliothèques tierces.
+2. **Grande flexibilité** : Symfony est conçu pour être flexible et s'adapter à différents types de projets, qu'il s'agisse de petites applications ou de grandes plateformes web. Il est également facilement extensible grâce à sa capacité à intégrer des bibliothèques tierces.
 
-3. Sécurité : La sécurité est une préoccupation majeure dans le développement web, et Symfony offre des fonctionnalités de sécurité avancées telles que la protection contre les injections SQL et les attaques XSS. Il fournit également des fonctionnalités d'authentification et d'autorisation pour garantir que les utilisateurs ne peuvent accéder qu'aux parties de l'application qui leur sont autorisées.
+3. **Sécurité** : La `sécurité` est une `préoccupation majeure` dans le développement web, et Symfony offre des fonctionnalités de sécurité avancées telles que la protection contre les `injections SQL` et les attaques `XSS`. Il fournit également des fonctionnalités d'`authentification` et d'`autorisation` pour garantir que les utilisateurs ne peuvent accéder qu'aux parties de l'application qui leur sont autorisées.
 
-4. Documentation et communauté active : Symfony est livré avec une documentation complète qui est constamment mise à jour pour refléter les dernières fonctionnalités. La communauté Symfony est également très active et fournit un support et des ressources utiles pour les développeurs qui travaillent avec le framework.
+4. **Documentation et communauté active** : Symfony est livré avec une `documentation complète`, (à présent uniquement en anglais, choisie comme langue internationale) qui est constamment `mise à jour` pour refléter les dernières fonctionnalités. La communauté Symfony est également très active et fournit un support et des ressources utiles pour les développeurs qui travaillent avec le framework.
 
-5. Performance : Symfony est conçu pour être rapide et efficace, et offre des fonctionnalités telles que le cache de requête pour améliorer les performances des applications web.
+5. **Performance** : Symfony est conçu pour être rapide et efficace, et offre des fonctionnalités telles que le `cache` de requête pour améliorer les performances des applications web.
 
 Dans l'ensemble, Symfony est un choix solide pour les développeurs PHP qui cherchent à construire des applications web évolutives, modulaires et sécurisées.
 
