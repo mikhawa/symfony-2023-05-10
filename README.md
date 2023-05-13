@@ -248,17 +248,19 @@ Dans le fichier `src/Controller/PublicController.php`, nous allons modifier la r
 
 Nous choisissons de mettre le nom de la route en `annotation` pour éviter de devoir la mettre dans le fichier `config/routes.yaml` (ce qui est possible également, comme dans Laravel, par exemple, mais ce n'est pas la méthode préconisée par Symfony).
 
-```php
+
 
 Nous choisissons le chemin de la page d'accueil à la racine du site `/`, et nous la nommons `public_accueil`
 
 ```php
 namespace App\Controller;
 ###
-#[Route('/', name: 'public_accueil')]
+    #[Route('/', name: 'public_accueil')]
     public function index(): Response
     {
+        // chemin du fichier twig à partir du dossier templates
         return $this->render('public/index.html.twig', [
+            // variable envoyée au fichier twig
             'controller_name' => 'PublicController',
         ]);
     }
@@ -288,7 +290,18 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 #### Création d'une route depuis le fichier de configuration
 
-Dans le fichier `config/routes.yaml`, nous allons créer une nouvelle route.
+Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.php` :
+
+```php  
+    public function contact(): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response (html basique)
+        return new Response('<body><h1>Page de contact</h1><a href="./">Retour à l\'accueil</a></body>');
+    }
+```
+
+
+Nous allons utiliser le fichier de configuration `config/routes.yaml` pour créer un chemin vers cette nouvelle méthode.
 
 ```yaml
 public_contact:
@@ -296,4 +309,24 @@ public_contact:
     controller: App\Controller\PublicController::contact
 ```
 
-// à continuer
+Nous pouvons mettre un lien sur l'accueil vers la page de contact en utilisant la fonction `path()` de Twig.
+
+Dans le fichier `templates/public/index.html.twig` :
+
+```twig
+{# chemin vers la page de contact en utilisant son nom
+de route (public_contact). Ceci est une bonne pratique 
+dans Symfony #}
+<li>Me <a href="{{ path('public_contact') }}">contacter</a></li>
+```
+
+Nous pouvons maintenant tester la route à l'adresse suivante :
+
+https://127.0.0.1:8000/contact
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+

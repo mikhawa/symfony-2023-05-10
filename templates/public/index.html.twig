@@ -15,6 +15,10 @@
     <ul>
         <li>Your controller at <code><a href="{{ 'E:/SITES/2022-2023/symfony-2023-05-10/src/Controller/PublicController.php'|file_link(0) }}">src/Controller/PublicController.php</a></code></li>
         <li>Your template at <code><a href="{{ 'E:/SITES/2022-2023/symfony-2023-05-10/templates/public/index.html.twig'|file_link(0) }}">templates/public/index.html.twig</a></code></li>
+        {# chemin vers la page de contact en utilisant son nom
+        de route (public_contact). Ceci est une bonne pratique
+        dans Symfony #}
+        <li>Me <a href="{{ path('public_contact') }}">contacter</a></li>
     </ul>
 </div>
 {% endblock %}

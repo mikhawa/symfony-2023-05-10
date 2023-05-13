@@ -13,8 +13,17 @@ class PublicController extends AbstractController
     #[Route('/', name: 'public_accueil')]
     public function index(): Response
     {
+        // chemin du fichier twig à partir du dossier templates
         return $this->render('public/index.html.twig', [
+            // variable envoyée au fichier twig
             'controller_name' => 'PublicController',
         ]);
+    }
+    // Nous allons mettre la route de la page contact dans le fichier config/routes.yaml
+    // équivalent à #[Route('/contact', name: 'public_contact')]
+    public function contact(): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response (html basique)
+        return new Response('<body><h1>Page de contact</h1><a href="./">Retour à l\'accueil</a></body>');
     }
 }

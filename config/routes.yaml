@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+# Path: config/routes.yaml vers la méthode contact du controller PublicController
+public_contact:
+    path: /contact
+    controller: App\Controller\PublicController::contact
