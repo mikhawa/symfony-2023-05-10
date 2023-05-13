@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PublicController extends AbstractController
 {
-    #[Route('/public', name: 'app_public')]
+    // Nous choisissons de mettre le nom de la route en annotation pour éviter de le mettre dans le fichier config/routes.yaml
+    // Nous choisissons le chemin de la page d'accueil à la racine du site, et nous la nommons public_accueil
+    #[Route('/', name: 'public_accueil')]
     public function index(): Response
     {
         return $this->render('public/index.html.twig', [

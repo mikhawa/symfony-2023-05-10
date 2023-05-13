@@ -15,6 +15,9 @@
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
   - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
   - [Création du premier contrôleur](#création-du-premier-contrôleur)
+  - [Manipulation des routes](#manipulation-des-routes)
+    - [Création d'une route depuis le contrôleur](#création-dune-route-depuis-le-contrôleur)
+    - [Création d'une route depuis les fichiers de configuration](#création-dune-route-depuis-les-fichiers-de-configuration)
   
 ---
 
@@ -237,3 +240,60 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+### Manipulation des routes
+
+#### Création d'une route depuis le contrôleur
+
+Dans le fichier `src/Controller/PublicController.php`, nous allons modifier la route de la méthode `index()`.
+
+Nous choisissons de mettre le nom de la route en `annotation` pour éviter de devoir la mettre dans le fichier `config/routes.yaml` (ce qui est possible également, comme dans Laravel, par exemple, mais ce n'est pas la méthode préconisée par Symfony).
+
+```php
+
+Nous choisissons le chemin de la page d'accueil à la racine du site `/`, et nous la nommons `public_accueil`
+
+```php
+namespace App\Controller;
+###
+#[Route('/', name: 'public_accueil')]
+    public function index(): Response
+    {
+        return $this->render('public/index.html.twig', [
+            'controller_name' => 'PublicController',
+        ]);
+    }
+###
+```
+
+Nous pouvons maintenant tester la route à l'adresse suivante :
+
+https://127.0.0.1:8000/
+
+Nous pouvons également voir nos routes disponibles en tapant la commande suivante :
+
+```bash
+symfony console debug:router
+```
+
+Nous verrons notre route `public_accueil` avec la méthode `ANY` et le chemin `/`. Les méthodes `ANY` signifie que la route est disponible en `GET` et en `POST`.
+
+Les routes `_profiler` sont des routes qui permettent de voir les requêtes SQL, les requêtes HTTP, les variables globales, etc... en mode développement.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+#### Création d'une route depuis le fichier de configuration
+
+Dans le fichier `config/routes.yaml`, nous allons créer une nouvelle route.
+
+```yaml
+public_contact:
+    path: /contact
+    controller: App\Controller\PublicController::contact
+```
+
+// à continuer
