@@ -17,7 +17,8 @@
   - [Création du premier contrôleur](#création-du-premier-contrôleur)
   - [Manipulation des routes](#manipulation-des-routes)
     - [Création d'une route depuis le contrôleur](#création-dune-route-depuis-le-contrôleur)
-    - [Création d'une route depuis les fichiers de configuration](#création-dune-route-depuis-les-fichiers-de-configuration)
+    - [Création d'une route depuis les annotations](#création-dune-route-depuis-les-annotations)
+    - [Création d'une route depuis le fichier de configuration](#création-dune-route-depuis-le-fichier-de-configuration)
   
 ---
 
