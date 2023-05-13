@@ -331,6 +331,9 @@ Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.p
     }
 ```
 
+Pour en savoir plus sur la classe `Response` et les réponses HTTP, vous pouvez consulter la documentation officielle de Symfony :
+
+https://symfony.com/doc/current/introduction/http_fundamentals.html
 
 Nous allons utiliser le fichier de configuration `config/routes.yaml` pour créer un chemin vers cette nouvelle méthode.
 
