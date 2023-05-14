@@ -131,7 +131,7 @@ symfony -V
 git --version
 ```
 
-- Créer un nouveau projet Symfony, ici, nous ne choisirons pas la version LTS (Long Term Support), mais la dernière version stable
+- Créer un nouveau projet Symfony, ici, nous ne choisirons pas la version `LTS` (Long Term Support), mais la dernière version stable
 
 Documentation de versioning de Symfony :
 
@@ -155,6 +155,12 @@ Retour au [Menu de navigation](#menu-de-navigation)
 L'écriture de la commande suivante va créer un nouveau projet (dossier) Symfony, en utilisant la dernière version stable de Symfony, et en utilisant le template `webapp`, qui est un template de base pour créer une application web.
 
 symfony new `nom_du_projet` --webapp
+
+Lors de l'écriture de ces lignes la version stable de Symfony est la version 6.2.10 (La LTS est la version 5.4.27). Pour voir les versions LTS de nombreux projets, vous pouvez consulter le lien suivant :
+
+https://endoflife.date/symfony
+
+Dans la console, nous allons écrire la commande suivante :
 
 ```bash
 symfony new symfony6 --webapp
@@ -292,7 +298,7 @@ symfony console make:controller
 - `src/Controller/PublicController.php`
 - `templates/public/index.html.twig`
 
-Le premier fichier est le contrôleur en PHP, le second est la vue en Twig.
+Le premier fichier est le contrôleur en PHP, classe héritant de `AbstractController`, le second est la vue en `Twig` (moteur de template que nous verrons plus tard dans ce cours).
 
 ```php
 namespace App\Controller;
@@ -337,18 +343,27 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Manipulation des routes
 
-On peut créer des toutes en utilisant 4 méthodes différentes :
+On peut créer des routes en utilisant 4 méthodes différentes :
 
 - `annotation` : dans le contrôleur
 - `yaml` : dans le fichier `config/routes.yaml`
 - `xml` : dans le fichier `config/routes.xml`
 - `php` : dans le fichier `config/routes.php`
 
-Symfony utilise par défaut la méthode `annotation` et l'utilisation des attributs `#[Route()]` dans les contrôleurs.
+Symfony utilise par défaut la méthode `annotation` et l'utilisation des `attributs` (depuis PHP 8) `#[Route()]` dans les contrôleurs.
 
 Voir la documentation :
 
 https://symfony.com/doc/current/routing.html#matching-http-methods
+
+Pour l'utilisation des attributs dans Symfony ou de manière plus générale dans PHP 8, voir ces liens :
+
+https://www.elao.com/blog/dev/les-attributs-php-8-dans-symfony
+
+https://grafikart.fr/tutoriels/attribut-php8-1371
+
+https://www.php.net/manual/fr/language.attributes.overview.php
+
 
 ---
 
@@ -441,6 +456,11 @@ Nous pouvons maintenant tester la route à l'adresse suivante :
 
 https://127.0.0.1:8000/contact
 
+Cette méthode est également valable pour les routes avec paramètres, mais ne fait pas partie de la méthode préconisée par Symfony : Les fichiers de configuration sont plutôt utilisés pour les routes de type API.
+
+Voir le guide des bonnes pratiques :
+
+https://symfony.com/doc/current/best_practices.html#use-the-yaml-format-to-configure-your-own-services
 
 ---
 
@@ -488,3 +508,5 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 #### Création d'une route avec paramètre typé
+
+
