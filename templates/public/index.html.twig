@@ -19,6 +19,8 @@
         de route (public_contact). Ceci est une bonne pratique
         dans Symfony #}
         <li>Me <a href="{{ path('public_contact') }}">contacter</a></li>
+        {# chemin vers la page de l'article en utilisant son nom  de route (public_article) et en envoyant l'id 1 en paramètre#}
+        <li>Un <a href="{{ path('public_article', {'id': 1}) }}">article dont l'id vaut 1</a></li>
     </ul>
 </div>
 {% endblock %}

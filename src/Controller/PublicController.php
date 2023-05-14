@@ -23,7 +23,14 @@ class PublicController extends AbstractController
     // équivalent à #[Route('/contact', name: 'public_contact')]
     public function contact(): Response
     {
-        // Nous allons envoyer une réponse de type texte en utilisant la classe Response (html basique)
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response (html basique incomplet)
         return new Response('<body><h1>Page de contact</h1><a href="./">Retour à l\'accueil</a></body>');
+    }
+
+    #[Route('/article/{id}', name: 'public_article')]
+    public function article($id): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant la variable $id
+        return new Response("<body><h1>Page de l'article dont l'id est $id</h1><a href='../../'>Retour à l'accueil</a></body>");
     }
 }

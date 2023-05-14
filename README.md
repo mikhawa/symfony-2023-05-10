@@ -21,6 +21,7 @@
     - [Création d'une route depuis le contrôleur](#création-dune-route-depuis-le-contrôleur)
     - [Création d'une route depuis les annotations](#création-dune-route-depuis-les-annotations)
     - [Création d'une route depuis le fichier de configuration](#création-dune-route-depuis-le-fichier-de-configuration)
+    
   
 ---
 
@@ -312,6 +313,7 @@ class PublicController extends AbstractController
 }
 ```
 
+Fichier Twig :
 ```twig
 {% extends 'base.html.twig' %}
 
@@ -335,12 +337,31 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Manipulation des routes
 
+On peut créer des toutes en utilisant 4 méthodes différentes :
+
+- `annotation` : dans le contrôleur
+- `yaml` : dans le fichier `config/routes.yaml`
+- `xml` : dans le fichier `config/routes.xml`
+- `php` : dans le fichier `config/routes.php`
+
+Symfony utilise par défaut la méthode `annotation` et l'utilisation des attributs `#[Route()]` dans les contrôleurs.
+
+Voir la documentation :
+
+https://symfony.com/doc/current/routing.html#matching-http-methods
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
 #### Création d'une route depuis le contrôleur
 
 Dans le fichier `src/Controller/PublicController.php`, nous allons modifier la route de la méthode `index()`.
 
 Nous choisissons de mettre le nom de la route en `annotation` pour éviter de devoir la mettre dans le fichier `config/routes.yaml` (ce qui est possible également, comme dans Laravel, par exemple, mais ce n'est pas la méthode préconisée par Symfony).
-
 
 
 Nous choisissons le chemin de la page d'accueil à la racine du site `/`, et nous la nommons `public_accueil`
@@ -420,9 +441,50 @@ Nous pouvons maintenant tester la route à l'adresse suivante :
 
 https://127.0.0.1:8000/contact
 
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+
+#### Création d'une route avec paramètre
+
+Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.php` en utilisant un paramètre dans la route, la variable `GET` `{id}` qui sera récupérée dans la méthode sous le nom `$id` :
+
+```php  
+    #[Route('/article/{id}', name: 'public_article')]
+    public function article($id): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant la variable $id
+        return new Response("<body><h1>Page de l'article dont l'id est $id</h1><a href='./'>Retour à l'accueil</a></body>");
+    }
+```
+
+Nous pouvons mettre un lien sur l'accueil vers la page de l'article en utilisant la fonction `path()` de Twig. Attention, il faut envoyer l'id en paramètre de la route.
+
+Pour le moment aucune vérification n'est faite sur l'id, il peut être n'importe quoi, il faut donc faire attention à ce que l'on envoie dans la route.
+
+Dans le fichier `templates/public/index.html.twig` :
+
+```twig
+# chemin vers la page de l'article en utilisant son nom  de route (public_article) et en envoyant l'id 1 en paramètre#}
+<li>Un <a href="{{ path('public_article', {'id': 1}) }}">article dont l'id vaut 1</a></li>
+```
+
+Nous pouvons maintenant tester la route à l'adresse suivante :
+
+https://127.0.0.1:8000/article/1
+
+Sans protections, nous pouvons passer n'importe quoi dans l'id ! :
+
+https://127.0.0.1:8000/article/Coucou-les-amis
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création d'une route avec paramètre typé
