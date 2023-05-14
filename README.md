@@ -14,6 +14,7 @@
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
+  - [Structure d'un projet Symfony](#structure-dun-projet-symfony)
   - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
   - [Création du premier contrôleur](#création-du-premier-contrôleur)
   - [Manipulation des routes](#manipulation-des-routes)
@@ -173,6 +174,67 @@ symfony check:security
 ```bash
 composer update
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Structure d'un projet Symfony
+
+- Le dossier `bin` contient les fichiers binaires, qui sont des fichiers exécutables qui peuvent être utilisés pour exécuter des tâches spécifiques. (par exemple, le fichier `console` est un fichier binaire qui peut être utilisé pour exécuter des commandes Symfony) en ligne de commande (CLI).:
+
+```bash
+php bin/console
+# ou
+symfony console
+```
+
+- Le dossier `config` contient les fichiers de configuration de l'application, tels que les fichiers de configuration de la base de données, les fichiers de configuration de l'environnement, etc.
+
+
+- Le dossier `public` contient les fichiers publics de l'application, tels que les fichiers CSS, JavaScript, les images, etc. Le fichier `index.php` est le point d'entrée de l'application (`contrôleur frontal`).
+
+
+- Le dossier `src` contient le code source de l'application, y compris les contrôleurs, les entités, les formulaires, etc.
+  - Le dossier `src/Controller` contient les contrôleurs de l'application. (MV**C**) 
+  - Le dossier `src/Entity` contient les entités de l'application. (**M**VC)
+  - Le dossier `src/Form` contient les formulaires de l'application. (**M**VC)
+  - Le dossier `src/Repository` contient les dépôts de l'application. (**M**VC)
+  - Le dossier `src/Service` contient les services de l'application. (**M**VC)
+  - etc...
+
+
+- Le dossier `templates` contient les fichiers de template de l'application, qui sont des fichiers HTML qui sont utilisés pour afficher les pages de l'application. (M**V**C)
+
+
+- Le dossier `tests` contient les tests de l'application.
+
+
+- Le dossier `translations` contient les fichiers de traduction de l'application.
+
+
+- Le dossier `var` contient les fichiers de cache, les fichiers de logs, etc. Il se trouvera dans le `.gitignore`, et ne sera donc pas envoyé sur le dépôt distant.
+
+
+- Le dossier `vendor` contient les dépendances de l'application, qui sont des bibliothèques tierces qui sont utilisées par l'application. Il se trouvera dans le `.gitignore`. (**M**VC)
+
+
+- Le fichier `.env` contient les variables d'environnement de l'application. (par exemple, les informations de connexion à la base de données, etc.). Ce fichier est utilisé par défaut pour l'environnement de développement. Pour l'environnement de production, le fichier `.env` est ignoré, et le fichier `.env.local` est utilisé à la place. Il se trouvera dans le `.gitignore`, et ne sera donc pas envoyé sur le dépôt distant. C'est l'équivalent du fichier `config.php` utilisé couramment dans les projets PHP.
+
+
+- Le fichier `.env.local` contient les variables d'environnement de l'application pour l'environnement de production. Ce fichier est ignoré par Git, et ne sera donc pas envoyé sur le dépôt distant. C'est l'équivalent du fichier `config.php` utilisé couramment dans les projets PHP.
+
+
+- Le fichier `.env.test` contient les variables d'environnement de l'application pour l'environnement de test. Ce fichier est utilisé par défaut pour l'environnement de test. Pour l'environnement de production, le fichier `.env.test` est ignoré, et le fichier `.env.test.local` est utilisé à la place. Il se trouvera dans le `.gitignore`, et ne sera donc pas envoyé sur le dépôt distant.
+
+
+- Le fichier `.gitignore` contient la liste des fichiers et dossiers qui ne doivent pas être envoyés sur le dépôt distant. (par exemple, les fichiers de logs, les fichiers de cache, les fichiers de configuration, etc.)
+
+
+- Le fichier `composer.json` contient les dépendances de l'application, qui sont des bibliothèques tierces qui sont utilisées par l'application.
+
 
 ---
 
