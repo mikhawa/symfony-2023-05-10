@@ -481,8 +481,10 @@ Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.p
     #[Route('/article/{id}', name: 'public_article')]
     public function article($id): Response
     {
-        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant la variable $id
-        return new Response("<body><h1>Page de l'article dont l'id est $id</h1><a href='./'>Retour à l'accueil</a></body>");
+        // Nous allons envoyer une réponse de type texte en utilisant
+        // la classe Response en utilisant la variable $id
+        return new Response("<body><h1>Page de l'article dont l'id est $id</h1>
+        <a href='./'>Retour à l'accueil</a></body>");
     }
 ```
 
@@ -493,7 +495,8 @@ Pour le moment aucune vérification n'est faite sur l'id, il peut être n'import
 Dans le fichier `templates/public/index.html.twig` :
 
 ```twig
-# chemin vers la page de l'article en utilisant son nom  de route (public_article) et en envoyant l'id 1 en paramètre#}
+# chemin vers la page de l'article en utilisant son nom  de route (public_article) et en envoyant l'id 1
+ en paramètre#}
 <li>Un <a href="{{ path('public_article', {'id': 1}) }}">article dont l'id vaut 1</a></li>
 ```
 
@@ -520,15 +523,18 @@ Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.p
 #[Route('/articleType/{id<\d+>}', name: 'public_article_type',methods: ['GET'])]
     public function articleType(int $id): Response
     {
-        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant la variable $id
-        return new Response("<body><h1>Page de l'article Typée en int dont l'id est $id</h1><p>Ne fonctionne qu'avec une variable GET de type numérique !</p><a href='../../'>Retour à l'accueil</a></body>");
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant
+         // la variable $id
+        return new Response("<body><h1>Page de l'article Typée en int dont l'id est $id</h1>
+        <p>Ne fonctionne qu'avec une variable GET de type numérique !</p><a href='../../'>Retour à l'accueil</a></body>");
     }
 ```
 
 Puis dans le fichier `templates/public/index.html.twig` :
 
 ```twig
-{# chemin vers la page de l'article en utilisant son nom  de route (public_article_type) et en envoyant l'id 1 en paramètre protégé#}
+{# chemin vers la page de l'article en utilisant son nom  de route (public_article_type) 
+et en envoyant l'id 1 en paramètre protégé#}
 <li>Un <a href="{{ path('public_article_type', {'id': 1}) }}">article dont l'id vaut 1</a></li>
 ```
 
