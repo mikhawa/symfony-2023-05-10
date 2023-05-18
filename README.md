@@ -439,7 +439,9 @@ symfony console debug:router
 
 Nous verrons notre route `public_accueil` avec la méthode `ANY` et le chemin `/`. Les méthodes `ANY` signifie que la route est disponible en `GET` et en `POST`.
 
-Les routes `_profiler` sont des routes qui permettent de voir les requêtes SQL, les requêtes HTTP, les variables globales, etc... en mode développement.
+Les routes en `_...` sont des routes qui permettent de voir les requêtes SQL, les requêtes HTTP, les variables globales, etc... en mode développement.
+
+[V0.0.1](https://github.com/mikhawa/symfony-2023-05-10/commit/f5d6f13df83f64551cfc8250a65eda8ed964ed29#diff-b1b5b30007fdfcd4be14b1260eb4278fa1bdc57cc7cd6224ef521116360b99e2)
 
 ---
 
@@ -493,6 +495,7 @@ Voir le guide des bonnes pratiques :
 
 https://symfony.com/doc/current/best_practices.html#use-the-yaml-format-to-configure-your-own-services
 
+[V0.0.2](https://github.com/mikhawa/symfony-2023-05-10/commit/ff72c74f4996c9b931c27ecd3bc2f843fb7f2cf3#diff-dec2af5f7d9970f289445f4d0e64b7ef32010495a60d370ee293f82db366847f)
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
@@ -612,6 +615,7 @@ sans envoyer de paramètre#}
         avec un id de 15</a></li>
 ```
 
+[V0.0.3](https://github.com/mikhawa/symfony-2023-05-10/commit/e000b4563d809657feeb43467ce91099464176b3#diff-b1b5b30007fdfcd4be14b1260eb4278fa1bdc57cc7cd6224ef521116360b99e2)
 
 ---
 
