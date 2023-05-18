@@ -557,6 +557,39 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 #### Création d'une route avec paramètre typé et valeur par défaut
 
+Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.php` en utilisant un paramètre dans la route, la variable `{id}` qui sera ensuite récupérée dans la méthode sous le nom `$id`, on va vérifier que la méthode est bien en `GET` et le type en `Int` et on va mettre une valeur par défaut à l'id :
 
+```php
+#[Route('/articleTypeDefault/{id<\d+>}', 
+        name: 'public_article_type_default', 
+        defaults: ['id' => 1], 
+        methods: ['GET'])]
+    public function articleTypeDefault(int $id): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant
+        // la variable $id
+        return new Response("<body><h1>Page de l'article Typée avec valeur par défaut en int dont l'id est $id</h1>
+        <p>Ne fonctionne qu'avec une variable GET de type numérique !<br>
+        La valeur par défaut est 1</p><a href='../../'>Retour à l'accueil</a></body>");
+    }
+```
+
+Puis dans le fichier `templates/public/index.html.twig` :
+
+```twig
+{# chemin vers la page de l'article en utilisant son nom  de route (public_article_type_default)
+sans envoyer de paramètre#}
+        <li>Un <a href="{{ path('public_article_type_default') }}">articleTypeDefault 
+        sans id</a></li>
+        <li>Un <a href="{{ path('public_article_type_default', {'id': 15}) }}">articleTypeDefault 
+        avec un id de 15</a></li>
+```
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 
