@@ -4,10 +4,12 @@
 
 ## Installation de Symfony dans l'environnement de développement sous Windows
 
+
 ---
 
 ## Menu de navigation
 - [Code](https://github.com/mikhawa/symfony-2023-05-10)
+  - [Utilisation des tags de github](#utilisation-des-tags-de-github)
   - [Historique de Symfony](#historique-de-symfony)
   - [Prérequis](#prérequis)
     - [Environnement de développement](#environnement-de-développement)
@@ -28,6 +30,31 @@
     
   
 ---
+
+### Utilisation des tags de github
+
+Différents `tag` de `git` sont utilisés pour marquer les différentes étapes de ce tutoriel sur Symfony.
+
+Vous les trouverez à cette URL : 
+
+https://github.com/mikhawa/symfony-2023-05-10/tags
+
+Ainsi, vous pourrez retourner dans le code source et pourrez voir le code source correspondant à l'étape du tutoriel.
+
+Une partie du code sera supprimée et une autre partie sera ajoutée, le système de `tag` de `git` permettra de retrouver le code source correspondant à celle-ci, car il est lié à un `commit` de `git`.
+
+Par exemple le tag v0.0.1 correspond au commit qui met la route par défaut de Symfony sur la page d'accueil :
+
+https://github.com/mikhawa/symfony-2023-05-10/commit/f5d6f13df83f64551cfc8250a65eda8ed964ed29
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
 
 ### Historique de Symfony
 
