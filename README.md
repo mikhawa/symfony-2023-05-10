@@ -358,7 +358,7 @@ Symfony utilise par défaut la méthode `annotation` et l'utilisation des `attri
 
 Voir la documentation :
 
-https://symfony.com/doc/current/routing.html#matching-http-methods
+https://symfony.com/doc/current/routing.html
 
 Pour l'utilisation des attributs dans Symfony ou de manière plus générale dans PHP 8, voir ces liens :
 
