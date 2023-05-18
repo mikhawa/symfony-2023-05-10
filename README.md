@@ -21,6 +21,10 @@
     - [Création d'une route depuis le contrôleur](#création-dune-route-depuis-le-contrôleur)
     - [Création d'une route depuis les annotations](#création-dune-route-depuis-les-annotations)
     - [Création d'une route depuis le fichier de configuration](#création-dune-route-depuis-le-fichier-de-configuration)
+    - [Création d'une route avec paramètre](#création-dune-route-avec-paramètre)
+    - [Création d'une route avec paramètre typé](#création-dune-route-avec-paramètre-typé)
+    - [Création d'une route avec paramètre typé et valeur par défaut](#création-dune-route-avec-paramètre-typé-et-valeur-par-défaut)
+    
     
   
 ---
@@ -508,5 +512,45 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 #### Création d'une route avec paramètre typé
+
+
+Nous allons créer une nouvelle méthode dans le contrôleur `PublicController.php` en utilisant un paramètre dans la route, la variable `{id}` qui sera ensuite récupérée dans la méthode sous le nom `$id`, on va vérifier que la méthode est bien en `GET` et le type en `Int` :
+
+```php  
+#[Route('/articleType/{id<\d+>}', name: 'public_article_type',methods: ['GET'])]
+    public function articleType(int $id): Response
+    {
+        // Nous allons envoyer une réponse de type texte en utilisant la classe Response en utilisant la variable $id
+        return new Response("<body><h1>Page de l'article Typée en int dont l'id est $id</h1><p>Ne fonctionne qu'avec une variable GET de type numérique !</p><a href='../../'>Retour à l'accueil</a></body>");
+    }
+```
+
+Puis dans le fichier `templates/public/index.html.twig` :
+
+```twig
+{# chemin vers la page de l'article en utilisant son nom  de route (public_article_type) et en envoyant l'id 1 en paramètre protégé#}
+<li>Un <a href="{{ path('public_article_type', {'id': 1}) }}">article dont l'id vaut 1</a></li>
+```
+
+On peut vérifier que la route ne fonctionne pas avec une variable de type `string` :
+
+https://127.0.0.1:8000/articleType/coucou
+
+Pour debugger les routes, nous pouvons utiliser la commande suivante :
+
+```bash
+php bin/console debug:router
+```
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création d'une route avec paramètre typé et valeur par défaut
+
+
 
 
