@@ -664,6 +664,14 @@ Nous allons créer la base de données en utilisant la commande suivante :
 php bin/console doctrine:database:create
 ```
 
+[V0.0.4](https://github.com/mikhawa/symfony-2023-05-10/commit/aacd2d2e2c44e0b0b95ae5b2fc645c08f414aa76)
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 
 #### Si la base de données existe déjà
@@ -695,3 +703,14 @@ Puis lancez la commande suivante :
 ```bash
 php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
 ```
+
+Vous devriez voir apparaître les fichiers 
+- `src/Entity/Category.php`
+- `src/Entity/Post.php`
+- `src/Entity/User.php`
+
+Qui contiennent les annotations de nos entités. C'est-à-dire le mapping de nos tables.
+
+Suite :
+
+### Création d'une entité
