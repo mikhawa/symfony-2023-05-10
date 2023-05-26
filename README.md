@@ -27,6 +27,8 @@
     - [Création d'une route avec paramètre typé](#création-dune-route-avec-paramètre-typé)
     - [Création d'une route avec paramètre typé et valeur par défaut](#création-dune-route-avec-paramètre-typé-et-valeur-par-défaut)
   - [Création du fichier .env.local](#création-du-fichier-envlocal)
+    - [Création de la base de données](#création-de-la-base-de-données)
+    - [Si la base de données existe déjà](#si-la-base-de-données-existe-déjà)
   
     
   
@@ -662,18 +664,34 @@ Nous allons créer la base de données en utilisant la commande suivante :
 php bin/console doctrine:database:create
 ```
 
+
+
 #### Si la base de données existe déjà
 
-Si la base de données existe déjà et que des tables y sont présentes, nous pouvons importer toute la structure en utilisant la commande suivante :
+Si la base de données existe déjà et que des tables y sont présentes, nous pouvons importer toute la structure !
 
-```bash
-php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
-```
-
-Les tables seront donc importées sous forme d'annotations dans les fichiers `src/Entity` de notre projet.
+Les tables seront importées sous forme d'entités avec annotations dans les fichiers `src/Entity` de notre projet.
 
 Nous allons en faire la démonstration dans le tag [V0.1.0]
  en utilisant la DB `mvcprojets` que vous trouverez dans le dossier `datas` de ce projet.
 
+Pour le tester vous pouvez importer la base de données dans votre serveur MariaDB en utilisant le fichier contenu dans le dossier `datas` de ce projet: 
+
+https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/mvcprojets.sql
 
 
+Remplacez les informations de connexion à la base de données dans le fichier `.env.local` par les vôtres :
+
+```bash
+# .env.local
+
+###> doctrine/doctrine-bundle ###
+ DATABASE_URL="mysql://root:@127.0.0.1:3307/mvcprojets?serverVersion=10.10.2-MariaDB&charset=utf8mb4"
+###< doctrine/doctrine-bundle ###
+```
+
+Puis lancez la commande suivante :
+
+```bash
+php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
+```
