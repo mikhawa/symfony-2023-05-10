@@ -26,7 +26,8 @@
     - [Création d'une route avec paramètre](#création-dune-route-avec-paramètre)
     - [Création d'une route avec paramètre typé](#création-dune-route-avec-paramètre-typé)
     - [Création d'une route avec paramètre typé et valeur par défaut](#création-dune-route-avec-paramètre-typé-et-valeur-par-défaut)
-    
+  - [Création du fichier .env.local](#création-du-fichier-envlocal)
+  
     
   
 ---
@@ -625,5 +626,54 @@ sans envoyer de paramètre#}
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Création du fichier .env.local
+
+Nous allons créer un fichier `.env.local` en copiant le fichier `.env` et en le renommant `.env.local` :
+
+```bash 
+cp .env .env.local
+```
+
+Ou de manière plus simple en utilisant la commande suivante :
+
+```bash
+composer dump-env dev
+```
+
+Ce qui créera un fichier `.env.local.php`, que nous ne garderons pas pour le moment. Cette commande est à utiliser pour la mise en production : `composer dump-env prod`.
+
+Nous allons modifier le fichier `.env.local` pour y mettre les informations de connexion à la base de données MariaDB, ici pas de danger car nous travaillons en local, mais en production il faudra faire attention à ne pas mettre les informations de connexion à la base de données dans un fichier qui sera versionné.
+
+```bash
+# .env.local
+
+###> doctrine/doctrine-bundle ###
+ DATABASE_URL="mysql://root:@127.0.0.1:3307/sym_62?serverVersion=10.10.2-MariaDB&charset=utf8mb4"
+# DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=15&charset=utf8"
+###< doctrine/doctrine-bundle ###
+```
+
+#### Création de la base de données
+
+Nous allons créer la base de données en utilisant la commande suivante :
+
+```bash
+php bin/console doctrine:database:create
+```
+
+#### Si la base de données existe déjà
+
+Si la base de données existe déjà et que des tables y sont présentes, nous pouvons importer toute la structure en utilisant la commande suivante :
+
+```bash
+php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
+```
+
+Les tables seront donc importées sous forme d'annotations dans les fichiers `src/Entity` de notre projet.
+
+Nous allons en faire la démonstration dans le tag [V0.1.0]
+ en utilisant la DB `mvcprojets` que vous trouverez dans le dossier `datas` de ce projet.
+
 
 
