@@ -709,7 +709,17 @@ Vous devriez voir apparaître les fichiers
 - `src/Entity/Post.php`
 - `src/Entity/User.php`
 
-Qui contiennent les annotations de nos entités. C'est-à-dire le mapping de nos tables.
+Qui contiennent les annotations de nos entités. C'est-à-dire le mapping de nos tables avec les propriétés et les liens entre les tables.
+
+Il faut une étape de plus pour que les entités soient prises en compte par le système de migration de Symfony, nous allons donc lancer la commande suivante :
+
+```bash 
+php bin/console make:entity --regenerate
+```
+
+Il va ainsi créer les getters et les setters de nos entités, ainsi que des méthodes pour les liens entre les tables.
+
+##### Il y aura des erreurs ! Nous devons comprendre le fonctionnement de Doctrine pour pouvoir les corriger !
 
 Suite :
 

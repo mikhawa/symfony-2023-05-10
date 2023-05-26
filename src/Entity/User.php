@@ -57,13 +57,90 @@ class User
     private $useruniqid;
 
     /**
-     * @var bool|null
+     * @var int|null
      *
-     * @ORM\Column(name="actif", type="boolean", nullable=true, options={"comment"="0 => inactif
+     * @ORM\Column(name="actif", type="integer", nullable=true, options={"comment"="0 => inactif
 1  => actif
-2 => banni"})
+2 => banni","default"=0})
      */
-    private $actif = '0';
+    private $actif = 0;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getUsermail(): ?string
+    {
+        return $this->usermail;
+    }
+
+    public function setUsermail(string $usermail): self
+    {
+        $this->usermail = $usermail;
+
+        return $this;
+    }
+
+    public function getUserpwd(): ?string
+    {
+        return $this->userpwd;
+    }
+
+    public function setUserpwd(string $userpwd): self
+    {
+        $this->userpwd = $userpwd;
+
+        return $this;
+    }
+
+    public function getUserscreen(): ?string
+    {
+        return $this->userscreen;
+    }
+
+    public function setUserscreen(string $userscreen): self
+    {
+        $this->userscreen = $userscreen;
+
+        return $this;
+    }
+
+    public function getUseruniqid(): ?string
+    {
+        return $this->useruniqid;
+    }
+
+    public function setUseruniqid(?string $useruniqid): self
+    {
+        $this->useruniqid = $useruniqid;
+
+        return $this;
+    }
+
+    public function isActif(): ?int
+    {
+        return $this->actif;
+    }
+
+    public function setActif(?int $actif): self
+    {
+        $this->actif = $actif;
+
+        return $this;
+    }
 
 
 }

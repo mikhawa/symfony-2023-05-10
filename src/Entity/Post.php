@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,12 +46,12 @@ class Post
     private $datecreate = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var bool
+     * @var int
      *
-     * @ORM\Column(name="visible", type="boolean", nullable=false, options={"comment"="0 => not visible
-1 => visible"})
+     * @ORM\Column(type="integer", nullable=false, options={"default"=0})
      */
-    private $visible = '0';
+
+    private $visible = 0;
 
     /**
      * @var \User
@@ -73,6 +76,98 @@ class Post
     public function __construct()
     {
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getDatecreate(): ?\DateTimeInterface
+    {
+        return $this->datecreate;
+    }
+
+    public function setDatecreate(?\DateTimeInterface $datecreate): self
+    {
+        $this->datecreate = $datecreate;
+
+        return $this;
+    }
+
+    public function isVisible(): ?int
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(int $visible): self
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+            $category->addPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->category->removeElement($category)) {
+            $category->removePost($this);
+        }
+
+        return $this;
     }
 
 }
