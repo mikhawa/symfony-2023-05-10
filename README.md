@@ -30,7 +30,8 @@
     - [Création de la base de données](#création-de-la-base-de-données)
     - [Si la base de données existe déjà](#si-la-base-de-données-existe-déjà)
       - [Création d'un crud pour la table `post`](#création-dun-crud-pour-la-table-post)
-  
+      - [Correction des erreurs](#correction-des-erreurs)
+      
     
   
 ---
@@ -770,6 +771,34 @@ Nous allons rajouter un lien vers la route `/post` dans le fichier `templates/pu
 Nous pouvons ensuite aller sur la route `/post` de notre projet et voir le résultat :
 
 https://127.0.0.1:8000/post/
+
+Nous voici sur la page d'index du CRUD de la table `post` !
+
+Elle devrait être fonctionnelle, mais nous allons avoir des erreurs si nous essayons de créer un nouveau post, ou de modifier un post existant.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+##### Correction des erreurs
+
+Nous allons donc commencer par corriger ces erreurs.
+
+Nous allons commencer par la création d'un nouveau post.
+
+Nous allons donc aller sur la route `/post/new` de notre projet :
+
+https://127.0.0.1:8000/post/new
+
+Nous avons une erreur :
+
+```bash
+App\Entity\Post::getDatecreate(): Return value must be of type ?DateTimeInterface, string returned
+```
+
 
 Suite :
 
