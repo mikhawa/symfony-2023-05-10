@@ -27,6 +27,7 @@
 sans envoyer de paramètre#}
         <li>Un <a href="{{ path('public_article_type_default') }}">articleTypeDefault sans id</a></li>
         <li>Un <a href="{{ path('public_article_type_default', {'id': 15}) }}">articleTypeDefault avec un id de 15</a></li>
+        <li>Un lien vers le CRUD de 'post' <a href="{{ path('app_post_index')}}">CRUD Post</a></li>
     </ul>
 </div>
 {% endblock %}

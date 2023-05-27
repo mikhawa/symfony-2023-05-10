@@ -755,6 +755,21 @@ created: templates/post/new.html.twig
 created: templates/post/show.html.twig 
 ```
 
+[v0.1.2](https://github.com/mikhawa/symfony-2023-05-10/commit/219832ee5af7af29a8550520e783890cdc695274#diff-a16c7b92171671c30d962bee80704485170906fb2e4e9f6df0716b971678bcb4)
+
+
+Nous allons rajouter un lien vers la route `/post` dans le fichier `templates/public/index.html.twig` :
+
+```twig
+#
+<li>Un lien vers le CRUD de 'post'
+ <a href="{{ path('app_post_index')}}">CRUD Post</a></li>
+#
+```
+
+Nous pouvons ensuite aller sur la route `/post` de notre projet et voir le résultat :
+
+https://127.0.0.1:8000/post/
 
 Suite :
 
