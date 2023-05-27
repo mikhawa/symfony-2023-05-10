@@ -29,6 +29,7 @@
   - [Création du fichier .env.local](#création-du-fichier-envlocal)
     - [Création de la base de données](#création-de-la-base-de-données)
     - [Si la base de données existe déjà](#si-la-base-de-données-existe-déjà)
+      - [Création d'un crud pour la table `post`](#création-dun-crud-pour-la-table-post)
   
     
   
@@ -680,7 +681,7 @@ Si la base de données existe déjà et que des tables y sont présentes, nous p
 
 Les tables seront importées sous forme d'entités avec annotations dans les fichiers `src/Entity` de notre projet.
 
-Nous allons en faire la démonstration dans le tag [V0.1.0]
+Nous allons en faire la démonstration dans le tag [V0.1.1](https://github.com/mikhawa/symfony-2023-05-10/commit/5969a228f473ee7f6d0ecb90060415f4c2d4b418)
  en utilisant la DB `mvcprojets` que vous trouverez dans le dossier `datas` de ce projet.
 
 Pour le tester vous pouvez importer la base de données dans votre serveur MariaDB en utilisant le fichier contenu dans le dossier `datas` de ce projet: 
@@ -720,6 +721,40 @@ php bin/console make:entity --regenerate
 Il va ainsi créer les getters et les setters de nos entités, ainsi que des méthodes pour les liens entre les tables.
 
 ##### Il y aura des erreurs ! Nous devons comprendre le fonctionnement de Doctrine pour pouvoir les corriger !
+
+Nous allons donc commencer par comprendre le fonctionnement de Doctrine en créant un premier CRUD.
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+##### Création d'un crud pour la table `post`
+
+Nous allons créer un CRUD pour la table `post` en utilisant la commande suivante :
+
+```bash
+php bin/console make:crud Post
+```
+
+Le nom choisi pour le controller est `PostController` et le nom de l'entité est `Post`.
+
+Voici le résultat de la commande :
+
+```bash
+created: src/Controller/PostController.php
+created: src/Form/PostType.php
+created: templates/post/_delete_form.html.twig
+created: templates/post/_form.html.twig
+created: templates/post/edit.html.twig
+created: templates/post/index.html.twig
+created: templates/post/new.html.twig
+created: templates/post/show.html.twig 
+```
+
 
 Suite :
 
