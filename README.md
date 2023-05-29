@@ -840,11 +840,18 @@ Dans le fichier `src/Entity/Category.php` nous allons rajouter la méthode `__to
 
 Nous pouvons maintenant créer un nouveau post !
 
+[v0.1.3](https://github.com/mikhawa/symfony-2023-05-10/commit/1eef25bd772327f78312aac218abcb411397d007#diff-1dc9c8fdb2d9aaa479424bdd89a00ef749cd5b1673ab9bcd75744e92e3d3e44a)
+
 Nous remarquons que nous avons une erreur, car nous n'avons pas de catégorie pour notre post !
 
+Suite :
 
+---
 
-```bash
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 
 Suite :
 
