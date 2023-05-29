@@ -60,6 +60,15 @@ class Category
         $this->post = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    // permet l'affichage du nom de la catégorie dans le formulaire du CRUD
+    // de la table Post
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

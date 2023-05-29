@@ -65,6 +65,13 @@ class User
      */
     private $actif = 0;
 
+    // permet l'affichage du nom de l'utilisateur dans le formulaire du CRUD
+    // de la table Post
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

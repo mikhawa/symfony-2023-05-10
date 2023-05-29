@@ -810,6 +810,42 @@ public function __construct()
     }
 ```
 
+Nous avons ensuite cette erreur :
+
+```bash
+Object of class App\Entity\User could not be converted to string
+```
+
+Dans le fichier `src/Entity/User.php` nous allons rajouter la méthode `__toString()` :
+
+```php  
+    // permet l'affichage du nom de l'utilisateur dans le formulaire du CRUD
+    // de la table Post
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+```
+
+Dans le fichier `src/Entity/Category.php` nous allons rajouter la méthode `__toString()` :
+
+```php  
+    // permet l'affichage du nom de la catégorie dans le formulaire du CRUD
+    // de la table Post
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+```
+
+Nous pouvons maintenant créer un nouveau post !
+
+Nous remarquons que nous avons une erreur, car nous n'avons pas de catégorie pour notre post !
+
+
+
+```bash
+
 Suite :
 
 ### Création d'une entité
