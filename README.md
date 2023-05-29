@@ -843,7 +843,24 @@ Nous pouvons maintenant créer un nouveau post !
 
 [v0.1.3](https://github.com/mikhawa/symfony-2023-05-10/commit/1eef25bd772327f78312aac218abcb411397d007#diff-1dc9c8fdb2d9aaa479424bdd89a00ef749cd5b1673ab9bcd75744e92e3d3e44a)
 
-Nous remarquons que nous avons une erreur, car nous n'avons pas de catégorie pour notre post !
+Nous remarquons que nous avons une erreur, les catégories sélectionnées le sont en many to many, mais l'insertion ne fonctionne pas pour les catégories de notre post !
+
+Nous allons donc modifier le fichier `src/Entity/Post.php` :
+
+```php
+    /**
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="posts")
+     */
+    private $category;
+
+    public function __construct()
+    {
+        $this->category = new ArrayCollection();
+        $this->setDatecreate(new \DateTime());
+    }
+```
+
+
 
 Suite :
 

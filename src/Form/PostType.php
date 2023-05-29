@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Post;
+// pour le many to many
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +20,12 @@ class PostType extends AbstractType
             ->add('datecreate')
             ->add('visible')
             ->add('user')
-            ->add('category')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'title',
+                'expanded' => true,
+                'multiple' => true,
+            ])
         ;
     }
 
