@@ -799,13 +799,14 @@ Nous avons une erreur :
 App\Entity\Post::getDatecreate(): Return value must be of type ?DateTimeInterface, string returned
 ```
 
-Dans le constructeur du fichier  `src/Entity/Post.php` :
+Dans le constructeur du fichier  `src/Entity/Post.php`, nous rajoutons la ligne suivante
 
 ```php
 public function __construct()
     {
         $this->category = new
          \Doctrine\Common\Collections\ArrayCollection();
+         // rajout d'une date de création par défaut
         $this->setDatecreate(new \DateTime());
     }
 ```
