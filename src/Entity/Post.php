@@ -76,6 +76,7 @@ class Post
     public function __construct()
     {
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setDatecreate(new \DateTime());
     }
 
     public function getId(): ?int
