@@ -66,7 +66,15 @@ class Post
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Category", mappedBy="post")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="Post")
+     * @ORM\JoinTable(name="category_has_post",
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *   },
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     *   }
+     * )
      */
     private $category = array();
 

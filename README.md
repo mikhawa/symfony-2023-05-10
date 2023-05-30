@@ -845,24 +845,58 @@ Nous pouvons maintenant créer un nouveau post !
 
 Nous remarquons que nous avons une erreur, les catégories sélectionnées le sont en many to many, mais l'insertion ne fonctionne pas pour les catégories de notre post !
 
-Nous allons donc modifier le fichier `src/Entity/Post.php` :
+Nous allons modifier le fichier de formulaire pour changer l'affichage de celui-ci `src/Form/PostType.php` :
+
+```php
+    // ...
+// pour le many to many
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+    // ...
+    ->add('category', EntityType::class, [
+        'class' => Category::class,
+        'choice_label' => 'title',
+        'multiple' => true,
+        'expanded' => true,
+    ])
+    // ...
+```
+
+Ensuite nous allons modifier le fichier `src/Entity/Post.php` :
+
+En changeant la ligne de jointure qui ne semble pas fonctionner en create et update depuis Post vers Category :
 
 ```php
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="posts")
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Category", mappedBy="post")
      */
-    private $category;
-
-    public function __construct()
-    {
-        $this->category = new ArrayCollection();
-        $this->setDatecreate(new \DateTime());
-    }
+     private $category = array();
 ```
 
+Par
+
+```php
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="Post")
+     * @ORM\JoinTable(name="category_has_post",
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *   },
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $category = array();
+```
+
+Et voici notre CRUD de la table `post` fonctionnel !
 
 
-Suite :
 
 ---
 
