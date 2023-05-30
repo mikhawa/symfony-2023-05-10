@@ -896,7 +896,7 @@ Par
 
 Et voici notre CRUD de la table `post` fonctionnel !
 
-
+[v0.1.4](https://github.com/mikhawa/symfony-2023-05-10/commit/52da0675544b0be4cd562723a890c3175c86368b#diff-c1d37559aa251754682b2e972c2eef2018b93e96aa35730a6a2e73363b210fc4)
 
 ---
 
@@ -905,6 +905,19 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
-Suite :
-
 ### Création d'une entité
+
+Nous allons retourner dans le passé du projet, en enlevant le CRUD de la table `post` que nous venons de créer, les contrôleurs, les formulaires, les templates, les entités, etc.
+
+On va aussi modifier les fichiers `.env`, `.env.local` pour changer le nom de la base de données locale.
+
+.env
+
+```bash
+# ...
+DATABASE_URL="mysql://root:@127.0.0.1:3307/sym_62?serverVersion=10.10.2-MariaDB&charset=utf8mb4"
+# ...
+```
+
+
+Nous passerons à la version 0.2.0.
