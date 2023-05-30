@@ -951,6 +951,8 @@ puis modifier le fichier `src/Controller/BlogController.php` :
     }
 ```
 
+[v0.2.1](https://github.com/mikhawa/symfony-2023-05-10/commit/393ea1c398bbb855f4407194ce9dda238611a46e#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
@@ -960,4 +962,63 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Création d'une entité
 
+Nous allons créer un mini blog, avec des articles, des catégories, des utilisateurs, etc.
+
+Pour créer une entité `Article`, nous allons utiliser la commande suivante :
+
+```bash
+php bin/console make:entity
+```
+
+Nous allons ensuite répondre aux questions suivantes :
+
+```bash
+> Class name of the entity to create or update (e.g. BravePuppy):
+> > Article
+> AritcleTitle
+> > string
+> > 160
+> > nullable => no
+> AritcleSlug
+> > string
+> > 160
+> > nullable => no
+> AritcleContent
+> > text
+> > nullable => no
+> AritcleDateCreate
+> > date
+> > nullable => yes
+> AritcleDateUpdate
+> > datetime
+> > nullable => yes
+> AritcleIsPublished
+> > boolean
+> > nullable => no
+```
+
+L'enregistrement de l'entité se fait automatiquement dans le fichier `src/Entity/Article.php`.
+
+On peut voir si les champs correspondent bien à ce que nous souhaitons dans la DB de notre projet.
+
+dans le fichier `src/Entity/Article.php` nous allons modifier la ligne suivante :
+
+```php
+    // ...
+    // pour que l'id soit unsigned
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(options: ["unsigned" => true])]
+    private ?int $id = null;
+```
+
+Il peut y avoir d'autres modifications à faire plus tard, pour le moment cela nous suffit.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Migration vers la DB
 
