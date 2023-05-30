@@ -31,7 +31,9 @@
     - [Si la base de données existe déjà](#si-la-base-de-données-existe-déjà)
       - [Création d'un crud pour la table `post`](#création-dun-crud-pour-la-table-post)
       - [Correction des erreurs](#correction-des-erreurs)
-      
+      - [0.2.0 - reset de fichier](#020)
+      - [0.2.1 - nouveau contrôleur](#021)
+    - [Création d'une entité](#création-dune-entité)
     
   
 ---
@@ -904,8 +906,8 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+### 0.2.0
 
-### Création d'une entité
 
 Nous allons retourner dans le passé du projet, en enlevant le CRUD de la table `post` que nous venons de créer, les contrôleurs, les formulaires, les templates, les entités, etc.
 
@@ -920,4 +922,42 @@ DATABASE_URL="mysql://root:@127.0.0.1:3307/sym_62?serverVersion=10.10.2-MariaDB&
 ```
 
 
-Nous passerons à la version 0.2.0.
+Nous passerons à la version [0.2.0](https://github.com/mikhawa/symfony-2023-05-10/commit/8d5623a73a03d19b599c16570ec0eb8e2fc8a10d)
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### 0.2.1
+
+Nous allons tout d'abord créer à nouveau un contrôleur pour pouvoir tester nos entités.
+
+```bash
+php bin/console make:controller BlogController
+```
+
+puis modifier le fichier `src/Controller/BlogController.php` :
+
+```php
+#[Route('/', name: 'app_blog')]
+    public function index(): Response
+    {
+        return $this->render('blog/index.html.twig', [
+            'controller_name' => 'BlogController',
+        ]);
+    }
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+### Création d'une entité
+
+
