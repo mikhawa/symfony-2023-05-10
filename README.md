@@ -1037,6 +1037,8 @@ Nous allons maintenant effectuer la migration vers la DB :
 php bin/console doctrine:migrations:migrate
 ```
 
+[V0.2.2](https://github.com/mikhawa/symfony-2023-05-10/commit/29baabb0afd2dfd6c21768ec869c75f1c21dde56#diff-19199e05681cd32d662f72e9d78fa3f433ec404a9812c9dbc21663e24b7245e8)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
