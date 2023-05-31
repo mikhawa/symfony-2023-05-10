@@ -34,6 +34,7 @@
       - [0.2.0 - reset de fichier](#020)
       - [0.2.1 - nouveau contrôleur](#021)
     - [Création d'une entité](#création-dune-entité)
+      - [Première migration vers la DB](#première-migration-vers-la-db)
     
   
 ---
@@ -997,7 +998,7 @@ Nous allons ensuite répondre aux questions suivantes :
 > > nullable => no
 ```
 
-L'enregistrement de l'entité se fait automatiquement dans le fichier `src/Entity/Article.php`.
+L'enregistrement de l'entité se fait automatiquement dans le fichier `src/Entity/Article.php`. Un fichier `src/Repository/ArticleRepository.php` contenant la gestion de la table `article`est aussi créé.
 
 On peut voir si les champs correspondent bien à ce que nous souhaitons dans la DB de notre projet.
 
@@ -1020,5 +1021,25 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Migration vers la DB
+#### Première migration vers la DB
+
+Nous allons maintenant effectuer une migration vers la DB pour créer la table `article` :
+
+```bash
+php bin/console make:migration
+```
+
+Ce qui nous a créé un fichier `src/Migrations/Version***.php` contenant la migration de la table `article`.
+
+Nous allons maintenant effectuer la migration vers la DB :
+
+```bash 
+php bin/console doctrine:migrations:migrate
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
