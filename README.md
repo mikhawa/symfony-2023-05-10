@@ -35,6 +35,8 @@
       - [0.2.1 - nouveau contrôleur](#021)
     - [Création d'une entité](#création-dune-entité)
       - [Première migration vers la DB](#première-migration-vers-la-db)
+    - [Création d'une entité avec une relation ManyToOne](#création-dune-entité-avec-une-relation-manytoone)
+      - [Deuxième migration vers la DB](#deuxième-migration-vers-la-db)
     
   
 ---
@@ -963,7 +965,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Création d'une entité
 
-Nous allons créer un mini blog, avec des articles, des catégories, des utilisateurs, etc.
+Nous allons créer un mini blog, avec des articles, des catégories, des utilisateurs, des commentaires etc.
 
 Pour créer une entité `Article`, nous allons utiliser la commande suivante :
 
@@ -1045,3 +1047,31 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+### Création d'une entité avec une relation ManyToOne
+
+Les commentaires seront liés à un article, nous allons donc créer une entité `Commentaire` avec une relation `ManyToOne` vers `Article`.
+
+```bash
+php bin/console make:entity
+```
+
+Nous allons ensuite répondre aux questions suivantes :
+
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Deuxième migration vers la DB
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
