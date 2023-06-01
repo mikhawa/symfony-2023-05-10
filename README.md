@@ -978,24 +978,24 @@ Nous allons ensuite répondre aux questions suivantes :
 ```bash
 > Class name of the entity to create or update (e.g. BravePuppy):
 > > Article
-> AritcleTitle
+> ArticleTitle
 > > string
 > > 160
 > > nullable => no
-> AritcleSlug
+> ArticleSlug
 > > string
 > > 160
 > > nullable => no
-> AritcleContent
+> ArticleContent
 > > text
 > > nullable => no
-> AritcleDateCreate
+> ArticleDateCreate
 > > date
 > > nullable => yes
-> AritcleDateUpdate
+> ArticleDateUpdate
 > > datetime
 > > nullable => yes
-> AritcleIsPublished
+> ArticleIsPublished
 > > boolean
 > > nullable => no
 ```
@@ -1052,11 +1052,78 @@ Retour au [Menu de navigation](#menu-de-navigation)
 Les commentaires seront liés à un article, nous allons donc créer une entité `Commentaire` avec une relation `ManyToOne` vers `Article`.
 
 ```bash
-php bin/console make:entity
+php bin/console make:entity Commentaire
 ```
 
 Nous allons ensuite répondre aux questions suivantes :
 
+```bash
+> Class name of the entity to create or update (e.g. BravePuppy):
+> > Commentaire
+> CommentaireTitle
+> > string
+> > 100
+> > nullable => no
+> CommentaireText
+> > string
+> > 800
+> > nullable => no
+> CommentaireDateCreate
+> > datetime
+> > nullable => yes
+> > CommentaireManyToOneArticle
+> > ManyToOne
+> > Article
+> > nullable => no
+> > CommentaireIsPublished
+> > boolean
+> > nullable => no
+
+```
+
+Nous allons faire quelques modifications dans le fichier `src/Entity/Commentaire.php` :
+
+```php
+    // ...
+    // pour que l'id soit unsigned
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(options: ["unsigned" => true])]
+    private ?int $id = null;
+
+    // ...
+    // pour que la date actuelle soit insérée automatiquement
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true,options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $CommentaireDateCreate = null;
+
+    // ...
+    // Pour que la relation soit bidirectionnelle,
+    // on peut ajouter une propriété targetEntity et inversedBy
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'Commentaires')]
+    private ?Article $CommentaireManyToOneArticle = null;
+    
+    // pour que la valeur par défaut soit false
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
+    private ?bool $CommentaireIsPublished = null;
+
+```
+
+Nous allons faire quelques modifications dans le fichier `src/Entity/Article.php` :
+
+```php
+    // ...
+    
+    // pour que la date actuelle soit insérée automatiquement lors de la création
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true, 
+            options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $AritcleDateCreate = null;
+
+    // pour que la date actuelle soit insérée automatiquement lors de la mise à jour
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, 
+            options: ["onupdate" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $AritcleDateUpdate = null;
+
+``` 
 
 
 
