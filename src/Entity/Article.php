@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,25 +23,15 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private ?string $ArticleContent = null;
 
-    // pour que la date actuelle soit insérée automatiquement lors de la création
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $AritcleDateCreate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true,
+        options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $ArticleDateCreate = null;
 
-    // pour que la date actuelle soit insérée automatiquement lors de la mise à jour
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ["onupdate" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $AritcleDateUpdate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",)]
+    private ?\DateTimeInterface $ArticleDateUpdate = null;
 
-    // pour que la valeur par défaut soit false
-    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
-    private ?bool $AritcleIsPublished = null;
-
-    #[ORM\OneToMany(mappedBy: 'CommentaireManyToOneArticle', targetEntity: Commentaire::class)]
-    private Collection $Commentaires;
-
-    public function __construct()
-    {
-        $this->Commentaires = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?bool $ArticleIsPublished = null;
 
     public function getId(): ?int
     {
@@ -86,68 +74,38 @@ class Article
         return $this;
     }
 
-    public function getAritcleDateCreate(): ?\DateTimeInterface
+    public function getArticleDateCreate(): ?\DateTimeInterface
     {
-        return $this->AritcleDateCreate;
+        return $this->ArticleDateCreate;
     }
 
-    public function setAritcleDateCreate(?\DateTimeInterface $AritcleDateCreate): self
+    public function setAritcleDateCreate(?\DateTimeInterface $ArticleDateCreate): self
     {
-        $this->AritcleDateCreate = $AritcleDateCreate;
+        $this->ArticleDateCreate = $ArticleDateCreate;
 
         return $this;
     }
 
-    public function getAritcleDateUpdate(): ?\DateTimeInterface
+    public function getArticleDateUpdate(): ?\DateTimeInterface
     {
-        return $this->AritcleDateUpdate;
+        return $this->ArticleDateUpdate;
     }
 
-    public function setAritcleDateUpdate(?\DateTimeInterface $AritcleDateUpdate): self
+    public function setArticleDateUpdate(?\DateTimeInterface $ArticleDateUpdate): self
     {
-        $this->AritcleDateUpdate = $AritcleDateUpdate;
+        $this->ArticleDateUpdate = ArticleDateUpdate;
 
         return $this;
     }
 
-    public function isAritcleIsPublished(): ?bool
+    public function isArticleIsPublished(): ?bool
     {
-        return $this->AritcleIsPublished;
+        return $this->ArticleIsPublished;
     }
 
-    public function setAritcleIsPublished(bool $AritcleIsPublished): self
+    public function setArticleIsPublished(bool $ArticleIsPublished): self
     {
-        $this->AritcleIsPublished = $AritcleIsPublished;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Commentaire>
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->Commentaires;
-    }
-
-    public function addCommentaire(Commentaire $commentaire): self
-    {
-        if (!$this->Commentaires->contains($commentaire)) {
-            $this->Commentaires->add($commentaire);
-            $commentaire->setCommentaireManyToOneArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaire $commentaire): self
-    {
-        if ($this->Commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getCommentaireManyToOneArticle() === $this) {
-                $commentaire->setCommentaireManyToOneArticle(null);
-            }
-        }
+        $this->ArticleIsPublished = $ArticleIsPublished;
 
         return $this;
     }

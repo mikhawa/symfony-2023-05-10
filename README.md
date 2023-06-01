@@ -1114,18 +1114,17 @@ Nous allons faire quelques modifications dans le fichier `src/Entity/Article.php
     // ...
     
     // pour que la date actuelle soit insérée automatiquement lors de la création
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true, 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, 
             options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $AritcleDateCreate = null;
 
     // pour que la date actuelle soit insérée automatiquement lors de la mise à jour
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, 
-            options: ["onupdate" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeInterface $AritcleDateUpdate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, columnDefinition: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",)]
+    private ?\DateTimeInterface $AgirticleDateUpdate = null;
 
 ``` 
 
-
+[v0.2.3](https://github.com/mikhawa/symfony-2023-05-10/commit/06cb586e26196d37f0acd63621b2f8cc6934ddd8#diff-bfda95459173a4f13453f500a164b7f3afdc09bed8d039383e8d94fabcce2649)
 
 ---
 
@@ -1134,6 +1133,18 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 #### Deuxième migration vers la DB
+
+```bash
+php bin/console make:migration
+```
+
+Ce qui nous a créé un fichier `src/Migrations/Version***.php` contenant la migration de la table `commentaire` et les modifications de la table `article`.
+
+Nous allons maintenant effectuer la migration vers la DB :
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
 
 
 
