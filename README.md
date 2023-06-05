@@ -1153,3 +1153,36 @@ php bin/console doctrine:migrations:migrate
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Création d'une entité avec une relation ManyToMany
+
+Les articles seront liés à des catégories, nous allons donc créer une entité `Categorie` avec une relation `ManyToMany` vers `Article`.
+
+```bash
+php bin/console make:entity Categorie
+```
+
+Nous allons ensuite répondre aux questions suivantes :
+
+```bash
+
+> CategorieTitle
+> > string
+> > 160
+> > nullable => no
+> > CategorieSlug
+> > string
+> > 160
+> > nullable => no
+> > CategorieDesc 
+> > string
+> > 500
+> > nullable => yes
+> > Categorie_m2m_Article
+> > ManyToMany
+> > Article
+> > acces into Article
+> > yes
+
+```
+
