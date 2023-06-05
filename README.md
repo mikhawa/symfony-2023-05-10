@@ -1201,6 +1201,8 @@ Nous allons faire quelques modifications dans le fichier `src/Entity/Categorie.p
     // ...
 ```
 
+[v0.2.4](https://github.com/mikhawa/symfony-2023-05-10/commit/2596db5b66a0524d26d5ac6e7955ba288f6c8a3e#diff-65fec058e1346b760cbe5d0bfc6867ef3fca25727dc922e5137cc7ab712f285e)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
@@ -1227,3 +1229,4 @@ php bin/console doctrine:migrations:migrate
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
