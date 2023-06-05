@@ -37,6 +37,8 @@
       - [Première migration vers la DB](#première-migration-vers-la-db)
     - [Création d'une entité avec une relation ManyToOne](#création-dune-entité-avec-une-relation-manytoone)
       - [Deuxième migration vers la DB](#deuxième-migration-vers-la-db)
+    - [Création d'une entité avec une relation ManyToMany](#création-dune-entité-avec-une-relation-manytomany)
+      - [Troisième migration vers la DB](#troisième-migration-vers-la-db)
     
   
 ---
@@ -1186,3 +1188,42 @@ Nous allons ensuite répondre aux questions suivantes :
 
 ```
 
+Nous allons faire quelques modifications dans le fichier `src/Entity/Categorie.php` :
+
+```php
+    // ...
+    // pour que l'id soit unsigned
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(options: ["unsigned" => true])]
+    private ?int $id = null;
+
+    // ...
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Troisième migration vers la DB
+
+Ensuite on refait une migration :
+
+```bash
+php bin/console make:migration
+```
+
+Puis on effectue la migration :
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
