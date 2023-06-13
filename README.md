@@ -39,15 +39,15 @@
       - [Deuxième migration vers la DB](#deuxième-migration-vers-la-db)
     - [Création d'une entité avec une relation ManyToMany](#création-dune-entité-avec-une-relation-manytomany)
       - [Troisième migration vers la DB](#troisième-migration-vers-la-db)
-  - Mise à jour de version mineure  
-  
+  - [Mise à jour de version mineure de Symfony](#mise-à-jour-de-version-mineure-de-symfony)
+
 ---
 
 ### Utilisation des tags de github
 
 Différents `tag` de `git` sont utilisés pour marquer les différentes étapes de ce tutoriel sur Symfony.
 
-Vous les trouverez à cette URL : 
+Vous les trouverez à cette URL :
 
 https://github.com/mikhawa/symfony-2023-05-10/tags
 
@@ -72,7 +72,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 `Symfony` est un `framework web open-source` écrit en `PHP`, qui a été créé par le développeur français `Fabien Potencier` en 2005. Le but principal de Symfony était de faciliter le développement d'applications web en fournissant un ensemble d'outils et de bibliothèques réutilisables, ainsi qu'une architecture claire et cohérente.
 
-La première version de Symfony, la version 1.0, a été publiée en octobre 2005. Elle a rapidement gagné en popularité auprès de la communauté des développeurs PHP en raison de sa simplicité et de sa flexibilité. 
+La première version de Symfony, la version 1.0, a été publiée en octobre 2005. Elle a rapidement gagné en popularité auprès de la communauté des développeurs PHP en raison de sa simplicité et de sa flexibilité.
 
 Aujourd'hui, Symfony est l'un des frameworks web les plus populaires pour le développement d'applications PHP. Il est utilisé par des entreprises de toutes tailles, des petites start-ups aux grandes entreprises internationales. La communauté Symfony est également très active et contribue régulièrement à l'amélioration du framework en fournissant des mises à jour, des correctifs de bugs et de nouveaux composants.
 
@@ -248,7 +248,7 @@ symfony console
 
 
 - Le dossier `src` contient le code source de l'application, y compris les contrôleurs, les entités, les formulaires, etc.
-  - Le dossier `src/Controller` contient les contrôleurs de l'application. (MV`C`) 
+  - Le dossier `src/Controller` contient les contrôleurs de l'application. (MV`C`)
   - Le dossier `src/Entity` contient les entités de l'application. (`M`VC)
   - Le dossier `src/Form` contient les formulaires de l'application. (`M`VC)
   - Le dossier `src/Repository` contient les dépôts de l'application. (`M`VC)
@@ -690,9 +690,9 @@ Si la base de données existe déjà et que des tables y sont présentes, nous p
 Les tables seront importées sous forme d'entités avec annotations dans les fichiers `src/Entity` de notre projet.
 
 Nous allons en faire la démonstration dans le tag [V0.1.1](https://github.com/mikhawa/symfony-2023-05-10/commit/5969a228f473ee7f6d0ecb90060415f4c2d4b418)
- en utilisant la DB `mvcprojets` que vous trouverez dans le dossier `datas` de ce projet.
+en utilisant la DB `mvcprojets` que vous trouverez dans le dossier `datas` de ce projet.
 
-Pour le tester vous pouvez importer la base de données dans votre serveur MariaDB en utilisant le fichier contenu dans le dossier `datas` de ce projet: 
+Pour le tester vous pouvez importer la base de données dans votre serveur MariaDB en utilisant le fichier contenu dans le dossier `datas` de ce projet:
 
 https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/mvcprojets.sql
 
@@ -713,7 +713,7 @@ Puis lancez la commande suivante :
 php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
 ```
 
-Vous devriez voir apparaître les fichiers 
+Vous devriez voir apparaître les fichiers
 - `src/Entity/Category.php`
 - `src/Entity/Post.php`
 - `src/Entity/User.php`
@@ -1232,6 +1232,153 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Mise à jour de version mineure de Symfony
 
-```bash
-composer update symfony/symfony
+Nous allons mettre à jour la version de Symfony de 6.2.11 à 6.3.* :
+
+Dans le fichier `composer.json` :
+
+```json
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.20",
+        "sensio/framework-extra-bundle": "^6.1",
+        "symfony/asset": "6.2.*",
+        "symfony/console": "6.2.*",
+        "symfony/doctrine-messenger": "6.2.*",
+        "symfony/dotenv": "6.2.*",
+        "symfony/expression-language": "6.2.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.2.*",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/http-client": "6.2.*",
+        "symfony/intl": "6.2.*",
+        "symfony/mailer": "6.2.*",
+        "symfony/mime": "6.2.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.2.*",
+        "symfony/process": "6.2.*",
+        "symfony/property-access": "6.2.*",
+        "symfony/property-info": "6.2.*",
+        "symfony/runtime": "6.2.*",
+        "symfony/security-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*",
+        "symfony/string": "6.2.*",
+        "symfony/translation": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/validator": "6.2.*",
+        "symfony/web-link": "6.2.*",
+        "symfony/yaml": "6.2.*",  
+ 
+...
+
+"extra": {
+"symfony": {
+"allow-contrib": false,
+"require": "6.2.*"
+}
+},
+"require-dev": {
+"phpunit/phpunit": "^9.5",
+"symfony/browser-kit": "6.2.*",
+"symfony/css-selector": "6.2.*",
+"symfony/debug-bundle": "6.2.*",
+"symfony/maker-bundle": "^1.0",
+"symfony/phpunit-bridge": "^6.2",
+"symfony/stopwatch": "6.2.*",
+"symfony/web-profiler-bundle": "6.2.*"
+}
 ```
+Par les lignes suivantes :
+
+```json
+"require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.20",
+        "sensio/framework-extra-bundle": "^6.1",
+        "symfony/asset": "6.3.*",
+        "symfony/console": "6.3.*",
+        "symfony/doctrine-messenger": "6.3.*",
+        "symfony/dotenv": "6.3.*",
+        "symfony/expression-language": "6.3.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.3.*",
+        "symfony/framework-bundle": "6.3.*",
+        "symfony/http-client": "6.3.*",
+        "symfony/intl": "6.3.*",
+        "symfony/mailer": "6.3.*",
+        "symfony/mime": "6.3.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.3.*",
+        "symfony/process": "6.3.*",
+        "symfony/property-access": "6.3.*",
+        "symfony/property-info": "6.3.*",
+        "symfony/runtime": "6.3.*",
+        "symfony/security-bundle": "6.3.*",
+        "symfony/serializer": "6.3.*",
+        "symfony/string": "6.3.*",
+        "symfony/translation": "6.3.*",
+        "symfony/twig-bundle": "6.3.*",
+        "symfony/validator": "6.3.*",
+        "symfony/web-link": "6.3.*",
+        "symfony/yaml": "6.3.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
+    },
+
+... et
+
+"extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.3.*"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.3.*",
+        "symfony/css-selector": "6.3.*",
+        "symfony/debug-bundle": "6.3.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^6.3",
+        "symfony/stopwatch": "6.3.*",
+        "symfony/web-profiler-bundle": "6.3.*"
+    }
+```
+
+Puis dans le terminal :
+
+```bash
+composer update "symfony/*"
+```
+
+En cas de soucis, voir cette page :
+
+https://symfony.com/doc/current/setup/upgrade_major.html#2-update-to-the-new-major-version-via-composer
+
+Pour être certain de la compatibilité des dépendances, il est possible de lancer la commande suivante :
+
+```bash
+composer recipes:install --force -v
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+
