@@ -1448,7 +1448,7 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-[v0.3.2](
+[v0.3.2](https://github.com/mikhawa/symfony-2023-05-10/commit/8df7e6489143129e0e93d8c8e30a50cb53a6d3ae#diff-56b5f1c89f9bfa70ff84ca115b07a2de432ebef3dd0e1dd92ce384396d570a5d)
 
 ---
 
