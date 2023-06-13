@@ -1579,7 +1579,11 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-[v0.3.3]()
+Voici l'export de la table à ce moment :
+
+https://github.com/mikhawa/symfony-2023-05-10/blob/main/datas/sym_64_2023-06-13.sql
+
+[v0.3.3](https://github.com/mikhawa/symfony-2023-05-10/commit/bb0da5ac1255cf8ba462a348ff7c24b8287b2adf#diff-7930a7aa0c6617e26bc6ac5b6c0a759e0d114b3dbcf69e5861c63c3c9b3e98a2)
 
 ---
 
