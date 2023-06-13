@@ -39,7 +39,7 @@
       - [Deuxième migration vers la DB](#deuxième-migration-vers-la-db)
     - [Création d'une entité avec une relation ManyToMany](#création-dune-entité-avec-une-relation-manytomany)
       - [Troisième migration vers la DB](#troisième-migration-vers-la-db)
-    
+  - Mise à jour de version mineure  
   
 ---
 
@@ -1230,3 +1230,8 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+### Mise à jour de version mineure de Symfony
+
+```bash
+composer update symfony/symfony
+```
