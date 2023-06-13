@@ -40,6 +40,8 @@
     - [Création d'une entité avec une relation ManyToMany](#création-dune-entité-avec-une-relation-manytomany)
       - [Troisième migration vers la DB](#troisième-migration-vers-la-db)
   - [Mise à jour de version mineure de Symfony](#mise-à-jour-de-version-mineure-de-symfony)
+  - [Création d'un utilisateur](#création-dun-utilisateur)
+
 
 ---
 
@@ -1400,6 +1402,24 @@ Nous allons créer la table utilisateur et l'entité associée avec la commande 
 
 ```bash
 php bin/console make:user
+```
+
+Nous choisissons comme options pour cette entité sécurisée :
+
+```bash
+> The class name of the security user entity (e.g. User) [User]: Utilisateur
+> Do you want to store user data in the database (via Doctrine)? (yes/no) [yes]: yes
+> Enter a property name that will be the unique "display" name for the user (e.g. email, username, uuid) [email]: email
+> Will this app need to hash/check user passwords? Choose No if passwords are not needed or will be checked/hashed by some other system (e.g. a single sign-on server). (yes/no) [yes]: yes
+```
+
+Fichiers créés :
+
+```bash
+ created: src/Entity/Utilisateur.php
+ created: src/Repository/UtilisateurRepository.php
+ updated: src/Entity/Utilisateur.php
+ updated: config/packages/security.yaml
 ```
 
 
