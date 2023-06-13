@@ -1234,12 +1234,14 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 Pour des raisons de sécurité, il est important de mettre à jour régulièrement les versions des packages utilisés dans notre projet:
 
-Aujourd'hui : 2023-06-13
+Aujourd'hui nous sommes le 2023-06-13, et il ne reste qu'un mois de mises à jour de sécurité pour la version 6.2 de Symfony :
 
 https://endoflife.date/symfony
 
 
-Nous allons mettre à jour la version de Symfony de 6.2.11 à 6.3.* :
+Nous allons mettre à jour la version de Symfony de **6.2.11** à **6.3.0** :
+
+Il vaut mieux commencer par créer une branche git pour pouvoir retourner sur la version précédente si besoin !
 
 Dans le fichier `composer.json` :
 
@@ -1285,20 +1287,20 @@ Dans le fichier `composer.json` :
 ...
 
 "extra": {
-"symfony": {
-"allow-contrib": false,
-"require": "6.2.*"
-}
-},
-"require-dev": {
-"phpunit/phpunit": "^9.5",
-"symfony/browser-kit": "6.2.*",
-"symfony/css-selector": "6.2.*",
-"symfony/debug-bundle": "6.2.*",
-"symfony/maker-bundle": "^1.0",
-"symfony/phpunit-bridge": "^6.2",
-"symfony/stopwatch": "6.2.*",
-"symfony/web-profiler-bundle": "6.2.*"
+    "symfony": {
+        "allow-contrib": false,
+        "require": "6.2.*"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "symfony/debug-bundle": "6.2.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^6.2",
+        "symfony/stopwatch": "6.2.*",
+        "symfony/web-profiler-bundle": "6.2.*"
 }
 ```
 
@@ -1391,6 +1393,15 @@ composer recipes:install --force -v
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Création d'un utilisateur
+
+Nous allons créer la table utilisateur et l'entité associée avec la commande suivante :
+
+```bash
+php bin/console make:user
+```
+
 
 
 
