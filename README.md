@@ -41,7 +41,7 @@
       - [Troisième migration vers la DB](#troisième-migration-vers-la-db)
   - [Mise à jour de version mineure de Symfony](#mise-à-jour-de-version-mineure-de-symfony)
   - [Création d'un utilisateur](#création-dun-utilisateur)
-
+    - [Modification de la table utilisateur](#modification-de-la-table-utilisateur)
 
 ---
 
@@ -1409,8 +1409,10 @@ Nous choisissons comme options pour cette entité sécurisée :
 ```bash
 > The class name of the security user entity (e.g. User) [User]: Utilisateur
 > Do you want to store user data in the database (via Doctrine)? (yes/no) [yes]: yes
-> Enter a property name that will be the unique "display" name for the user (e.g. email, username, uuid) [email]: email
-> Will this app need to hash/check user passwords? Choose No if passwords are not needed or will be checked/hashed by some other system (e.g. a single sign-on server). (yes/no) [yes]: yes
+> Enter a property name that will be the unique "display" name for the user
+ (e.g. email, username, uuid) [email]: email
+> Will this app need to hash/check user passwords? Choose No if passwords are not needed
+ or will be checked/hashed by some other system (e.g. a single sign-on server). (yes/no) [yes]: yes
 ```
 
 Fichiers créés :
@@ -1422,6 +1424,37 @@ Fichiers créés :
  updated: config/packages/security.yaml
 ```
 
+[v0.3.1](https://github.com/mikhawa/symfony-2023-05-10/commit/7ce664d0400cf9c4464b585eab8ea65c42de57f4#diff-7930a7aa0c6617e26bc6ac5b6c0a759e0d114b3dbcf69e5861c63c3c9b3e98a2)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Modification de la table utilisateur
+
+Nous allons modifier la table utilisateur pour ajouter les champs suivants :
+
+```php
+#[ORM\Column(options: ["unsigned" => true])]
+    private ?int $id = null;
+```
+
+Nous allons ensuite mettre à jour la base de données :
+
+```bash
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
+
+[v0.3.2](
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 
 

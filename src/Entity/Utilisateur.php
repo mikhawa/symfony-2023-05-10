@@ -12,7 +12,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(options: ["unsigned" => true])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
