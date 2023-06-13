@@ -1294,7 +1294,9 @@ Dans le fichier `composer.json` :
 "symfony/web-profiler-bundle": "6.2.*"
 }
 ```
+
 Par les lignes suivantes :
+
 
 ```json
 "require": {
@@ -1363,6 +1365,7 @@ Puis dans le terminal :
 ```bash
 composer update "symfony/*"
 ```
+
 
 En cas de soucis, voir cette page :
 
