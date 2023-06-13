@@ -1456,5 +1456,133 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+#### Lions la table utilisateur
+
+Nous allons lier la table `utilisateur` en `OneToMany` avec la table `Article` :
 
 
+```bash
+php bin/console make:entity Utilisateur
+```
+
+En utilisant les options suivantes :
+
+```bash
+Your entity already exists! So let's add some new fields!
+
+ New property name (press <return> to stop adding fields):
+ > name
+
+ Field type (enter ? to see all types) [string]:
+ > 
+
+
+ Field length [255]:
+ > 100
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Utilisateur.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > articles
+
+ Field type (enter ? to see all types) [string]:
+ > OneToMany
+OneToMany
+
+ What class should this entity be related to?:
+ > Article
+Article
+
+ A new property will also be added to the Article class so that you can access and set the related Utilisateur object from it.
+
+ New field name inside Article [utilisateur]:
+ >
+
+ Is the Article.utilisateur property allowed to be null (nullable)? (yes/no) [yes]:
+ > yes
+
+ updated: src/Entity/Utilisateur.php
+ updated: src/Entity/Article.php
+```
+
+Ce qui liera la table `utilisateur` en `OneToMany` avec la table `Article`.
+
+```php
+src/Entity/Utilisateur.php
+
+#[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Article::class)]
+    private Collection $articles;
+
+...
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): static
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getUtilisateur() === $this) {
+                $article->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+```
+
+```php
+src/Entity/Article.php
+
+#[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Utilisateur $utilisateur = null;
+
+...
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+```
+
+Nous allons ensuite mettre à jour la base de données :
+
+```bash
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
+
+[v0.3.3]()
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---

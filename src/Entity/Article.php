@@ -38,6 +38,9 @@ class Article
     #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Categorie_m2m_Article')]
     private Collection $categories;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Utilisateur $utilisateur = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -143,6 +146,18 @@ class Article
         if ($this->categories->removeElement($category)) {
             $category->removeCategorieM2mArticle($this);
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
