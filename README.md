@@ -1232,6 +1232,13 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Mise à jour de version mineure de Symfony
 
+Pour des raisons de sécurité, il est important de mettre à jour régulièrement les versions des packages utilisés dans notre projet:
+
+Aujourd'hui : 2023-06-13
+
+https://endoflife.date/symfony
+
+
 Nous allons mettre à jour la version de Symfony de 6.2.11 à 6.3.* :
 
 Dans le fichier `composer.json` :
@@ -1376,6 +1383,8 @@ Pour être certain de la compatibilité des dépendances, il est possible de lan
 ```bash
 composer recipes:install --force -v
 ```
+
+[v0.3.0](https://github.com/mikhawa/symfony-2023-05-10/commit/5299754210d4add384bad41ee06f0e1f0b4bb7c3#diff-d2ab9925cad7eac58e0ff4cc0d251a937ecf49e4b6bf57f8b95aab76648a9d34)
 
 ---
 
