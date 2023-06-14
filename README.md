@@ -1733,6 +1733,14 @@ Le fichier .sql :
 
 https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-14-1.sql
 
-[v0.3.5](
+[v0.3.5](https://github.com/mikhawa/symfony-2023-05-10/commit/253e7fba0dae65ced7b7b382cacb0f7d80064a74#diff-95c4003977cca1f8472ede2b9816095727f735d46c3f5467b42126ee72d35825)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création des fixtures pour la table article
 
 
