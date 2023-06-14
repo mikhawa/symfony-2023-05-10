@@ -44,7 +44,9 @@
     - [Modification de la table utilisateur](#modification-de-la-table-utilisateur)
     - [Lions la table utilisateur à la table article](#lions-la-table-utilisateur-à-la-table-article)
     - [Lions la table utilisateur avec commentaire](#lions-la-table-utilisateur-avec-commentaire)
-
+  - [Création des fixtures](#création-des-fixtures)
+    - [Création des fixtures pour la table utilisateur](#création-des-fixtures-pour-la-table-utilisateur)
+    
 ---
 
 ### Utilisation des tags de github
@@ -1662,9 +1664,75 @@ Nous allons charger le bundle `doctrine/doctrine-fixtures-bundle` :
 composer require orm-fixtures --dev
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création des fixtures pour la table utilisateur
+
 Nous allons commencer par créer une fixture pour la table `Utilisateur` :
 
 ```bash
-php bin/console make:fixtures Utilisateur
+php bin/console make:fixtures UtilisateurFixtures
 ```
+
+Ce qui créera le fichier `src/DataFixtures/UtilisateurFixtures.php`.
+
+Nous allons ensuite créer des données de test dans la méthode `load()` :
+
+```php
+src/DataFixtures/UtilisateurFixtures.php
+
+<?php
+
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+# 1. Importer l'entité Utilisateur
+use App\Entity\Utilisateur;
+# 2. Importer le gestionnaire de mot de passe
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class UtilisateurFixtures extends Fixture
+{
+    private UserPasswordHasherInterface $passwordEncoder;
+
+
+    public function __construct(UserPasswordHasherInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    public function load(ObjectManager $manager): void
+    {
+        $user = new Utilisateur();
+        $user->setName('Dupont');
+        $user->setEmail('dupont@dupont.com');
+        $password = $this->passwordEncoder->hashPassword($user,'123456');
+        $user->setPassword($password);
+
+        $manager->persist($user);
+
+        $manager->flush();
+    }
+}
+
+```
+
+Nous allons ensuite charger les fixtures :
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+Nous avons donc un utilisateur dans la base de données ! :)
+
+Le fichier .sql :
+
+https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-14-1.sql
+
+[v0.3.5](
+
 
