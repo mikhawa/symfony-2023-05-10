@@ -1644,6 +1644,7 @@ Et le schéma :
 
 ![sym_64](https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/screenshot-localhost_8080-2023.06.14-09_38_23.png)
 
+[v0.3.4](https://github.com/mikhawa/symfony-2023-05-10/commit/72a98d0c50e79fafb9dbd24ebc51e56042eae0b9#diff-7930a7aa0c6617e26bc6ac5b6c0a759e0d114b3dbcf69e5861c63c3c9b3e98a2)
 
 ---
 
