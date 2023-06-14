@@ -1651,3 +1651,20 @@ Et le schéma :
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Création des fixtures
+
+Nous allons créer des fixtures pour avoir des données de test dans notre base de donnée.
+
+Nous allons charger le bundle `doctrine/doctrine-fixtures-bundle` :
+
+```bash
+composer require orm-fixtures --dev
+```
+
+Nous allons commencer par créer une fixture pour la table `Utilisateur` :
+
+```bash
+php bin/console make:fixtures Utilisateur
+```
+
