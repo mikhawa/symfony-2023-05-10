@@ -1675,7 +1675,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 Nous allons commencer par créer une fixture pour la table `Utilisateur` :
 
 ```bash
-php bin/console make:fixtures UtilisateurFixtures
+php bin/console make:fixtures AllFixtures
 ```
 
 Ce qui créera le fichier `src/DataFixtures/UtilisateurFixtures.php`.
@@ -1741,6 +1741,17 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Création des fixtures pour la table article
+#### Création des fixtures pour les autres tables
+
+Pour éviter de devoir définir l'ordre de chargement des fixtures, nous allons créer une fixture pour toutes les tables :
+
+`src/DataFixtures/AllFixtures.php`
+
+Nous allons également installer une bibliothèque pour générer des données aléatoires en `Lorem Ipsum:
+
+```bash
+composer require joshtronic/php-loremipsum
+```
+
 
 

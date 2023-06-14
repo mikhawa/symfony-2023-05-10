@@ -92,7 +92,7 @@ class Article
         return $this->ArticleDateCreate;
     }
 
-    public function setAritcleDateCreate(?\DateTimeInterface $ArticleDateCreate): self
+    public function setArticleDateCreate(?\DateTimeInterface $ArticleDateCreate): self
     {
         $this->ArticleDateCreate = $ArticleDateCreate;
 
