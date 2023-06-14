@@ -32,6 +32,9 @@ class Commentaire
     #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
     private ?bool $CommentaireIsPublished = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    private ?Utilisateur $utilisateur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +96,18 @@ class Commentaire
     public function setCommentaireIsPublished(bool $CommentaireIsPublished): self
     {
         $this->CommentaireIsPublished = $CommentaireIsPublished;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

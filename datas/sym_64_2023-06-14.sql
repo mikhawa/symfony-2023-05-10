@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mar. 13 juin 2023 à 13:53
+-- Généré le : mer. 14 juin 2023 à 07:31
 -- Version du serveur : 10.10.2-MariaDB
 -- Version de PHP : 8.1.13
 
@@ -83,8 +83,10 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
                                              `commentaire_text` varchar(800) NOT NULL,
                                              `commentaire_date_create` datetime DEFAULT current_timestamp(),
                                              `commentaire_is_published` tinyint(1) NOT NULL DEFAULT 0,
+                                             `utilisateur_id` int(10) UNSIGNED DEFAULT NULL,
                                              PRIMARY KEY (`id`),
-                                             KEY `IDX_67F068BC7698D20` (`commentaire_many_to_one_article_id`)
+                                             KEY `IDX_67F068BC7698D20` (`commentaire_many_to_one_article_id`),
+                                             KEY `IDX_67F068BCFB88E14F` (`utilisateur_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -109,7 +111,8 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
                                                                                            ('DoctrineMigrations\\Version20230601105311', '2023-06-01 10:54:00', 612),
                                                                                            ('DoctrineMigrations\\Version20230605102024', '2023-06-05 10:21:28', 694),
                                                                                            ('DoctrineMigrations\\Version20230613095712', '2023-06-13 09:57:32', 456),
-                                                                                           ('DoctrineMigrations\\Version20230613135146', '2023-06-13 13:51:58', 595);
+                                                                                           ('DoctrineMigrations\\Version20230613135146', '2023-06-13 13:51:58', 595),
+                                                                                           ('DoctrineMigrations\\Version20230614072751', '2023-06-14 07:28:20', 78077);
 
 -- --------------------------------------------------------
 
@@ -170,6 +173,7 @@ ALTER TABLE `categorie_article`
 -- Contraintes pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-    ADD CONSTRAINT `FK_67F068BC7698D20` FOREIGN KEY (`commentaire_many_to_one_article_id`) REFERENCES `article` (`id`);
+    ADD CONSTRAINT `FK_67F068BC7698D20` FOREIGN KEY (`commentaire_many_to_one_article_id`) REFERENCES `article` (`id`),
+    ADD CONSTRAINT `FK_67F068BCFB88E14F` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`id`);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

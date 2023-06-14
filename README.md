@@ -42,6 +42,8 @@
   - [Mise à jour de version mineure de Symfony](#mise-à-jour-de-version-mineure-de-symfony)
   - [Création d'un utilisateur](#création-dun-utilisateur)
     - [Modification de la table utilisateur](#modification-de-la-table-utilisateur)
+    - [Lions la table utilisateur à la table article](#lions-la-table-utilisateur-à-la-table-article)
+    - [Lions la table utilisateur avec commentaire](#lions-la-table-utilisateur-avec-commentaire)
 
 ---
 
@@ -1456,7 +1458,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Lions la table utilisateur
+#### Lions la table utilisateur à la table article
 
 Nous allons lier la table `utilisateur` en `OneToMany` avec la table `Article` :
 
@@ -1584,6 +1586,64 @@ Voici l'export de la table à ce moment :
 https://github.com/mikhawa/symfony-2023-05-10/blob/main/datas/sym_64_2023-06-13.sql
 
 [v0.3.3](https://github.com/mikhawa/symfony-2023-05-10/commit/bb0da5ac1255cf8ba462a348ff7c24b8287b2adf#diff-7930a7aa0c6617e26bc6ac5b6c0a759e0d114b3dbcf69e5861c63c3c9b3e98a2)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Lions la table utilisateur avec commentaire
+
+Nous aurons une bonne base pour commencer le projet.
+
+Nous allons lier la table `utilisateur` en `OneToMany` avec la table `Commentaire` :
+
+```bash
+php bin/console make:entity Utilisateur
+```
+
+En utilisant les options suivantes :
+
+```bash
+ New property name (press <return> to stop adding fields):
+ > commentaires
+
+ Field type (enter ? to see all types) [string]:
+ > OneToMany
+OneToMany
+
+ What class should this entity be related to?:
+ > Commentaire
+Commentaire
+
+ A new property will also be added to the Commentaire class so that you can access and set the related Utilisateur object from it.
+
+ New field name inside Commentaire [utilisateur]:
+ >
+
+ Is the Commentaire.utilisateur property allowed to be null (nullable)? (yes/no) [yes]:
+ >
+
+ updated: src/Entity/Utilisateur.php
+ updated: src/Entity/Commentaire.php
+```
+
+Ensuite nous allons mettre à jour la base de données :
+
+```bash
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
+
+Voici l'export de la table à ce moment :
+
+https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-14.sql
+
+Et le schéma :
+
+![sym_64](https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/screenshot-localhost_8080-2023.06.14-09_38_23.png)
+
 
 ---
 
