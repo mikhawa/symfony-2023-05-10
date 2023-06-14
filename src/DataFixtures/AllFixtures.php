@@ -11,6 +11,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Article;
 # 3. Importer le générateur de texte en Lorem Ipsum
 use joshtronic\LoremIpsum;
+# 4. Importer le slugger
+use Cocur\Slugify\Slugify;
 
 class AllFixtures extends Fixture
 {
@@ -33,18 +35,24 @@ class AllFixtures extends Fixture
             $manager->persist($user);
         }
         $lipsum = new LoremIpsum();
+        $slugify = new Slugify();
         for($i=0;$i<30;$i++) {
             $article = new Article();
             $title = $lipsum->words(5);
             $article->setArticleTitle($title);
             $article->setArticleContent($lipsum->paragraphs(3));
-            $article->setArticleSlug('mon-premier-article');
+            $article->setArticleSlug($slugify->slugify($title));
             $article->setArticleDateCreate(new \DateTime());
             $article->setArticleIsPublished(true);
-            $article->setUtilisateur($user);
+            $use = $manager->getRepository(Utilisateur::class)->findOneBy(
+                ['name' => 'Dupont' . rand(0, 9) ]
+            );
+            $article->setUtilisateur($use);
+
 
             $manager->persist($article);
         }
+
 
         $manager->flush();
     }

@@ -1753,5 +1753,10 @@ Nous allons également installer une bibliothèque pour générer des données a
 composer require joshtronic/php-loremipsum
 ```
 
+puis une bibliothèque pour slugifier les données :
+
+```bash
+composer require cocur/slugify
+```
 
 
