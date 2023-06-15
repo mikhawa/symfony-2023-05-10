@@ -48,7 +48,9 @@
     - [Création des fixtures pour la table utilisateur](#création-des-fixtures-pour-la-table-utilisateur)
     - [Création des fixtures pour les utilisateurs ET les articles](#création-des-fixtures-pour-les-utilisateurs-et-les-articles)
     - [Création des fixtures pour les autres tables](#création-des-fixtures-pour-les-autres-tables)
-
+  - [Modification de la page d'accueil](#modification-de-la-page-daccueil)
+    - [Modification du contrôleur pour la page d'accueil](#modification-du-contrôleur-pour-la-page-daccueil)
+    - 
     
 ---
 
@@ -1947,7 +1949,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Modification de la page d'accueil
 
-#### Création d'un contrôleur pour la page d'accueil
+#### Modification du contrôleur pour la page d'accueil
 
 Nous allons modifier BlogController.php pour créer une page d'accueil avec la récupération des catégories.
 
@@ -2004,7 +2006,7 @@ Et dans le fichier de vue au format `Twig`, on va afficher les catégories :
 
 Maintenant que nous voyons que c'est fonctionnel, nous allons créer un template de base pour notre application.
 
-
+[v0.3.8](https://github.com/mikhawa/symfony-2023-05-10/commit/061b5a3a9f220ca0e6bb6e523617b66f008333fc#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
 
 ---
 
