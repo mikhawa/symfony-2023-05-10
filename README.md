@@ -1857,3 +1857,90 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 #### Création des fixtures pour les autres tables
 
+On va remplir toute notre base de données avec des données. On pourra ainsi tester notre application avec des données réalistes.
+
+
+```php
+<?php
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+# 1. Importer l'entité Utilisateur
+use App\Entity\Utilisateur;
+# 2. Importer le gestionnaire de mot de passe
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+# 3. Importer l'entité Article
+use App\Entity\Article;
+# 4. Importer l'entité Commentaire
+use App\Entity\Commentaire;
+# 5. Importer l'entité Catégorie
+use App\Entity\Categorie;
+# 6. Importer le générateur de texte en Lorem Ipsum
+use joshtronic\LoremIpsum;
+# 7. Importer le slugger
+use Cocur\Slugify\Slugify;
+
+###
+
+// création de 100 commentaires
+        for($i=0;$i<100;$i++) {
+            $comment = new Commentaire();
+            $comment->setCommentaireTitle($lipsum->words(mt_rand(2,5)));
+            $comment->setCommentaireText($lipsum->sentences(mt_rand(1,2)));
+            $comment->setCommentaireDateCreate(new \DateTime());
+            $comment->setCommentaireIsPublished(true);
+            // on tire au sort la clef d'un utilisateur pour le commentaire
+            $keyUser=array_rand($randUser);
+            // on récupère l'utilisateur correspondant
+            $oneUser = $randUser[$keyUser];
+            // on ajoute le commentaire à la liste des commentaires de l'utilisateur
+            $comment->setUtilisateur($oneUser);
+            // on tire au sort la clef d'un article pour le commentaire
+            $keyArticle=array_rand($randArticle);
+            // on récupère l'article correspondant
+            $oneArticle = $randArticle[$keyArticle];
+            // on ajoute le commentaire à la liste des commentaires de l'article
+            $comment->setCommentaireManyToOneArticle($oneArticle);
+
+            $manager->persist($comment);
+        }
+
+        // création de 5 catégories
+        for($i=0;$i<5;$i++) {
+            $category = new Categorie();
+            $nameCategory = $lipsum->words(mt_rand(1,2));
+            $category->setCategorieTitle($nameCategory);
+            $category->setCategorySlug($slugify->slugify($nameCategory));
+            $category->setCategorieDesc($lipsum->sentences(mt_rand(1,2)));
+
+            // on va donner la catégorie à 20 articles au hasard
+            for($j=0;$j<35;$j++) {
+                // on tire au sort la clef d'un article pour la catégorie
+                $keyArticle=array_rand($randArticle);
+                // on récupère l'article correspondant
+                $oneArticle = $randArticle[$keyArticle];
+                // on ajoute la catégorie à la liste des catégories de l'article
+                $category->addCategorieM2mArticle($oneArticle);
+            }
+
+            $manager->persist($category);
+        }
+
+        // on exécute les requêtes de persistance
+        $manager->flush();
+
+###
+```
+
+le fichier .sql :
+
+https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-15-1.sql
+
+[v0.3.7](
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
