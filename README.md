@@ -46,8 +46,12 @@
     - [Lions la table utilisateur avec commentaire](#lions-la-table-utilisateur-avec-commentaire)
   - [Création des fixtures](#création-des-fixtures)
     - [Création des fixtures pour la table utilisateur](#création-des-fixtures-pour-la-table-utilisateur)
+    - [Création des fixtures pour les utilisateurs ET les articles](#création-des-fixtures-pour-les-utilisateurs-et-les-articles)
+    - [Création des fixtures pour les autres tables](#création-des-fixtures-pour-les-autres-tables)
+
     
 ---
+
 
 ### Utilisation des tags de github
 
@@ -1741,22 +1745,113 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Création des fixtures pour les autres tables
+#### Création des fixtures pour les utilisateurs ET les articles
 
 Pour éviter de devoir définir l'ordre de chargement des fixtures, nous allons créer une fixture pour toutes les tables :
 
 `src/DataFixtures/AllFixtures.php`
 
-Nous allons également installer une bibliothèque pour générer des données aléatoires en `Lorem Ipsum:
+Nous allons également installer une bibliothèque pour générer des données aléatoires en `Lorem Ipsum`:
 
 ```bash
 composer require joshtronic/php-loremipsum
 ```
 
-puis une bibliothèque pour slugifier les données :
+Esuite une bibliothèque pour slugifier les données :
 
 ```bash
 composer require cocur/slugify
 ```
 
+Nous pouvons commencer par `Utilisateur` puis `Article` qui est lié :
+
+```php
+<?php
+
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+# 1. Importer l'entité Utilisateur
+use App\Entity\Utilisateur;
+# 2. Importer le gestionnaire de mot de passe
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+# 3. Importer l'entité Article
+use App\Entity\Article;
+# 4. Importer le générateur de texte en Lorem Ipsum
+use joshtronic\LoremIpsum;
+# 5. Importer le slugger
+use Cocur\Slugify\Slugify;
+
+class AllFixtures extends Fixture
+{
+    private UserPasswordHasherInterface $passwordEncoder;
+
+    public function __construct(UserPasswordHasherInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    public function load(ObjectManager $manager): void
+    {
+        // création de 10 utilisateurs
+        for($i=0;$i<10;$i++) {
+            $user = new Utilisateur();
+            $user->setName('Dupont' . $i);
+            $user->setEmail("dupont$i@dupont.com");
+            // on encode le mot de passe
+            $password = $this->passwordEncoder->hashPassword($user, "123456$i");
+            $user->setPassword($password);
+            // on l'ajoute à la liste des utilisateurs pour les articles
+            $randUser[] = $user;
+
+            // on garde la requête de persistance pour la fin
+            $manager->persist($user);
+        }
+        // instanciation du générateur de Lorem Ipsum
+        $lipsum = new LoremIpsum();
+        // instanciation du slugger
+        $slugify = new Slugify();
+
+        // création de 30 articles
+        for($i=0;$i<30;$i++) {
+            $article = new Article();
+            $title = $lipsum->words(5);
+            $article->setArticleTitle($title);
+            $article->setArticleContent($lipsum->paragraphs(3));
+            $article->setArticleSlug($slugify->slugify($title));
+            $article->setArticleDateCreate(new \DateTime());
+            $article->setArticleIsPublished(true);
+            // on tire au sort la clef d'un utilisateur pour l'article
+            $keyUser=array_rand($randUser);
+            // on récupère l'utilisateur correspondant
+            $oneUser = $randUser[$keyUser];
+            // on ajoute l'article à la liste des articles de l'utilisateur
+            $article->setUtilisateur($oneUser);
+
+            $manager->persist($article);
+        }
+        // on exécute les requêtes de persistance
+        $manager->flush();
+    }
+}
+    
+```
+
+Ensuite nous vérifions si cela fonctionne :
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+le fichier .sql :
+
+https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-15.sql
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création des fixtures pour les autres tables
 
