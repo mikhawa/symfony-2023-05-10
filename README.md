@@ -1944,3 +1944,74 @@ https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Modification de la page d'accueil
+
+#### Création d'un contrôleur pour la page d'accueil
+
+Nous allons modifier BlogController.php pour créer une page d'accueil avec la récupération des catégories.
+
+```php
+<?php
+# Controller/BlogController.php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+# Importation de la classe Response
+use Symfony\Component\HttpFoundation\Response;
+# Importation de la classe Request
+use Symfony\Component\HttpFoundation\Request;
+# Importation de la classe Route
+use Symfony\Component\Routing\Annotation\Route;
+# Appel de l'ORM Doctrine
+use Doctrine\ORM\EntityManagerInterface;
+# Importation de l'entité Categorie
+use App\Entity\Categorie;
+
+class BlogController extends AbstractController
+{
+    #[Route('/', name: 'homepage')]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        return $this->render('blog/index.html.twig', [
+            // on envoie les catégories à la vue
+            'categories' => $categories,
+        ]);
+    }
+}
+```
+
+Et dans le fichier de vue au format `Twig`, on va afficher les catégories :
+
+```twig
+{# templates/blog/index.html.twig #}
+
+{# .... #}
+
+<div class="example-wrapper">
+    <h1>Page d'accueil ✅</h1>
+    {% for categ in categories %}
+        <h2>{{ categ.CategorieTitle }}</h2>
+        <p>{{ categ.CategorySlug }}</p>
+        <p>{{ categ.CategorieDesc }}</p>
+    {% endfor %}
+
+</div>
+```
+
+Maintenant que nous voyons que c'est fonctionnel, nous allons créer un template de base pour notre application.
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+#### Création d'un template de base
+

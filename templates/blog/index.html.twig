@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!{% endblock %}
+{% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Page d'accueil ✅</h1>
+    {% for categ in categories %}
+        <h2>{{ categ.CategorieTitle }}</h2>
+        <p>{{ categ.CategorySlug }}</p>
+        <p>{{ categ.CategorieDesc }}</p>
+    {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/SITES/2022-2023/symfony-2023-05-10/src/Controller/BlogController.php'|file_link(0) }}">src/Controller/BlogController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/SITES/2022-2023/symfony-2023-05-10/templates/blog/index.html.twig'|file_link(0) }}">templates/blog/index.html.twig</a></code></li>
-    </ul>
 </div>
 {% endblock %}
