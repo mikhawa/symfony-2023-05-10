@@ -1847,6 +1847,8 @@ le fichier .sql :
 
 https://raw.githubusercontent.com/mikhawa/symfony-2023-05-10/main/datas/sym_64_2023-06-15.sql
 
+[v0.3.6](https://github.com/mikhawa/symfony-2023-05-10/commit/e0be37065939539ebd86ae3de58b5aab12c8f476#diff-5d12fa212ca0735a3554a8614bee32a0e5e687cd0ab820c3af8c7b21883adcdd)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
