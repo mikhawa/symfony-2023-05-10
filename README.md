@@ -50,7 +50,8 @@
     - [Création des fixtures pour les autres tables](#création-des-fixtures-pour-les-autres-tables)
   - [Modification de la page d'accueil](#modification-de-la-page-daccueil)
     - [Modification du contrôleur pour la page d'accueil](#modification-du-contrôleur-pour-la-page-daccueil)
-    - 
+  - [Twig : Création d'un template de base](#twig--création-dun-template-de-base)
+  
     
 ---
 
@@ -1561,6 +1562,8 @@ src/Entity/Utilisateur.php
 
 ```
 
+Et la table `Article` en `ManyToOne` avec la table `Utilisateur` :
+
 ```php
 src/Entity/Article.php
 
@@ -2004,6 +2007,10 @@ Et dans le fichier de vue au format `Twig`, on va afficher les catégories :
 </div>
 ```
 
+Et le résultat :
+
+https://127.0.0.1:8000/
+
 Maintenant que nous voyons que c'est fonctionnel, nous allons créer un template de base pour notre application.
 
 [v0.3.8](https://github.com/mikhawa/symfony-2023-05-10/commit/061b5a3a9f220ca0e6bb6e523617b66f008333fc#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
@@ -2015,5 +2022,48 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
-#### Création d'un template de base
+### Twig : Création d'un template de base
+
+Nous allons utiliser un moteur de template pour générer les vies de notre blog : `Twig`.
+
+La documentation officielle de `Twig` : https://twig.symfony.com
+
+Ce moteur de template est déjà installé dans notre projet. Il est utilisé par défaut par `Symfony`.
+
+Il utilise une syntaxe orientée objet et a un système de cache pour optimiser les performances.
+
+#### Modification du fichier `templates/base.html.twig`
+
+Ce fichier va contenir le code HTML de base de notre application. C'est là que nous créerons les blocks principaux qui seront utilisés par toutes les autres vues de notre projet.
+
+```twig
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Notre Blog {% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+```
+
+Nous voyons dans les commentaires que nous pouvons utiliser `Webpack Encore` pour gérer les fichiers `CSS` et `JS` de notre projet.
+
+Pour cela il faut installer le bundle `Webpack Encore` :
+
+```bash
+composer require symfony/webpack-encore-bundle
+```
 
