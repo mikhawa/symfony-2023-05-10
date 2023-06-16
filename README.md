@@ -55,7 +55,8 @@
     - [Installation de Webpack Encore](#installation-de-webpack-encore)
     - [Installation de Yarn](#installation-de-yarn)
     - [Création des fichiers `CSS` et `JS` via `Webpack Encore`](#création-des-fichiers-css-et-js-via-webpack-encore)
-  
+    - [Installation de Bootstrap](#installation-de-bootstrap)
+    - 
     
 ---
 
@@ -2119,3 +2120,78 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+#### Installation de Bootstrap
+
+Nous allons installer `Bootstrap` et son `CSS` pour avoir un site responsive et un peu plus joli.
+
+```bash 
+npm i bootstrap@5.3.0
+```
+
+Puis chargeons le javascript :
+
+```bash
+npm install jquery @popperjs/core --save-dev
+```
+
+Et ajoutons le fichier `CSS` et le `JS` de `Bootstrap` dans le fichier `webpack.config.js` :
+
+```js
+// webpack.config.js
+// ...
+Encore
+        .addEntry('app', './assets/app.js')
+        .addEntry('bootstrapJS', './node_modules/bootstrap/dist/js/bootstrap.min.js')
+        .addStyleEntry('bootstrapCSS', './node_modules/bootstrap/dist/css/bootstrap.min.css')
+```
+
+Puis nous allons modifier le fichier `base.html.twig` pour charger les fichiers `CSS` et `JS` de `Bootstrap` :
+
+```twig
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {# création du CSS Bootstrap #}
+            {{ encore_entry_link_tags('bootstrapCSS') }}
+            {# création de notre CSS personnalisé #}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {# création du JS Bootstrap #}
+            {{ encore_entry_script_tags('bootstrapJS') }}
+            {# création de notre JS personnalisé #}
+            {{ encore_entry_script_tags('app') }}
+            
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+```
+
+Nous pouvons maintenant utiliser les classes de `Bootstrap` dans notre projet.
+
+Lançons les commandes `npm` pour créer les fichiers `CSS` et `JS` :
+
+```bash
+npm run build
+```
+
+Notre site est de nouveau fonctionnel :
+
+https://127.0.0.1:8000/
+
+[v0.4.1](
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
