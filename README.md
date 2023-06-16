@@ -51,6 +51,10 @@
   - [Modification de la page d'accueil](#modification-de-la-page-daccueil)
     - [Modification du contrôleur pour la page d'accueil](#modification-du-contrôleur-pour-la-page-daccueil)
   - [Twig : Création d'un template de base](#twig--création-dun-template-de-base)
+    - [Modification du fichier `templates/base.html.twig`](#modification-du-fichier-templatesbasehtmltwig)
+    - [Installation de Webpack Encore](#installation-de-webpack-encore)
+    - [Installation de Yarn](#installation-de-yarn)
+    - [Création des fichiers `CSS` et `JS` via `Webpack Encore`](#création-des-fichiers-css-et-js-via-webpack-encore)
   
     
 ---
@@ -2061,9 +2065,56 @@ Ce fichier va contenir le code HTML de base de notre application. C'est là que 
 
 Nous voyons dans les commentaires que nous pouvons utiliser `Webpack Encore` pour gérer les fichiers `CSS` et `JS` de notre projet.
 
+#### Installation de Webpack Encore
+
 Pour cela il faut installer le bundle `Webpack Encore` :
 
 ```bash
 composer require symfony/webpack-encore-bundle
 ```
+
+#### Installation de Yarn
+
+```bash
+curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+```
+
+Puis
+
+```bash
+yarn install
+```
+
+Pour cela vous devez avoir installé `Yarn` sur votre machine ainsi que `NodeJS` :
+
+https://nodejs.org/fr/download/
+
+Puis `Yarn` :
+
+https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
+
+
+#### Création des fichiers `CSS` et `JS` via `Webpack Encore`
+
+Et nous allons lancer la commande `npm` suivante pour créer nos fichiers `CSS` et `JS` dans le dossier `public/build` :
+
+```bash
+npm run build
+```
+
+Ces fichiers sont créés à partir des fichiers `CSS` et `JS` du dossier `assets` et sont minifiés et optimisés pour les performances. Ils sont chargés automatiquement dans le fichier `base.html.twig`.
+
+Nous modifierons le fichier `webpack.config.js` et le dossier `assests` pour ajouter le fichier `CSS` de `Bootstrap` par la suite.
+
+Notre site est de nouveau fonctionnel :
+
+https://127.0.0.1:8000/
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
