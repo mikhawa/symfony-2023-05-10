@@ -21,11 +21,14 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('bootstrapJS', './node_modules/bootstrap/dist/js/bootstrap.js')
-    .addStyleEntry('bootstrapCSS', './node_modules/bootstrap/dist/css/bootstrap.css')
+    .addEntry('bootstrapJS', './node_modules/bootstrap/dist/js/bootstrap.min.js')
+    .addStyleEntry('bootstrapCSS', './node_modules/bootstrap/dist/css/bootstrap.min.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
+
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
