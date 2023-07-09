@@ -2196,3 +2196,9 @@ https://127.0.0.1:8000/
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+
+### Choix du template
+
+Nous allons utiliser le template `` pour notre projet :
+
