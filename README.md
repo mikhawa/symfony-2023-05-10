@@ -56,7 +56,8 @@
     - [Installation de Yarn](#installation-de-yarn)
     - [Création des fichiers `CSS` et `JS` via `Webpack Encore`](#création-des-fichiers-css-et-js-via-webpack-encore)
     - [Installation de Bootstrap](#installation-de-bootstrap)
-    - 
+  -[Choix du template](#choix-du-template)
+    
     
 ---
 
@@ -2200,5 +2201,14 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Choix du template
 
-Nous allons utiliser le template `` pour notre projet :
+Nous allons utiliser le template `bootstrap Business frontpage` pour notre projet :
 
+https://startbootstrap.com/template/business-frontpage
+
+Nous l'avons dézippé dans le dossier `datas` et nous allons le modifier pour l'adapter à notre projet.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
