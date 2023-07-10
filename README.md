@@ -56,7 +56,7 @@
     - [Installation de Yarn](#installation-de-yarn)
     - [Création des fichiers `CSS` et `JS` via `Webpack Encore`](#création-des-fichiers-css-et-js-via-webpack-encore)
     - [Installation de Bootstrap](#installation-de-bootstrap)
-  -[Choix du template](#choix-du-template)
+  - [Choix du template](#choix-du-template)
     
     
 ---
