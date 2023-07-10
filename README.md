@@ -2282,3 +2282,40 @@ Nous pouvons maintenant utiliser le template dans notre projet:
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Création de la section Catégories
+
+Nous allons remplir le menu avec les catégories de notre blog:
+
+`templates/blog/index.html.twig`
+
+
+```twig
+{% for categ in categories %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}">{{ categ.CategorieTitle }}</a></li>
+{% endfor %}
+``` 
+
+
+Nous allons créer la section `categorie` de notre site:
+`src/Controller/BlogController.php` :
+
+```php
+###
+#[Route('/categorie/{slug}', name: 'categorie')]
+    public function categorie($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de la catégorie dont le slug est $category_slug
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
+        return $this->render('blog/categorie.html.twig', [
+            // on envoie la catégorie à la vue
+            'categories' => $categories,
+            'categorie' => $categorie,
+        ]);
+    }
+###
+```
+Après avoir créé le template `categorie.html.twig` nous pouvons voir le résultat :
+
