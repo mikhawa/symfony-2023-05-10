@@ -2274,3 +2274,11 @@ Nous pouvons maintenant utiliser le template dans notre projet:
 {% endblock %}
 
 ```
+
+[v0.4.2](https://github.com/mikhawa/symfony-2023-05-10/commit/528c63a9bbd6db6ffb056f30708c8910721285d5)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
