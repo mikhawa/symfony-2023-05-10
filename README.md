@@ -2207,8 +2207,70 @@ https://startbootstrap.com/template/business-frontpage
 
 Nous l'avons dézippé dans le dossier `datas` et nous allons le modifier pour l'adapter à notre projet.
 
+J'ai mis les `JS` et `CSS` du template pour les utiliser, ils sont donc pour le `js` dans `app.js` et pour le style dans `app.css`.
+
+```bash
+npm run build
+```
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Modification de base.html.twig
+
+Nous allons modifier le fichier `base.html.twig` pour utiliser le template :
+
+```twig
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="Pitz Michaël" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="build/favicon.ico">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {# création de notre CSS personnalisé #}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {# création de notre JS personnalisé #}
+            {{ encore_entry_script_tags('app') }}
+
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+``` 
+
+Puis, nous créons le template avec de nouveaux blocs enfants :
+`templates/template.html.twig`
+
+Nous pouvons maintenant utiliser le template dans notre projet:
+
+`templates/blog/index.html.twig`
+
+```twig
+{% extends 'template.html.twig' %}
+
+{% block title %}{{ parent() }}Page d'accueil{% endblock %}
+
+
+{% block articles %}
+    <h1>Page d'accueil ✅</h1>
+    {% for categ in categories %}
+        <h2>{{ categ.CategorieTitle }}</h2>
+        <p>{{ categ.CategorySlug }}</p>
+        <p>{{ categ.CategorieDesc }}</p>
+    {% endfor %}
+{% endblock %}
+
+```

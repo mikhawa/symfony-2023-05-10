@@ -21,8 +21,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('bootstrapJS', './node_modules/bootstrap/dist/js/bootstrap.min.js')
-    .addStyleEntry('bootstrapCSS', './node_modules/bootstrap/dist/css/bootstrap.min.css')
+    //.addEntry('bootstrapJS', './node_modules/bootstrap/dist/js/bootstrap.min.js')
+    //.addStyleEntry('bootstrapCSS', './node_modules/bootstrap/dist/css/bootstrap.min.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

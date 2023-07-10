@@ -6,18 +6,14 @@
     <meta name="description" content="" />
     <meta name="author" content="Pitz Michaël" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" href="build/favicon.ico">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {# création du CSS Bootstrap #}
-            {{ encore_entry_link_tags('bootstrapCSS') }}
             {# création de notre CSS personnalisé #}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {# création du JS Bootstrap #}
-            {{ encore_entry_script_tags('bootstrapJS') }}
             {# création de notre JS personnalisé #}
             {{ encore_entry_script_tags('app') }}
 
