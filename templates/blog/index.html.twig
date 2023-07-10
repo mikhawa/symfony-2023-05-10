@@ -1,8 +1,14 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}{{ parent() }}Page d'accueil{% endblock %}
+{% block title %}{{ parent() }} Page d'accueil{% endblock %}
 
-
+{% block menuLinks %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="./">Home</a></li>
+{% for categ in categories %}
+<li class="nav-item"><a class="nav-link" aria-current="page" href="/">{{ categ.CategorieTitle }}</a></li>
+{% endfor %}
+    <li class="nav-item"><a class="nav-link" aria-current="page" href="./connect">Connexion</a></li>
+{% endblock %}
 
 {% block articles %}
     <h1>Page d'accueil ✅</h1>
