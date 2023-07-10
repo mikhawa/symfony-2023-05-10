@@ -2319,3 +2319,11 @@ Nous allons créer la section `categorie` de notre site:
 ```
 Après avoir créé le template `categorie.html.twig` nous pouvons voir le résultat :
 
+```Twig
+...
+{%block htitle %}Catégorie : {{ categorie.CategorieTitle }}{% endblock %}
+{%block hdesc %}{{ categorie.CategorieDesc }}{% endblock %}
+...
+```
+
+[v0.4.3](https://github.com/mikhawa/symfony-2023-05-10/commit/aa0d2e7581ccea147b888004ba385b2b9cfe8588#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
