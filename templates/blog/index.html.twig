@@ -10,12 +10,17 @@
     <li class="nav-item"><a class="nav-link" aria-current="page" href="./connect">Connexion</a></li>
 {% endblock %}
 
-{% block articles %}
-    <h1>Page d'accueil ✅</h1>
-    {% for categ in categories %}
-        <h2>{{ categ.CategorieTitle }}</h2>
-        <p>{{ categ.CategorySlug }}</p>
-        <p>{{ categ.CategorieDesc }}</p>
+{% block articlePerOne %}
+    {% for article in articles %}
+    <div class="col-lg-4 mb-5 mb-lg-0">
+        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+        <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
+        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+        <a class="text-decoration-none" href="#!">
+            Call to action
+            <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
     {% endfor %}
 {% endblock %}
 

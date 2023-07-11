@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 # Importation de l'entité Categorie
 use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
+use App\Entity\Article;
 
 class BlogController extends AbstractController
 {
@@ -22,9 +23,13 @@ class BlogController extends AbstractController
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération des 9 derniers articles
+        $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
         return $this->render('blog/index.html.twig', [
             // on envoie les catégories à la vue
             'categories' => $categories,
+            // on envoie les articles à la vue
+            'articles' => $articles,
         ]);
     }
     #[Route('/categorie/{slug}', name: 'categorie')]

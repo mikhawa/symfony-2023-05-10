@@ -2385,6 +2385,48 @@ Nous pouvons maintenant utiliser le template dans notre projet:
 
 [v0.4.2](https://github.com/mikhawa/symfony-2023-05-10/commit/528c63a9bbd6db6ffb056f30708c8910721285d5)
 
+Nous pouvons par la suite afficher les 12 derniers articles sur la page d'accueil avec le findBy() de Doctrine:
+
+```php
+<?php
+###
+use App\Entity\Article;
+###
+#[Route('/', name: 'homepage')]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération des 9 derniers articles
+        $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
+        return $this->render('blog/index.html.twig', [
+            // on envoie les catégories à la vue
+            'categories' => $categories,
+            // on envoie les articles à la vue
+            'articles' => $articles,
+        ]);
+    }
+###
+```
+
+Et dans la vue:
+    
+```twig
+{% block articlePerOne %}
+    {% for article in articles %}
+    <div class="col-lg-4 mb-5 mb-lg-0">
+        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+        <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
+        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+        <a class="text-decoration-none" href="#!">
+            Call to action
+            <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    {% endfor %}
+{% endblock %}
+```
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
