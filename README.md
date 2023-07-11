@@ -61,7 +61,7 @@
     - [Modification de template.html.twig](#modification-de-templatehtmltwig)
     - [Modification de la page d'accueil](#modification-de-la-page-daccueil-1)
     - [Création de la section Catégories](#création-de-la-section-catégories)
-    
+    - [Affichage des articles par catégorie](#affichage-des-articles-par-catégorie)
 ---
 
 
@@ -2477,3 +2477,56 @@ Après avoir créé le template `categorie.html.twig` nous pouvons voir le résu
 ```
 
 [v0.4.3](https://github.com/mikhawa/symfony-2023-05-10/commit/aa0d2e7581ccea147b888004ba385b2b9cfe8588#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Affichage des articles par catégorie
+
+Nous allons maintenant afficher les articles par catégorie:
+
+`src/Controller/BlogController.php` :
+
+```php
+###
+#[Route('/categorie/{slug}', name: 'categorie')]
+    public function categorie($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de la catégorie dont le slug est $category_slug
+        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
+        // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articlesn puis prises de valeurs
+        $articles = $categorie->getCategorieM2mArticle()->getValues();
+        return $this->render('blog/categorie.html.twig', [
+            // on envoie la catégorie à la vue
+            'categories' => $categories,
+            'categorie' => $categorie,
+            'articles' => $articles,
+        ]);
+    }
+###
+```
+
+Et dans le template `categorie.html.twig` :
+
+```twig
+{% block articlePerOne %}
+    {% for article in articles %}
+        <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+            <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
+            <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+            <a class="text-decoration-none" href="#!">
+                Call to action
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
+```
+
+[v0.4.4](
