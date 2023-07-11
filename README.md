@@ -2529,4 +2529,4 @@ Et dans le template `categorie.html.twig` :
 {% endblock %}
 ```
 
-[v0.4.4](
+[v0.4.4](https://github.com/mikhawa/symfony-2023-05-10/commit/ddb5b07bc1cb4cde9853d26333b3d1eff1691f44#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
