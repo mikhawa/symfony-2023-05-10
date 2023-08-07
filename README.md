@@ -62,6 +62,8 @@
     - [Modification de la page d'accueil](#modification-de-la-page-daccueil-1)
     - [Création de la section Catégories](#création-de-la-section-catégories)
     - [Affichage des articles par catégorie](#affichage-des-articles-par-catégorie)
+    - [Création de la section Article](#création-de-la-section-article)
+    - 
 ---
 
 
@@ -2539,3 +2541,40 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 ### Création de la section Article
+
+Nous allons créer la section `article` de notre site et afficher le slug de l'article:
+`src/Controller/BlogController.php` :
+
+```php
+###
+#[Route('/article/{slug}', name: 'article')]
+    public function article($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        // on commence par afficher le slug
+        return new Response($article->getArticleSlug());
+    }
+    
+###
+```
+
+Nous allons d'abord créer les liens vers les articles dans la section `categorie` et `index`:
+
+`templates/blog/categorie.html.twig` :
+`templates/blog/index.html.twig` :
+
+```twig
+{% block articlePerOne %}
+    {% for article in articles %}
+       ...
+            <a class="text-decoration-none" href="{{ path("article", { 'slug' :  article.ArticleSlug }) }}">
+                Lire la suite
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        ...
+    {% endfor %}
+{% endblock %}
+```

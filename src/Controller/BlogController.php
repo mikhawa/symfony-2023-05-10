@@ -49,4 +49,21 @@ class BlogController extends AbstractController
         ]);
     }
 
+    #[Route('/article/{slug}', name: 'article')]
+    public function article($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        /*
+        return $this->render('blog/article.html.twig', [
+            // on envoie la catégorie à la vue
+            'categories' => $categories,
+            'article' => $article,
+        ]);
+        */
+        return new Response($article->getArticleSlug());
+    }
+
 }
