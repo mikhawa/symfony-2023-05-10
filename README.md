@@ -63,7 +63,9 @@
     - [Création de la section Catégories](#création-de-la-section-catégories)
     - [Affichage des articles par catégorie](#affichage-des-articles-par-catégorie)
     - [Création de la section Article](#création-de-la-section-article)
-    - 
+      - [Création de la route dans le controller](#création-de-la-route-dans-le-controller)
+      - [Création des liens vers les articles dans la section `categorie` et `index`](#création-des-liens-vers-les-articles-dans-la-section-categorie-et-index)
+      - [Affichage d'un résumé de l'article avec slice](#affichage-dun-résumé-de-larticle-avec-slice)
 ---
 
 
@@ -2542,8 +2544,10 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Création de la section Article
 
-Nous allons créer la section `article` de notre site et afficher le slug de l'article:
+Nous allons créer la section `article` de notre site et afficher le slug de l'article demandé dans l'URL :
 `src/Controller/BlogController.php` :
+
+#### Création de la route dans le controller
 
 ```php
 ###
@@ -2560,6 +2564,8 @@ Nous allons créer la section `article` de notre site et afficher le slug de l'a
     
 ###
 ```
+
+#### Création des liens vers les articles dans la section `categorie` et `index`
 
 Nous allons d'abord créer les liens vers les articles dans la section `categorie` et `index`:
 
@@ -2578,3 +2584,30 @@ Nous allons d'abord créer les liens vers les articles dans la section `categori
     {% endfor %}
 {% endblock %}
 ```
+
+#### Affichage d'un résumé de l'article avec slice
+
+Au passage, nous allons mettre un résumé du texte des articles dans la section `index` et `categorie` :
+
+`templates/blog/index.html.twig` :
+`templates/blog/categorie.html.twig` :
+
+```twig
+{% block articlePerOne %}
+    {% for article in articles %}
+        <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+            <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
+            <p>{{ article.ArticleContent|slice(0, 150) }}...</p>
+            <a class="text-decoration-none" href="{{ path("article", { 'slug' :  article.ArticleSlug }) }}">
+                Lire la suite
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}
+```
+
+Nous constatons que les mots sont coupés en plein milieu avec la fonction `slice`, nous allons donc créer un filtre Twig pour couper les mots à la fin de la phrase :
+
+
