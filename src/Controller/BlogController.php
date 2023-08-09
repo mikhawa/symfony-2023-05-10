@@ -39,7 +39,7 @@ class BlogController extends AbstractController
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de la catégorie dont le slug est $category_slug
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
-        // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articlesn puis prises de valeurs
+        // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articles puis prises de valeurs
         $articles = $categorie->getCategorieM2mArticle()->getValues();
         return $this->render('blog/categorie.html.twig', [
             // on envoie la catégorie à la vue
@@ -56,14 +56,13 @@ class BlogController extends AbstractController
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
-        /*
+        // récupération des catégories grâce à la relation ManyToMany de article vers catégorie puis prises de valeurs
+        $categoriesArticle = $article->getCategories()->getValues();
         return $this->render('blog/article.html.twig', [
-            // on envoie la catégorie à la vue
             'categories' => $categories,
             'article' => $article,
+            'categoriesArticle' => $categoriesArticle,
         ]);
-        */
-        return new Response($article->getArticleSlug());
     }
 
 }

@@ -66,6 +66,10 @@
       - [Création de la route dans le controller](#création-de-la-route-dans-le-controller)
       - [Création des liens vers les articles dans la section `categorie` et `index`](#création-des-liens-vers-les-articles-dans-la-section-categorie-et-index)
       - [Affichage d'un résumé de l'article avec slice](#affichage-dun-résumé-de-larticle-avec-slice)
+      - [Installation de la bibliothèque Twig Extra String](#installation-de-la-bibliothèque-twig-extra-string)
+      - [Utilisation de la fonction `truncate` de la bibliothèque Twig Extra String](#utilisation-de-la-fonction-truncate-de-la-bibliothèque-twig-extra-string)
+      - [Modification de la méthode `article` du controller](#modification-de-la-méthode-article-du-controller)
+      - [Création de la vue `article.html.twig`](#création-de-la-vue-articlehtmltwig)
 ---
 
 
@@ -2616,4 +2620,51 @@ Nous constatons que les mots sont coupés en plein milieu avec la fonction `slic
 composer require twig/string-extra
 ```
 
+Pour la documentation de la bibliothèque, c'est [ici](https://twig.symfony.com/doc/3.x/filters/u.html)
+
+#### Utilisation de la fonction `truncate` de la bibliothèque Twig Extra String
+
+`templates/blog/index.html.twig` :
+`templates/blog/categorie.html.twig` :
+
+```twig
+<p>{{ article.ArticleContent|u.truncate(120, '...', false) }}</p>
+```
+
+Le false à la fin permet de couper les mots à la fin de la phrase.
+
+#### Modification de la méthode `article` du controller
+
+Nous allons maintenant modifier la méthode `article` du controller pour afficher le contenu de l'article, avec les rubriques dans lesquelles il se trouve (si il si trouve) :
+
+`src/Controller/BlogController.php` :
+
+```php
+###
+#[Route('/article/{slug}', name: 'article')]
+    public function article($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        // récupération des catégories grâce à la relation ManyToMany de article vers catégorie puis prises de valeurs
+        $categoriesArticle = $article->getCategories()->getValues();
+        // Appel de la vue
+        return $this->render('blog/article.html.twig', [
+            // on envoie la catégorie à la vue
+            'categories' => $categories,
+            // on envoie l'article à la vue
+            'article' => $article,
+            // on envoie les catégories de l'article à la vue
+            'categoriesArticle' => $categoriesArticle,
+        ]);
+
+    }
+###
+```
+
+#### Création de la vue `article.html.twig`
+
+Nous allons maintenant créer la vue `article.html.twig` :
 
