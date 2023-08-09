@@ -2608,6 +2608,12 @@ Au passage, nous allons mettre un résumé du texte des articles dans la section
 {% endblock %}
 ```
 
-Nous constatons que les mots sont coupés en plein milieu avec la fonction `slice`, nous allons donc créer un filtre Twig pour couper les mots à la fin de la phrase :
+Nous constatons que les mots sont coupés en plein milieu avec la fonction `slice`, nous allons donc charger une bibliothèque de fonctions Twig pour couper les mots à la fin de la phrase :
+
+#### Installation de la bibliothèque Twig Extra String
+
+```bash
+composer require twig/string-extra
+```
 
 
