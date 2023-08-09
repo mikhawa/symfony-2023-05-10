@@ -29,6 +29,6 @@
         <p>{{ article.ArticleContent|nl2br }}</p>
         <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
     </div>
-
+    {% block commentaire %}{% include 'blog/inc/commentaire.html.twig' %}{% endblock %}
 {% endblock %}
 

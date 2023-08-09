@@ -70,7 +70,7 @@
       - [Utilisation de la fonction `truncate` de la bibliothèque Twig Extra String](#utilisation-de-la-fonction-truncate-de-la-bibliothèque-twig-extra-string)
       - [Modification de la méthode `article` du controller](#modification-de-la-méthode-article-du-controller)
       - [Création de la vue `article.html.twig`](#création-de-la-vue-articlehtmltwig)
-      
+    - [Création de la vue `commentaire.html.twig`](#création-de-la-vue-commentairehtmltwig)
 ---
 
 
@@ -2720,7 +2720,30 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+### Création de la vue `commentaire.html.twig`
 
+Cette vue sera appelée depuis la page article, un block est créé dans le block `articlePerOne` de la vue `article.html.twig` :
 
+`templates/blog/article.html.twig` :
 
+```twig
+...
+{% block articlePerOne %}
+    ...
+    {% block commentaire %}
+    {# Ici seront affichés les commentaires + formulaires,
+     on importe toujours depuis la racine templates #}
+    {% include 'blog/inc/commentaire.html.twig' %}
+    {% endblock %}
+    ...
+{% endblock %}
+```
+Et sa vue vierge :
 
+`templates/blog/inc/commentaire.html.twig` :
+
+```twig
+<div>
+    <h3>Commentaires</h3>
+</div>
+```
