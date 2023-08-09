@@ -70,6 +70,7 @@
       - [Utilisation de la fonction `truncate` de la bibliothèque Twig Extra String](#utilisation-de-la-fonction-truncate-de-la-bibliothèque-twig-extra-string)
       - [Modification de la méthode `article` du controller](#modification-de-la-méthode-article-du-controller)
       - [Création de la vue `article.html.twig`](#création-de-la-vue-articlehtmltwig)
+      
 ---
 
 
@@ -2589,6 +2590,15 @@ Nous allons d'abord créer les liens vers les articles dans la section `categori
 {% endblock %}
 ```
 
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+
 #### Affichage d'un résumé de l'article avec slice
 
 Au passage, nous allons mettre un résumé du texte des articles dans la section `index` et `categorie` :
@@ -2648,7 +2658,7 @@ Nous allons maintenant modifier la méthode `article` du controller pour affiche
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
-        // récupération des catégories grâce à la relation ManyToMany de article vers catégorie puis prises de valeurs
+        // récupération des catégories grâce à la relation ManyToMany de 'article' vers 'catégorie' puis prises de valeurs
         $categoriesArticle = $article->getCategories()->getValues();
         // Appel de la vue
         return $this->render('blog/article.html.twig', [
@@ -2656,7 +2666,7 @@ Nous allons maintenant modifier la méthode `article` du controller pour affiche
             'categories' => $categories,
             // on envoie l'article à la vue
             'article' => $article,
-            // on envoie les catégories de l'article à la vue
+            // on envoie les catégories de l'article à la vue 
             'categoriesArticle' => $categoriesArticle,
         ]);
 
@@ -2664,7 +2674,53 @@ Nous allons maintenant modifier la méthode `article` du controller pour affiche
 ###
 ```
 
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+
 #### Création de la vue `article.html.twig`
 
-Nous allons maintenant créer la vue `article.html.twig` :
+Nous allons maintenant créer la vue 
+`templates/blog/article.html.twig` :
+
+```twig
+...
+{% block title %}{{ parent() }} Article | {{ article.ArticleTitle }}{% endblock %}
+...
+{% block articlePerOne %}
+
+    <div class="col-lg-12 mb-5 mb-lg-0">
+        <h2 class="h4 fw-bolder mb-3">{{ article.ArticleTitle }}</h2>
+        <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
+        <hr>
+        {% for categ in categoriesArticle %}
+            <a href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}" class="badge bg-secondary text-decoration-none link-light">{{ categ.CategorieTitle }}</a>
+            {% else %}
+            <h5>Présent dans aucune catégorie</h5>
+        {% endfor %}
+        <hr>
+        <p>{{ article.ArticleContent|nl2br }}</p>
+        <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
+    </div>
+
+{% endblock %}
+...
+```
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+
+
 
