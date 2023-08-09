@@ -2712,7 +2712,7 @@ Nous allons maintenant créer la vue
 ...
 ```
 
-
+[v0.4.5](https://github.com/mikhawa/symfony-2023-05-10/commit/8bca1487359034c0e0a21520e483b80cb5f244c0#diff-da5d78d1e07dfc565fe1017f09e3be6840ab3bd4d9f75d0a0f7dee274066f68d)
 
 ---
 
