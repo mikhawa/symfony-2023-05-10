@@ -72,7 +72,7 @@
       - [Création de la vue `article.html.twig`](#création-de-la-vue-articlehtmltwig)
     - [Création de la vue `commentaire.html.twig`](#création-de-la-vue-commentairehtmltwig)
       - [Chargement des commentaires dans BlogController](#chargement-des-commentaires-dans-blogcontroller)
-      - [Affichage des commentaires dans `article.html.twig`](#affichage-des-commentaires-dans-articlehtmltwig)
+      - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
 ---
 
 
@@ -2718,13 +2718,15 @@ Nous allons maintenant créer la vue
         <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
         <hr>
         {% for categ in categoriesArticle %}
-            <a href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}" class="badge bg-secondary text-decoration-none link-light">{{ categ.CategorieTitle }}</a>
+            <a href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}" 
+            class="badge bg-secondary text-decoration-none link-light">{{ categ.CategorieTitle }}</a>
             {% else %}
             <h5>Présent dans aucune catégorie</h5>
         {% endfor %}
         <hr>
         <p>{{ article.ArticleContent|nl2br }}</p>
-        <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
+        <h4 class="h5">Par {{ article.utilisateur.name }} le 
+        {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
     </div>
 
 {% endblock %}
@@ -2768,6 +2770,12 @@ Et sa vue vierge :
 </div>
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 #### Chargement des commentaires dans BlogController
 
 Nous allons maintenant charger les commentaires dans la partie `article` du controller :
@@ -2790,7 +2798,8 @@ use App\Repository\CommentaireRepository;
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
         $categoriesArticle = $article->getCategories()->getValues();
         // récupération des commentaires de l'article grâce à son id et sa relation ManyToOne
-        $commentaires = $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+        $commentaires = $entityManager->getRepository(Commentaire::class)
+        ->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
         return $this->render('blog/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
@@ -2819,7 +2828,9 @@ Nous allons maintenant afficher les commentaires dans la vue :
     <hr>
     <h3>Commentaires ({{ commentaires|length }})</h3>
     {% for commentaire in commentaires %}
-        <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
+        <h5>{{ commentaire.CommentaireTitle }} <small>Par 
+        {{ commentaire.utilisateur.name}} le 
+        {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
         <p>{{ commentaire.CommentaireText }}</p>
     {% else %}
         <p>Aucun commentaire</p>
