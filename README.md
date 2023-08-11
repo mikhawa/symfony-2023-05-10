@@ -2755,6 +2755,7 @@ Cette vue sera appelée depuis la page article, un block est créé dans le bloc
     ...
 {% endblock %}
 ```
+
 Et sa vue vierge :
 
 `templates/blog/inc/commentaire.html.twig` :
@@ -2764,3 +2765,4 @@ Et sa vue vierge :
     <h3>Commentaires</h3>
 </div>
 ```
+

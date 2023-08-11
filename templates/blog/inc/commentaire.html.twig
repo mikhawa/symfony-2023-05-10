@@ -1,3 +1,9 @@
 <div>
-    <h3>Commentaires</h3>
+    <hr>
+    <h3>Commentaires ({{ commentaires|length }})</h3>
+    {% for comnentaire in commentaires %}
+
+    {% else %}
+        <p>Aucun commentaire</p>
+    {% endfor %}
 </div>
