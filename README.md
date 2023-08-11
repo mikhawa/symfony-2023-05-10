@@ -71,6 +71,8 @@
       - [Modification de la méthode `article` du controller](#modification-de-la-méthode-article-du-controller)
       - [Création de la vue `article.html.twig`](#création-de-la-vue-articlehtmltwig)
     - [Création de la vue `commentaire.html.twig`](#création-de-la-vue-commentairehtmltwig)
+      - [Chargement des commentaires dans BlogController](#chargement-des-commentaires-dans-blogcontroller)
+      - [Affichage des commentaires dans `article.html.twig`](#affichage-des-commentaires-dans-articlehtmltwig)
 ---
 
 
@@ -2765,4 +2767,69 @@ Et sa vue vierge :
     <h3>Commentaires</h3>
 </div>
 ```
+
+#### Chargement des commentaires dans BlogController
+
+Nous allons maintenant charger les commentaires dans la partie `article` du controller :
+
+`src/Controller/BlogController.php` :
+
+```php
+###
+
+# Importation de l'entité Commentaire
+use App\Entity\Commentaire;
+use App\Repository\CommentaireRepository;
+
+###
+
+#[Route('/article/{slug}', name: 'article')]
+    public function article($slug, EntityManagerInterface $entityManager): Response
+    {
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        $categoriesArticle = $article->getCategories()->getValues();
+        // récupération des commentaires de l'article grâce à son id et sa relation ManyToOne
+        $commentaires = $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+        return $this->render('blog/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+            'categoriesArticle' => $categoriesArticle,
+            // on envoie les commentaires à la vue
+            'commentaires' => $commentaires,
+        ]);
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Affichage des commentaires dans la vue `commentaire.html.twig`
+
+Nous allons maintenant afficher les commentaires dans la vue :
+
+`templates/blog/inc/commentaire.html.twig` :
+
+```twig
+<div>
+    <hr>
+    <h3>Commentaires ({{ commentaires|length }})</h3>
+    {% for commentaire in commentaires %}
+        <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
+        <p>{{ commentaire.CommentaireText }}</p>
+    {% else %}
+        <p>Aucun commentaire</p>
+    {% endfor %}
+</div>
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
