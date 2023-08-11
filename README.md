@@ -140,6 +140,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 - Git
 - MySQL - MariaDB (depuis WampServer)
 - Node.js (pour Webpack Encore)
+- Yarn (pour Webpack Encore)
 
 ---
 
@@ -172,6 +173,22 @@ https://git-scm.com/download/win
 Lien de téléchargement de Node.js :
 
 https://nodejs.org/fr/download
+
+ou le mettre à jour avec la commande :
+
+```bash
+npm install -g npm@latest
+```
+
+Lien de téléchargement de Yarn :
+
+https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
+
+ou l'installer avec la commande :
+
+```bash
+npm install --global yarn
+```
 
 ---
 
