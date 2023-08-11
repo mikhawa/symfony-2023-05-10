@@ -14,7 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
 # Importation de l'entité Categorie
 use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
+# Importation de l'entité Article
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
+# Importation de l'entité Commentaire
+use App\Entity\Commentaire;
+use App\Repository\CommentaireRepository;
 
 class BlogController extends AbstractController
 {
@@ -58,10 +63,13 @@ class BlogController extends AbstractController
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
         // récupération des catégories grâce à la relation ManyToMany de article vers catégorie puis prises de valeurs
         $categoriesArticle = $article->getCategories()->getValues();
+        // récupération des commentaires de l'article
+        $commentaires = $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
         return $this->render('blog/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
             'categoriesArticle' => $categoriesArticle,
+            'commentaires' => $commentaires,
         ]);
     }
 
