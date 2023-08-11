@@ -5,6 +5,7 @@
         "@hotwired/stimulus": "^3.2.1",
         "@popperjs/core": "^2.11.8",
         "@symfony/stimulus-bridge": "^3.2.2",
+        "@symfony/stimulus-bundle": "file:vendor/symfony/stimulus-bundle/assets",
         "@symfony/webpack-encore": "^4.3.0",
         "bootstrap": "^5.3.0",
         "core-js": "^3.23.0",
