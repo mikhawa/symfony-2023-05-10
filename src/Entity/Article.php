@@ -130,6 +130,35 @@ class Article
     /**
      * @return Collection<int, Categorie>
      */
+    public function getCommentaires(): Collection   {
+        return $this->Commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->Commentaires->contains($commentaire)) {
+            $this->Commentaires->add($commentaire);
+            $commentaire->setCommentaireManyToOneArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->Commentaires->removeElement($commentaire)) {
+            if ($commentaire->getCommentaireManyToOneArticle() === $this) {
+                $commentaire->setCommentaireManyToOneArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Categorie>
+     */
     public function getCategories(): Collection
     {
         return $this->categories;

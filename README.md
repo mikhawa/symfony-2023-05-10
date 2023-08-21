@@ -74,6 +74,7 @@
       - [Chargement des commentaires dans BlogController](#chargement-des-commentaires-dans-blogcontroller)
       - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
       - [Erreur de mapping entre les entités Article et Commentaire](#erreur-de-mapping-entre-les-entités-article-et-commentaire)
+      - 
 ---
 
 
@@ -2798,7 +2799,7 @@ use App\Repository\CommentaireRepository;
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
         $categoriesArticle = $article->getCategories()->getValues();
-        // récupération des commentaires de l'article grâce à son id et sa relation ManyToOne
+        // récupération des commentaires de l'article grâce à son id
         $commentaires = $entityManager->getRepository(Commentaire::class)
         ->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
         return $this->render('blog/article.html.twig', [
@@ -2880,6 +2881,136 @@ Nous devons créer la relation inverse dans l'entité `Article`, puis l'appeler 
 ```
 
 [v0.4.6](https://github.com/mikhawa/symfony-2023-05-10/commit/f2b2a41ca53cd84ddad23f2787ad8ddea0a45ebc#diff-6c398b4c27155c10ce5fcca09e4354392a097b432db26069e5135f8f64398029)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Utilisation des relations inverses
+
+Nous pouvons maintenant utiliser la relation inverse plutôt que le findBy dans le controller :
+
+`src/Controller/BlogController.php` :
+
+```php
+###
+
+  // récupération des commentaires de l'article en cours
+  $commentaires = $article->getCommentaires()->getValues();
+  
+  /* code remplacé
+   * $commentaires = $entityManager->getRepository(Commentaire::class)
+   ->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+   * */
+###
+```
+
+Pour que cela fonctionne, nous devons rajouter le getter et les autres méthodes dans l'entité `Article` :
+
+`src/Entity/Article.php` :
+
+```php
+###
+  /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCommentaires(): Collection   {
+        return $this->Commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->Commentaires->contains($commentaire)) {
+            $this->Commentaires->add($commentaire);
+            $commentaire->setCommentaireManyToOneArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->Commentaires->removeElement($commentaire)) {
+            if ($commentaire->getCommentaireManyToOneArticle() === $this) {
+                $commentaire->setCommentaireManyToOneArticle(null);
+            }
+        }
+
+        return $this;
+    }
+###
+```
+
+Nous pouvons dorénavant supprimer toutes les lignes de code concernant les commentaires et les catégories dans le controller en utilisant les relations inverses dans les vues :
+
+`src/Controller/BlogController.php` :
+
+```php
+###
+
+    #[Route('/article/{slug}', name: 'article')]
+    public function article($slug, EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        
+        /* code devenu non nécessaire avec les relations ManyToOne et 
+        OneToMany avec inversedBy et mappedBy
+         *
+            $categoriesArticle = $article->getCategories()->getValues();
+         
+         * $commentaires = 
+         * $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+         * */
+        
+        return $this->render('blog/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+           // 'categoriesArticle' => $categoriesArticle,
+           // 'commentaires' => $commentaires,
+        ]);
+    }
+
+###
+```
+
+Ceci est possible grâce à la relation inverse que nous avons créée dans l'entité `Article`, mais non obligatoire. Nous aurions pu continuer à utiliser les méthodes `findBy` et `findOneBy` dans le controller.
+
+Ceci permet surtout de comprendre le fonctionnement de Doctrine et de Symfony.
+
+Ensuite, nous pouvons modifier les vues `article.html.twig` et `commentaire.html.twig` pour utiliser les relations inverses :
+
+`templates/blog/article.html.twig` :
+
+```twig
+
+###
+{% for categ in article.categories %}
+            <a href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}" class="badge bg-secondary text-decoration-none link-light">{{ categ.CategorieTitle }}</a>
+            {% else %}
+            <h5>Présent dans aucune catégorie</h5>
+        {% endfor %}
+###
+```
+
+`templates/blog/inc/commentaire.html.twig` :
+
+```twig
+<div>
+    <hr>
+    <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    {% for commentaire in article.Commentaires %}
+        <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
+        <p>{{ commentaire.CommentaireText }}</p>
+    {% else %}
+        <p>Aucun commentaire</p>
+    {% endfor %}
+</div>
+```
 
 ---
 

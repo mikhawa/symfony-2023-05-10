@@ -61,15 +61,18 @@ class BlogController extends AbstractController
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
-        // récupération des catégories grâce à la relation ManyToMany de article vers catégorie puis prises de valeurs
-        $categoriesArticle = $article->getCategories()->getValues();
-        // récupération des commentaires de l'article
-        $commentaires = $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+        /* code devenu non nécessaire avec les relations ManyToOne et OneToMany avec inversedBy et mappedBy
+         *
+            $categoriesArticle = $article->getCategories()->getValues();
+
+         * $commentaires =
+         * $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
+         * */
         return $this->render('blog/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
-            'categoriesArticle' => $categoriesArticle,
-            'commentaires' => $commentaires,
+           // 'categoriesArticle' => $categoriesArticle,
+           // 'commentaires' => $commentaires,
         ]);
     }
 

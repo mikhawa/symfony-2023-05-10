@@ -20,7 +20,7 @@
         <h2 class="h4 fw-bolder mb-3">{{ article.ArticleTitle }}</h2>
         <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
         <hr>
-        {% for categ in categoriesArticle %}
+        {% for categ in article.categories %}
             <a href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}" class="badge bg-secondary text-decoration-none link-light">{{ categ.CategorieTitle }}</a>
             {% else %}
             <h5>Présent dans aucune catégorie</h5>
