@@ -41,9 +41,13 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Utilisateur $utilisateur = null;
 
+    #[ORM\OneToMany(mappedBy: 'CommentaireManyToOneArticle', targetEntity: Commentaire::class)]
+    private Collection $Commentaires;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->Commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int

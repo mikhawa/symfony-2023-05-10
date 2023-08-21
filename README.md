@@ -73,6 +73,7 @@
     - [Création de la vue `commentaire.html.twig`](#création-de-la-vue-commentairehtmltwig)
       - [Chargement des commentaires dans BlogController](#chargement-des-commentaires-dans-blogcontroller)
       - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
+      - [Erreur de mapping entre les entités Article et Commentaire](#erreur-de-mapping-entre-les-entités-article-et-commentaire)
 ---
 
 
@@ -2847,5 +2848,39 @@ Retour au [Menu de navigation](#menu-de-navigation)
 #### Erreur de mapping entre les entités Article et Commentaire
 
 Nous obtenons une erreur de mapping de type `App\Entity\Commentaire
-The association App\Entity\Commentaire#CommentaireManyToOneArticle refers to the inverse side field App\Entity\Article#Commentaires which does not exist.`
+The association App\Entity\Commentaire#CommentaireManyToOneArticle refers to the inverse side field App\Entity\Article#Commentaires which does not exist.` sur la page de détail d'un article.
 
+Dans le mapping de l'entité `Commentaire`, nous avons bien une relation `ManyToOne` vers l'entité `Article` : 
+
+`src/Entity/Commentaire.php` :
+
+```php
+###
+   // Pour que la relation soit bidirectionnelle, il faut ajouter une propriété targetEntity et inversedBy
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'Commentaires')]
+    private ?Article $CommentaireManyToOneArticle = null;
+###
+```
+
+Nous devons créer la relation inverse dans l'entité `Article`, puis l'appeler dans son constructeur en tant que `ArrayCollection` :
+
+`src/Entity/Article.php` :
+
+```php
+###
+    #[ORM\OneToMany(mappedBy: 'CommentaireManyToOneArticle', targetEntity: Commentaire::class)]
+    private Collection $Commentaires;
+    
+###
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+        $this->Commentaires = new ArrayCollection();
+    }
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
