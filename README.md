@@ -2844,6 +2844,8 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-Erreur de type `App\Entity\Commentaire
+#### Erreur de mapping entre les entités Article et Commentaire
+
+Nous obtenons une erreur de mapping de type `App\Entity\Commentaire
 The association App\Entity\Commentaire#CommentaireManyToOneArticle refers to the inverse side field App\Entity\Article#Commentaires which does not exist.`
 
