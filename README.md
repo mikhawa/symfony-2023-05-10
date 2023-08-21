@@ -2879,6 +2879,8 @@ Nous devons créer la relation inverse dans l'entité `Article`, puis l'appeler 
     }
 ```
 
+[v0.4.6](https://github.com/mikhawa/symfony-2023-05-10/commit/f2b2a41ca53cd84ddad23f2787ad8ddea0a45ebc#diff-6c398b4c27155c10ce5fcca09e4354392a097b432db26069e5135f8f64398029)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
