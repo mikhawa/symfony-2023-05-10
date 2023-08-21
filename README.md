@@ -3012,6 +3012,8 @@ Ensuite, nous pouvons modifier les vues `article.html.twig` et `commentaire.html
 </div>
 ```
 
+[v0.4.7](https://github.com/mikhawa/symfony-2023-05-10/commit/404b883bdf961db615db7c5af3f053687cc1d418#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
