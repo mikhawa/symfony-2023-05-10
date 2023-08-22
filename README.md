@@ -3023,3 +3023,14 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ### Authentification et autorisation
 
+L'email et le mot de passe crypté sont stockés dans la table `utilisateur` de la base de données.
+
+#### Création du formulaire de connexion
+
+Nous allons créer un formulaire de connexion pour l'authentification des utilisateurs.
+
+Pour cela, nous allons utiliser la commande `make:auth` :
+
+```bash
+php bin/console make:auth
+```
