@@ -74,6 +74,7 @@
       - [Chargement des commentaires dans BlogController](#chargement-des-commentaires-dans-blogcontroller)
       - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
       - [Erreur de mapping entre les entités Article et Commentaire](#erreur-de-mapping-entre-les-entités-article-et-commentaire)
+      - [Utilisation des relations inverses](#utilisation-des-relations-inverses)
       - 
 ---
 
@@ -2958,8 +2959,8 @@ Nous pouvons dorénavant supprimer toutes les lignes de code concernant les comm
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
         
-        /* code devenu non nécessaire avec les relations ManyToOne et 
-        OneToMany avec inversedBy et mappedBy
+        /* code devenu non nécessaire avec les relations ManyToMany,
+         ManyToOne et OneToMany avec inversedBy et mappedBy
          *
             $categoriesArticle = $article->getCategories()->getValues();
          
@@ -3019,3 +3020,6 @@ Ensuite, nous pouvons modifier les vues `article.html.twig` et `commentaire.html
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Authentification et autorisation
+
