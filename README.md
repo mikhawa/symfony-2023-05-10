@@ -3290,6 +3290,8 @@ remember_me:
 
 Ainsi le cookie `REMEMBERME` ne sera pas créé par défaut.
 
+[v0.5.1](https://github.com/mikhawa/symfony-2023-05-10/commit/e3a5154e1cafcda75f2aa72de8a3524c948bd335#diff-2f3e529a92a275218fe2869988c9edc3fe6c614ed0d2212160a2dfbebc1ade5a)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
