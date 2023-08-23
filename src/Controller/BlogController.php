@@ -30,7 +30,7 @@ class BlogController extends AbstractController
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération des 9 derniers articles
         $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
-        return $this->render('blog/index.html.twig', [
+        return $this->render('public/index.html.twig', [
             // on envoie les catégories à la vue
             'categories' => $categories,
             // on envoie les articles à la vue
@@ -46,7 +46,7 @@ class BlogController extends AbstractController
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
         // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articles puis prises de valeurs
         $articles = $categorie->getCategorieM2mArticle()->getValues();
-        return $this->render('blog/categorie.html.twig', [
+        return $this->render('public/categorie.html.twig', [
             // on envoie la catégorie à la vue
             'categories' => $categories,
             'categorie' => $categorie,
@@ -68,7 +68,7 @@ class BlogController extends AbstractController
          * $commentaires =
          * $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
          * */
-        return $this->render('blog/article.html.twig', [
+        return $this->render('public/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
            // 'categoriesArticle' => $categoriesArticle,

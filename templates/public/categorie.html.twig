@@ -1,9 +1,9 @@
-{% extends 'template.html.twig' %}
+{% extends 'public/public.template.html.twig' %}
 
 {% block title %}{{ parent() }} Catégorie | {{ categorie.CategorieTitle }}{% endblock %}
 
 {% block menuLinks %}
-    {% include 'blog/inc/menu.html.twig' %}
+    {% include 'public/inc/menu.html.twig' %}
 {% endblock %}
 
 {%block htitle %}Catégorie : {{ categorie.CategorieTitle }}{% endblock %}

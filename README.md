@@ -3215,7 +3215,9 @@ class SecurityController extends AbstractController
   
 ```
 
-Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics.
+Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics 
+
+**Attention aux chemins à cette étape !**
 
 Nous séparerons le menu public pour ne pas devoir le modifier dans chaque template.
 
