@@ -82,6 +82,8 @@
         - [Menu de navigation et formulaire de connexion](#menu-de-navigation-et-formulaire-de-connexion)
         - [Réorganisation des templates](#réorganisation-des-templates)
         - [Possibilité de déconnexion](#possibilité-de-déconnexion)
+        - [Remember me](#remember-me)
+    -
 ---
 
 
@@ -3223,6 +3225,12 @@ class SecurityController extends AbstractController
   
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 ##### Réorganisation des templates
 
 Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics 
@@ -3239,16 +3247,51 @@ Le fichier `templates/public/inc/menu.html.twig` :
 
 ```twig
 
+###
 
-
-
+  {% if is_granted("ROLE_USER") %}
+        <a class="nav-link" aria-current="page" 
+        href="{{ path('app_logout') }}">Déconnexion</a>
+    {% else %}
+        <a class="nav-link" aria-current="page" 
+        href="{{ path('app_login') }}">Connexion</a>
+    {% endif %}
+###
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 ##### Remember me
+
 Nous allons modifier le formulaire de connexion pour mettre le design de notre site et ajouter la checkbox `remember me`.
 
 Le fichier `templates/security/login.html.twig` :
 
 ```twig
+  <label>
+        <input type="checkbox" name="_remember_me" checked>
+        Rester connecté
+    </label>
+```
 
+Nous allons désactiver le `remember me` par défaut dans `config/packages/security.yaml` :
 
+```yaml
+remember_me:
+    secret: '%kernel.secret%'
+    lifetime: 604800
+    path: /
+    # always_remember_me: true
+```
 
+Ainsi le cookie `REMEMBERME` ne sera pas créé par défaut.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
