@@ -3034,3 +3034,12 @@ Pour cela, nous allons utiliser la commande `make:auth` :
 ```bash
 php bin/console make:auth
 ```
+
+Nous allons choisir l'option `1` pour créer un formulaire de connexion.
+
+```bash
+ Choose a number or alias to load:
+  [0] - app
+  [1] - security
+ > 1
+```
