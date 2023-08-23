@@ -77,6 +77,11 @@
       - [Utilisation des relations inverses](#utilisation-des-relations-inverses)
     - [Authentification et autorisation](#authentification-et-autorisation)
       - [Création de la connexion utilisateur](#création-de-la-connexion-utilisateur)
+      - [Modification du formulaire de connexion](#modification-du-formulaire-de-connexion)
+        - [Route de connexion](#route-de-connexion)
+        - [Menu de navigation et formulaire de connexion](#menu-de-navigation-et-formulaire-de-connexion)
+        - [Réorganisation des templates](#réorganisation-des-templates)
+        - [Possibilité de déconnexion](#possibilité-de-déconnexion)
 ---
 
 
@@ -3158,6 +3163,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 #### Modification du formulaire de connexion
 
+##### Route de connexion
 Nous allons modifier la route vers le formulaire de connexion en `/connect` au lieu de `/login`, et également activer la redirection si on retourne sur cette page en étant déjà connecté.
 
 Le fichier `src/Controller/SecurityController.php` :
@@ -3177,6 +3183,8 @@ Le fichier `src/Controller/SecurityController.php` :
         ###
 ###
 ```
+
+##### Menu de navigation et formulaire de connexion
 
 Nous allons ensuite passer le menu depuis notre `src/Controller/SecurityController.php` :
 
@@ -3215,13 +3223,27 @@ class SecurityController extends AbstractController
   
 ```
 
+##### Réorganisation des templates
+
 Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics 
 
 **Attention aux chemins à cette étape !**
 
-Nous séparerons le menu public pour ne pas devoir le modifier dans chaque template.
+##### Possibilité de déconnexion
+
+Nous séparerons également le menu public `templates/public/inc/menu.html.twig` pour ne pas devoir le modifier dans chaque template.
+
+On va également ajouter la possibilité de se déconnecter, si nous sommes connectés bien sûr.
+
+Le fichier `templates/public/inc/menu.html.twig` :
+
+```twig
 
 
+
+
+```
+##### Remember me
 Nous allons modifier le formulaire de connexion pour mettre le design de notre site et ajouter la checkbox `remember me`.
 
 Le fichier `templates/security/login.html.twig` :
