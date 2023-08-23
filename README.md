@@ -3148,9 +3148,83 @@ https://127.0.0.1:8000/login
 
 Nous devrions être connectés et redirigés vers la page d'accueil.
 
+[v0.5.0](https://github.com/mikhawa/symfony-2023-05-10/pull/3/commits/c8586fd44b47299abd64274ac0e01705602d93f5#diff-19446c4b69407952b20ae26dbd032cdad8dcc487db081a5cb17261831e80a4cc)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Modification du formulaire de connexion
+
+Nous allons modifier la route vers le formulaire de connexion en `/connect` au lieu de `/login`, et également activer la redirection si on retourne sur cette page en étant déjà connecté.
+
+Le fichier `src/Controller/SecurityController.php` :
+
+```php
+
+###
+  #[Route(path: '/connect', name: 'app_login')]
+    public function login(AuthenticationUtils 
+    $authenticationUtils): Response
+    {   
+    # redirection si on retourne sur cette page en
+    # étant déjà connecté
+        if ($this->getUser()) {
+            return $this->redirectToRoute('homepage');
+        }
+        ###
+###
+```
+
+Nous allons ensuite passer le menu depuis notre `src/Controller/SecurityController.php` :
+
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+###
+# Appel de l'ORM Doctrine
+use Doctrine\ORM\EntityManagerInterface;
+# Importation de l'entité Categorie
+use App\Entity\Categorie;
+
+class SecurityController extends AbstractController
+{
+    #[Route(path: '/connect', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils,EntityManagerInterface $entityManager): Response
+    {
+        ###
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+
+        ###
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            // on envoie les catégories à la vue
+            'categories' => $categories,
+            ]);
+    }
+
+    ###
+}
+  
+```
+
+Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics.
+
+Nous séparerons le menu public pour ne pas devoir le modifier dans chaque template.
+
+
+Nous allons modifier le formulaire de connexion pour mettre le design de notre site et ajouter la checkbox `remember me`.
+
+Le fichier `templates/security/login.html.twig` :
+
+```twig
+
+
 

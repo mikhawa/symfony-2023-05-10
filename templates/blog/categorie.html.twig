@@ -3,11 +3,7 @@
 {% block title %}{{ parent() }} Catégorie | {{ categorie.CategorieTitle }}{% endblock %}
 
 {% block menuLinks %}
-<li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('homepage') }}">Home</a></li>
-{% for categ in categories %}
-    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path("categorie", { 'slug' :  categ.CategorySlug }) }}">{{ categ.CategorieTitle }}</a></li>
-{% endfor %}
-    <li class="nav-item"><a class="nav-link" aria-current="page" href="./connect">Connexion</a></li>
+    {% include 'blog/inc/menu.html.twig' %}
 {% endblock %}
 
 {%block htitle %}Catégorie : {{ categorie.CategorieTitle }}{% endblock %}

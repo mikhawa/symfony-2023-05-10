@@ -1,8 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'template.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}{{ parent() }} Connexion{% endblock %}
+{% block menuLinks %}
+    {% include 'blog/inc/menu.html.twig' %}
+{% endblock %}
 
-{% block body %}
+{%block htitle %}Connexion{% endblock %}
+{%block hdesc %}{% endblock %}
+{% block boutonshauts %}{% endblock %}
+
+{% block articlePerOne %}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -14,10 +21,10 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
+    <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
+    <label for="inputEmail">Votre mail</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">Votre mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
@@ -25,7 +32,7 @@
     >
 
     <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+        Connexion
     </button>
 </form>
 {% endblock %}
