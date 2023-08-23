@@ -75,7 +75,8 @@
       - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
       - [Erreur de mapping entre les entités Article et Commentaire](#erreur-de-mapping-entre-les-entités-article-et-commentaire)
       - [Utilisation des relations inverses](#utilisation-des-relations-inverses)
-      - 
+    - [Authentification et autorisation](#authentification-et-autorisation)
+      - [Création de la connexion utilisateur](#création-de-la-connexion-utilisateur)
 ---
 
 
@@ -3022,4 +3023,134 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 ### Authentification et autorisation
+
+L'email et le mot de passe crypté sont stockés dans la table `utilisateur` de la base de données.
+
+#### Création de la connexion utilisateur
+
+Nous allons créer tout le système de connexion avec un formulaire de connexion, les vérifications de sécurités pour l'authentification des utilisateurs en une seule commande !
+
+Pour cela, nous allons utiliser la commande `make:auth` :
+
+```bash
+php bin/console make:auth
+```
+
+Nous allons créer un formulaire de connexion pour l'authentification des utilisateurs.
+
+```bash
+ Choose a number or alias to load:
+  [0] - app
+  [1] - security
+ > 1
+ 
+ The class name of the authenticator to create 
+ (e.g. AppCustomAuthenticator):
+    > UtilisateurAuthenticator
+ 
+ Choose a name for the controller class (e.g. SecurityController) 
+ [SecurityController]: SecurityController
+ 
+ Do you want to generate a '/logout' URL? (yes/no) [yes]: yes
+ 
+ Do you want to support remember me? (yes/no) [yes]: yes
+ 
+ How should remember me be activated? 
+ [Activate when the user checks a box]: 0
+```
+
+Nous pouvons désormais voir le nouveau fichier `src/Security/UtilisateurAuthenticator.php`.
+
+Nous devons modifier le fichier `src/Security/UtilisateurAuthenticator.php` pour la redirection en cas de succès de l'authentification, pour le moment sur notre accueil :
+
+```php
+###
+public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            return new RedirectResponse($targetPath);
+        }
+
+        // For example:
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+###
+
+```
+
+Le fichier `src/Controller/SecurityController.php` devrait déjà être fonctionnel.
+
+Le fichier `config/packages/security.yaml` devrait déjà être fonctionnel, mais vous pouvez vérifier que les lignes suivantes sont présentes :
+
+```yaml
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Utilisateur
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\UtilisateurAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#the-firewall
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon
+```
+
+Les pages de connexion et de déconnexion sont déjà créées.
+
+Nous pouvons tester notre formulaire de connexion en allant sur la route `/login` avec par exemple l'email `dupont9@dupont.com` et le mot de passe `1234569`.
+
+https://127.0.0.1:8000/login
+
+Nous devrions être connectés et redirigés vers la page d'accueil.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
