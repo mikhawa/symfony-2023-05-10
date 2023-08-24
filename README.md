@@ -83,7 +83,8 @@
       - [Réorganisation des templates](#réorganisation-des-templates)
       - [Possibilité de déconnexion](#possibilité-de-déconnexion)
       - [Remember me](#remember-me)
-      -
+    - [Mise en place de la création de commentaires](#mise-en-place-de-la-création-de-commentaires)
+      - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
 ---
 
 
@@ -3243,6 +3244,8 @@ Nous séparerons également le menu public `templates/public/inc/menu.html.twig`
 
 On va également ajouter la possibilité de se déconnecter, si nous sommes connectés bien sûr.
 
+Nous allons pour cela vérifier si l'utilisateur est connecté avec la fonction `is_granted()`, avec le rôle par défaut de tous les utilisateurs : `ROLE_USER`.
+
 Le fichier `templates/public/inc/menu.html.twig` :
 
 ```twig
@@ -3297,3 +3300,33 @@ Ainsi le cookie `REMEMBERME` ne sera pas créé par défaut.
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Mise en place de la création de commentaires
+
+Chaque utilisateur connecté pourra créer un commentaire sur un article.
+
+Pour cela le rôle `ROLE_USER` sera suffisant. Il est défini comme tel par défaut
+
+#### Création d'un CRUD pour les commentaires
+
+Nous allons créer un CRUD pour les commentaires, avec la commande `make:crud` :
+
+```bash
+php bin/console make:crud Commentaire
+```
+
+Nous allons accepter la création de tests pour ce CRUD. Nous verrons les tests plus tard. Vous pouvez trouver le fichier de test dans `tests/Controller/CommentaireControllerTest.php`.
+
+Un contrôleur `CommentaireController.php` est créé dans `src/Controller`.
+
+Nous allons vérifier ce CRUD en allant sur la route `/commentaire/` :
+
+https://127.0.0.1:8000/commentaire/
+
+Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder.
+
+
+Le fichier `src/Controller/CommentaireController.php` :
+
+```php
+<?php
