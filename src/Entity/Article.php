@@ -50,6 +50,12 @@ class Article
         $this->Commentaires = new ArrayCollection();
     }
 
+    // si demandé en tant que string, on renvoie le titre de l'article
+    public function __toString()
+    {
+        return $this->ArticleTitle;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

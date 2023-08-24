@@ -35,6 +35,12 @@ class Commentaire
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     private ?Utilisateur $utilisateur = null;
 
+    // Pour que la date actuelle soit insérée automatiquement dans le formulaire
+    public function __construct()
+    {
+        $this->CommentaireDateCreate = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

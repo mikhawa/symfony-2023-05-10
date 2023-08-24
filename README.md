@@ -85,6 +85,8 @@
       - [Remember me](#remember-me)
     - [Mise en place de la création de commentaires](#mise-en-place-de-la-création-de-commentaires)
       - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
+        - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
+        - 
 ---
 
 
@@ -3322,6 +3324,80 @@ Un contrôleur `CommentaireController.php` est créé dans `src/Controller`.
 Nous allons vérifier ce CRUD en allant sur la route `/commentaire/` :
 
 https://127.0.0.1:8000/commentaire/
+
+##### Correction des erreurs de type toString sur les commentaires
+
+Si nous essayons de modifier un commentaire, nous avons une erreur de type : `Object of class App\Entity\Article could not be converted to string`.
+
+Nous allons corriger cela en ajoutant une méthode `__toString()` dans l'entité `Article` :
+
+```php
+<?php
+
+namespace App\Entity;
+
+###
+
+class Article
+{
+    ###
+
+    // si demandé en tant que string, on renvoie le titre de l'article
+    public function __toString()
+    {
+        return $this->ArticleTitle;
+    }
+}
+```
+
+Nous devons répéter cette opération pour chaque entité qui est liée à une autre entité dans le CRUD.
+
+Pour la modification d'un commentaire, nous avons une erreur pour l'utilisateur, car nous n'avons pas de méthode `__toString()` dans l'entité `Utilisateur`.
+
+Nous allons donc en ajouter une :
+
+```php
+<?php
+
+namespace App\Entity;
+
+###
+// si demandé en tant que string, on renvoie le nom de l'utilisateur
+    public function __toString()
+    {
+        return $this->name;
+    }
+###
+```
+
+Le CRUD est maintenant fonctionnel.
+
+##### Pour avoir une date par défaut lors de la création d'un commentaire
+
+Nous allons modifier le fichier `src/Entity/Commentaire.php` et lui ajouter un constructeur :
+
+```php
+<?php
+
+###
+// Pour que la date actuelle soit insérée automatiquement
+// dans le formulaire
+    public function __construct()
+    {
+        $this->CommentaireDateCreate = new \DateTime();
+    }
+###
+
+```
+
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder.
 
