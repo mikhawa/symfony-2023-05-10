@@ -75,15 +75,15 @@
       - [Affichage des commentaires dans la vue `commentaire.html.twig`](#affichage-des-commentaires-dans-la-vue-commentairehtmltwig)
       - [Erreur de mapping entre les entités Article et Commentaire](#erreur-de-mapping-entre-les-entités-article-et-commentaire)
       - [Utilisation des relations inverses](#utilisation-des-relations-inverses)
-    - [Authentification et autorisation](#authentification-et-autorisation)
-      - [Création de la connexion utilisateur](#création-de-la-connexion-utilisateur)
-      - [Modification du formulaire de connexion](#modification-du-formulaire-de-connexion)
-        - [Route de connexion](#route-de-connexion)
-        - [Menu de navigation et formulaire de connexion](#menu-de-navigation-et-formulaire-de-connexion)
-        - [Réorganisation des templates](#réorganisation-des-templates)
-        - [Possibilité de déconnexion](#possibilité-de-déconnexion)
-        - [Remember me](#remember-me)
-    -
+  - [Authentification et autorisation](#authentification-et-autorisation)
+    - [Création de la connexion utilisateur](#création-de-la-connexion-utilisateur)
+    - [Modification du formulaire de connexion](#modification-du-formulaire-de-connexion)
+      - [Route de connexion](#route-de-connexion)
+      - [Menu de navigation et formulaire de connexion](#menu-de-navigation-et-formulaire-de-connexion)
+      - [Réorganisation des templates](#réorganisation-des-templates)
+      - [Possibilité de déconnexion](#possibilité-de-déconnexion)
+      - [Remember me](#remember-me)
+      -
 ---
 
 
@@ -3029,11 +3029,11 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-### Authentification et autorisation
+## Authentification et autorisation
 
 L'email et le mot de passe crypté sont stockés dans la table `utilisateur` de la base de données.
 
-#### Création de la connexion utilisateur
+### Création de la connexion utilisateur
 
 Nous allons créer tout le système de connexion avec un formulaire de connexion, les vérifications de sécurités pour l'authentification des utilisateurs en une seule commande !
 
@@ -3163,9 +3163,9 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Modification du formulaire de connexion
+### Modification du formulaire de connexion
 
-##### Route de connexion
+#### Route de connexion
 Nous allons modifier la route vers le formulaire de connexion en `/connect` au lieu de `/login`, et également activer la redirection si on retourne sur cette page en étant déjà connecté.
 
 Le fichier `src/Controller/SecurityController.php` :
@@ -3186,7 +3186,7 @@ Le fichier `src/Controller/SecurityController.php` :
 ###
 ```
 
-##### Menu de navigation et formulaire de connexion
+#### Menu de navigation et formulaire de connexion
 
 Nous allons ensuite passer le menu depuis notre `src/Controller/SecurityController.php` :
 
@@ -3231,13 +3231,13 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-##### Réorganisation des templates
+#### Réorganisation des templates
 
 Nous allons mettre de l'ordre dans les templates, en créant un dossier `public` dans `templates` et en y déplaçant les fichiers destinés à être publics 
 
 **Attention aux chemins à cette étape !**
 
-##### Possibilité de déconnexion
+#### Possibilité de déconnexion
 
 Nous séparerons également le menu public `templates/public/inc/menu.html.twig` pour ne pas devoir le modifier dans chaque template.
 
@@ -3265,7 +3265,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-##### Remember me
+#### Remember me
 
 Nous allons modifier le formulaire de connexion pour mettre le design de notre site et ajouter la checkbox `remember me`.
 
