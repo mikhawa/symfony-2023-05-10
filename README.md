@@ -86,7 +86,7 @@
     - [Mise en place de la création de commentaires](#mise-en-place-de-la-création-de-commentaires)
       - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
-        - 
+        - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
 ---
 
 
@@ -3390,7 +3390,7 @@ Nous allons modifier le fichier `src/Entity/Commentaire.php` et lui ajouter un c
 
 ```
 
-
+[v0.5.2](https://github.com/mikhawa/symfony-2023-05-10/commit/696a44afccaf36b5368254e24510cfc8a71548bb#diff-bfda95459173a4f13453f500a164b7f3afdc09bed8d039383e8d94fabcce2649)
 
 
 ---
