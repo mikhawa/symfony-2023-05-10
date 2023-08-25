@@ -28,6 +28,11 @@ security:
                 path: /
                 # always_remember_me: true
 
+            # configure the maximum login attempts
+            login_throttling:
+                max_attempts: 5          # per minute ...
+                interval: '15 minutes' # ... or in a custom period
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

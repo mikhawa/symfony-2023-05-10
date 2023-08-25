@@ -83,6 +83,7 @@
       - [Réorganisation des templates](#réorganisation-des-templates)
       - [Possibilité de déconnexion](#possibilité-de-déconnexion)
       - [Remember me](#remember-me)
+      - [Protection du formulaire de connexion](#protection-du-formulaire-de-connexion)
     - [Mise en place de la création de commentaires](#mise-en-place-de-la-création-de-commentaires)
       - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
@@ -3303,6 +3304,42 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+#### Protection du formulaire de connexion
+
+Nous allons installer rate-limiter pour protéger le formulaire de connexion contre les attaques par force brute.
+
+```bash
+composer require symfony/rate-limiter
+```
+
+Nous allons protéger le formulaire de connexion contre les attaques par force brute, en ne permettant que 5 tentatives par 15 minutes, dans `config/packages/security.yaml` :
+
+```yaml
+
+# config/packages/security.yaml
+security:
+
+  firewalls:
+    # ...
+
+    main:
+      # ...
+
+      # configure the maximum login attempts
+      login_throttling:
+        max_attempts: 5          # per minute ...
+        interval: '15 minutes' # ... or in a custom period
+        
+```
+
+L'adresse ip de l'utilisateur sera bloquée pendant 15 minutes si il dépasse les 5 tentatives de connexion, cette information sera stockée dans le cache du serveur par défaut.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 ### Mise en place de la création de commentaires
 
 Chaque utilisateur connecté pourra créer un commentaire sur un article.
@@ -3399,7 +3436,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder.
+Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder. Nous changerons les permissions plus tard pour ne permettre qu'aux administrateurs de modifier les commentaires.
 
 
 Le fichier `src/Controller/CommentaireController.php` :
