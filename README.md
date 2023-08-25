@@ -88,6 +88,7 @@
       - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
         - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
+        - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
 ---
 
 
@@ -3436,10 +3437,46 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+#### Protection du CRUD des commentaires
+
 Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder. Nous changerons les permissions plus tard pour ne permettre qu'aux administrateurs de modifier les commentaires.
 
 
-Le fichier `src/Controller/CommentaireController.php` :
+Ajoutons `admin` dans l'URL du contrôleur de CRUD  `src/Controller/CommentaireController.php` :
 
 ```php
 <?php
+###
+// #[Route('/commentaire')]
+#[Route('/admin/commentaire')]
+###
+```
+
+Nous avons plusieurs solutions pour protéger les routes de ce CRUD, nous allons dans notre cas choisir la solution du fichier `security.yaml`.
+
+Nous allons donc ajouter les lignes suivantes dans `config/packages/security.yaml` :
+
+```yaml
+# config/packages/security.yaml
+security:
+    # ...
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_USER }
+```
+
+Nous ne pourrons désormais y accéder qu'en étant connecté (pour le moment en tant que simple utilisateur (`ROLE_ADMIN`), par le suite par une autre permission, par exemple `ROLE_ADMIN`).
+
+A l'adresse :
+
+https://127.0.0.1:8000/admin/commentaire/
+
+Nous avons désormais une erreur `Access Denied` et une redirection sur https://127.0.0.1:8000/connect si nous ne sommes pas connecté.
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
