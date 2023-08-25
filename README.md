@@ -3474,6 +3474,7 @@ https://127.0.0.1:8000/admin/commentaire/
 Nous avons désormais une erreur `Access Denied` et une redirection sur https://127.0.0.1:8000/connect si nous ne sommes pas connecté.
 
 
+[v0.5.3](https://github.com/mikhawa/symfony-2023-05-10/commit/00723a787a3665b2063706d45f5f525fc062edfa#diff-19446c4b69407952b20ae26dbd032cdad8dcc487db081a5cb17261831e80a4cc)
 
 ---
 
