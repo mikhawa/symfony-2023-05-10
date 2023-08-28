@@ -3496,7 +3496,9 @@ php bin/console make:form
 
 Nous allons nommer ce formulaire `CommentaireArticleType` et le lier à l'entité `Commentaire`.
 
-Nous allons ensuite retirer les champs que nous voulons par défaut dans ce formulaire.
+Nous allons ensuite retirer les champs que nous voulons par défaut dans ce formulaire et ajouter des types de champs pour les champs `CommentaireTitle` et `CommentaireText`.
+
+Nous allons donc modifier le fichier `src/Form/CommentaireArticleType.php` :
 
 ```php
 <?php
@@ -3506,15 +3508,31 @@ namespace App\Form;
 use App\Entity\Commentaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+# types de champs
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class CommentaireArticleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('CommentaireTitle')
-            ->add('CommentaireText')
+            ->add('CommentaireTitle', textType::class, [
+                'label' => 'Titre : ',
+                'attr' => [
+                    'maxlength' => 100,
+                ]
+        ])
+            ->add('CommentaireText', textareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 5,
+                    'placeholder' => 'Votre commentaire',
+                    'required' => 'required',
+                ],
+            ])
         ;
     }
 
@@ -3584,4 +3602,21 @@ use App\Form\CommentaireArticleType;
             'form' => $form,
         ]);
     }
+```
+
+Nous allons ensuite ajouter le formulaire dans le template `templates/public/inc/commentaire.html.twig`, que l'on verra que si nous sommes connecté :
+
+```twig
+<div>
+    <hr>
+    <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    {% if app.user %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Insérer') }}</button>
+        {{ form_end(form) }}
+    {% else %}
+        <p>Vous devez être connecté pour poster un commentaire</p>
+    {% endif %}
+###
 ```
