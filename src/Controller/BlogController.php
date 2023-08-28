@@ -20,6 +20,8 @@ use App\Repository\ArticleRepository;
 # Importation de l'entité Commentaire
 use App\Entity\Commentaire;
 use App\Repository\CommentaireRepository;
+# Importation du formulaire CommentaireArticleType
+use App\Form\CommentaireArticleType;
 
 class BlogController extends AbstractController
 {
@@ -54,25 +56,46 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/article/{slug}', name: 'article')]
-    public function article($slug, EntityManagerInterface $entityManager): Response
+    #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
-        /* code devenu non nécessaire avec les relations ManyToOne et OneToMany avec inversedBy et mappedBy
-         *
-            $categoriesArticle = $article->getCategories()->getValues();
 
-         * $commentaires =
-         * $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
-         * */
+        // si l'utilisateur est connecté
+        if ($this->getUser()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            $commentaire = new Commentaire();
+            // on lie le commentaire à l'article
+            $commentaire->setCommentaireManyToOneArticle($article);
+            // on ne publie pas le commentaire par défaut
+            $commentaire->setCommentaireIsPublished(false);
+            // on lie le commentaire à l'utilisateur
+            $commentaire->setUtilisateur($user);
+            // on crée le formulaire
+            $form = $this->createForm(CommentaireArticleType::class, $commentaire);
+            $form->handleRequest($request);
+
+            // si le formulaire est soumis et valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($commentaire);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('article', ['slug'=>$slug], Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            $form = null;
+        }
+
+
         return $this->render('public/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
-           // 'categoriesArticle' => $categoriesArticle,
-           // 'commentaires' => $commentaires,
+            'form' => $form,
         ]);
     }
 

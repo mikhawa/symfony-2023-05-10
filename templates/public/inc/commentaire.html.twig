@@ -1,6 +1,15 @@
 <div>
     <hr>
     <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    {% if app.user %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Insérer') }}</button>
+        {{ form_end(form) }}
+    {% else %}
+        <p>Vous devez être connecté pour poster un commentaire</p>
+    {% endif %}
+
     {% for commentaire in article.Commentaires %}
         <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
         <p>{{ commentaire.CommentaireText }}</p>

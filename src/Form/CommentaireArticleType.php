@@ -14,8 +14,6 @@ class CommentaireArticleType extends AbstractType
         $builder
             ->add('CommentaireTitle')
             ->add('CommentaireText')
-            ->add('CommentaireManyToOneArticle')
-            ->add('utilisateur')
         ;
     }
 

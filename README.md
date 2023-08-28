@@ -3493,3 +3493,95 @@ Nous allons créer un formulaire avec la commande `make:form` :
 ```bash
 php bin/console make:form
 ```
+
+Nous allons nommer ce formulaire `CommentaireArticleType` et le lier à l'entité `Commentaire`.
+
+Nous allons ensuite retirer les champs que nous voulons par défaut dans ce formulaire.
+
+```php
+<?php
+
+namespace App\Form;
+
+use App\Entity\Commentaire;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class CommentaireArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('CommentaireTitle')
+            ->add('CommentaireText')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Commentaire::class,
+        ]);
+    }
+}
+```
+
+Nous allons ensuite ajouter ce formulaire dans le contrôleur `BlogController.php` dans la méthode `article()` :
+
+```php
+<?php
+
+namespace App\Controller;
+
+###
+# Importation du formulaire CommentaireArticleType
+use App\Form\CommentaireArticleType;
+###
+
+    #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, 
+    EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+
+        // si l'utilisateur est connecté
+        if ($this->getUser()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            $commentaire = new Commentaire();
+            // on lie le commentaire à l'article
+            $commentaire->setCommentaireManyToOneArticle($article);
+            // on ne publie pas le commentaire par défaut
+            $commentaire->setCommentaireIsPublished(false);
+            // on lie le commentaire à l'utilisateur
+            $commentaire->setUtilisateur($user);
+            // on crée le formulaire
+            $form = $this->createForm(CommentaireArticleType::class, 
+            $commentaire);
+            $form->handleRequest($request);
+
+            // si le formulaire est soumis et valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($commentaire);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('article', ['slug'=>$slug],
+                 Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            $form = null;
+        }
+
+
+        return $this->render('public/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+```
