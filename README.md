@@ -89,6 +89,7 @@
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
         - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
         - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
+      - 
 ---
 
 
@@ -3481,3 +3482,14 @@ Nous avons désormais une erreur `Access Denied` et une redirection sur https://
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+
+#### Création d'un formulaire pour les commentaires sous les articles
+
+Nous allons créer un formulaire pour les commentaires sous les articles.
+
+Nous allons créer un formulaire avec la commande `make:form` :
+
+```bash
+php bin/console make:form
+```
