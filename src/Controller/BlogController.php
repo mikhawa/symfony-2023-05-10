@@ -26,12 +26,14 @@ use App\Form\CommentaireArticleType;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération des 9 derniers articles
         $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
+        // on retire le slug de l'article pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
         return $this->render('public/index.html.twig', [
             // on envoie les catégories à la vue
             'categories' => $categories,
@@ -40,7 +42,7 @@ class BlogController extends AbstractController
         ]);
     }
     #[Route('/categorie/{slug}', name: 'categorie')]
-    public function categorie($slug, EntityManagerInterface $entityManager): Response
+    public function categorie(Request $request,$slug, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
@@ -48,6 +50,8 @@ class BlogController extends AbstractController
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
         // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articles puis prises de valeurs
         $articles = $categorie->getCategorieM2mArticle()->getValues();
+        // on retire le slug de l'article pour le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
         return $this->render('public/categorie.html.twig', [
             // on envoie la catégorie à la vue
             'categories' => $categories,
@@ -89,6 +93,8 @@ class BlogController extends AbstractController
             }
         } else {
             $form = null;
+            // on garde le slug de l'article pour le retour à l'article après connexion
+            $request->getSession()->set('slug', $slug);
         }
 
 

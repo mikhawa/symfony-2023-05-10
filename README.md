@@ -91,6 +91,7 @@
         - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
       - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
         - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
+        - [Redirection vers la page de l'article après connexion](#redirection-vers-la-page-de-larticle-après-connexion)
 ---
 
 
@@ -3639,6 +3640,87 @@ Nous pourrions utiliser le `form` qui est `null` dans ce cas, mais nous allons v
 ```
 
 [v0.5.4](https://github.com/mikhawa/symfony-2023-05-10/commit/ae2b653e719b64b2fddce65df59213575a23c16a#diff-a346cbc5f2d083857493e8f4c52eb1c0ababf3ea60a4b20f407ed10432666faf)
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Redirection vers la page de l'article après connexion
+
+Nous allons ajouter une redirection vers la page de l'article après connexion si on clique sur connexion dans le formulaire de commentaire en utilisant une session.
+
+Nous allons modifier le contrôleur `BlogController.php` pour sauvegarder l'article dans la session :
+
+```php
+<?php
+
+namespace App\Controller;
+###
+#[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, 
+    EntityManagerInterface $entityManager): Response
+    {
+        ###
+        } else {
+            $form = null;
+            // on garde le slug de l'article pour le retour
+            // à l'article après connexion
+            $request->getSession()->set('slug', $slug);
+        }
+        ###
+###
+// on peut mettre slug à false dans les autres méthodes
+#[Route('/', name: 'homepage')]
+    public function index(Request $request, EntityManagerInterface
+     $entityManager): Response
+    {
+        ###
+        // on retire le slug de l'article
+        // pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
+        ###
+###
+
+#[Route('/categorie/{slug}', name: 'categorie')]
+    public function categorie(Request $request,$slug,
+     EntityManagerInterface $entityManager): Response
+    {
+        ###
+        // on retire le slug de l'article
+        // pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
+###
+```
+
+Nous allons ensuite modifier le contrôleur `UtilisateurAuthenticator.php` pour récupérer le slug de l'article dans la session et rediriger vers la page de l'article après connexion :
+
+```php
+<?php
+
+namespace App\Security;
+
+###
+ public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            return new RedirectResponse($targetPath);
+        }
+
+        // Récupération du slug de l'article dans la session
+        $slug = $request->getSession()->get('slug');
+        // si le slug existe
+        if($slug){
+            // redirection vers la page de l'article
+            return new RedirectResponse($this->urlGenerator->generate('article', ['slug' => $slug]));
+        }
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+###
+```
 
 
 ---
