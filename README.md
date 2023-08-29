@@ -89,7 +89,8 @@
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
         - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
         - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
-        - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
+      - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
+        - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
 ---
 
 
@@ -3484,7 +3485,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
-#### Création d'un formulaire pour les commentaires sous les articles
+### Création d'un formulaire pour les commentaires sous les articles
 
 Nous allons créer un formulaire pour les commentaires sous les articles.
 
@@ -3605,6 +3606,14 @@ use App\Form\CommentaireArticleType;
         ]);
     }
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Ajout du formulaire dans le template `commentaire.html.twig`
 
 Nous allons ensuite ajouter le formulaire dans le template `templates/public/inc/commentaire.html.twig`, que l'on verra que si nous sommes connecté :
 
