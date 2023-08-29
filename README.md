@@ -89,7 +89,7 @@
         - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
         - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
         - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
-      - 
+        - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
 ---
 
 
@@ -3571,6 +3571,7 @@ use App\Form\CommentaireArticleType;
             // Récupérer l'utilisateur connecté
             $user = $this->getUser();
 
+            // on crée une nouvelle instance de commentaire
             $commentaire = new Commentaire();
             // on lie le commentaire à l'article
             $commentaire->setCommentaireManyToOneArticle($article);
@@ -3587,11 +3588,12 @@ use App\Form\CommentaireArticleType;
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager->persist($commentaire);
                 $entityManager->flush();
-
+                // redirection vers la page de l'article
                 return $this->redirectToRoute('article', ['slug'=>$slug],
                  Response::HTTP_SEE_OTHER);
             }
         } else {
+            // pas de formulaire si l'utilisateur n'est pas connecté
             $form = null;
         }
 
@@ -3606,17 +3608,31 @@ use App\Form\CommentaireArticleType;
 
 Nous allons ensuite ajouter le formulaire dans le template `templates/public/inc/commentaire.html.twig`, que l'on verra que si nous sommes connecté :
 
+Nous pourrions utiliser le `form` qui est `null` dans ce cas, mais nous allons vérifier si l'utilisateur est connecté dans le template avec la variable `app.user`.
+
 ```twig
 <div>
-    <hr>
     <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    <hr>
+    {# si connecté #}
     {% if app.user %}
+        {# Ajout du formulaire #}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Insérer') }}</button>
         {{ form_end(form) }}
     {% else %}
-        <p>Vous devez être connecté pour poster un commentaire</p>
+        {# Ajout de la connexion #}
+        <p>Vous devez être connecté pour poster un commentaire <a href='{{ path('app_login') }}'>Connexion</a></p>
     {% endif %}
+    <hr>
 ###
 ```
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
