@@ -3722,6 +3722,7 @@ namespace App\Security;
 ###
 ```
 
+[v0.5.5](https://github.com/mikhawa/symfony-2023-05-10/commit/400ce27dc8ebbbfcf35f63a04e917634a4a458b5#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
 
 ---
 
