@@ -3671,7 +3671,8 @@ Nous pourrions utiliser le `form` qui est `null` dans ce cas, mais nous allons v
         {{ form_end(form) }}
     {% else %}
         {# Ajout de la connexion #}
-        <p>Vous devez être connecté pour poster un commentaire <a href='{{ path('app_login') }}'>Connexion</a></p>
+        <p>Vous devez être connecté pour poster un commentaire
+         <a href='{{ path('app_login') }}'>Connexion</a></p>
     {% endif %}
     <hr>
 ###
@@ -3741,7 +3742,8 @@ Nous allons ensuite modifier le contrôleur `UtilisateurAuthenticator.php` pour 
 namespace App\Security;
 
 ###
- public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+ public function onAuthenticationSuccess(Request $request,
+  TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
@@ -3780,7 +3782,8 @@ Nous allons modifier le contrôleur `BlogController.php` pour changer l'ordre de
      EntityManagerInterface $entityManager): Response
     {
         ###
-        // récupération des commentaires de l'article grâce à son id, triés par date de création décroissante
+        // récupération des commentaires de l'article grâce à son id,
+        // triés par date de création décroissante
         $commentaires = $entityManager->getRepository(Commentaire::class)
       ->findBy(
       ['CommentaireManyToOneArticle' => $article->getId()],
