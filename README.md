@@ -3766,3 +3766,44 @@ namespace App\Security;
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Changement de l'ordre des commentaires
+
+Nous allons modifier le contrôleur `BlogController.php` pour changer l'ordre des commentaires du plus récent au plus ancien :
+
+```php
+<?php
+###
+ #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug,
+     EntityManagerInterface $entityManager): Response
+    {
+        ###
+        // récupération des commentaires de l'article grâce à son id, triés par date de création décroissante
+        $commentaires = $entityManager->getRepository(Commentaire::class)
+      ->findBy(
+      ['CommentaireManyToOneArticle' => $article->getId()],
+       ['CommentaireDateCreate' => 'DESC']);
+          ###
+
+    return $this->render('public/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+            'form' => $form,
+            // on envoie les commentaires à la vue
+            'commentaires' => $commentaires,
+        ]);
+###
+```
+
+Nous allons ensuite modifier le template `templates/public/inc/commentaire.html.twig` remettre la variable `commentaires` dans la page à la place de `article.Commentaires`
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+

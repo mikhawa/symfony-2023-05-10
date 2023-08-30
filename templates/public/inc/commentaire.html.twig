@@ -1,6 +1,6 @@
 <div>
     <hr>
-    <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    <h3>Commentaires ({{ commentaires|length }})</h3>
     <hr>
     {# si connecté #}
     {% if app.user %}
@@ -15,7 +15,7 @@
     {% endif %}
     <hr>
 
-    {% for commentaire in article.Commentaires %}
+    {% for commentaire in commentaires %}
         <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
         <p>{{ commentaire.CommentaireText }}</p>
     {% else %}

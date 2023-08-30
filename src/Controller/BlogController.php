@@ -67,6 +67,9 @@ class BlogController extends AbstractController
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+        // récupération des commentaires de l'article grâce à son id, triés par date de création décroissante
+        $commentaires = $entityManager->getRepository(Commentaire::class)
+            ->findBy(['CommentaireManyToOneArticle' => $article->getId()], ['CommentaireDateCreate' => 'DESC']);
 
         // si l'utilisateur est connecté
         if ($this->getUser()) {
@@ -102,6 +105,8 @@ class BlogController extends AbstractController
             'categories' => $categories,
             'article' => $article,
             'form' => $form,
+            // on envoie les commentaires à la vue
+            'commentaires' => $commentaires,
         ]);
     }
 
