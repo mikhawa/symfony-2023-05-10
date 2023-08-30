@@ -15,6 +15,7 @@
     - [Environnement de développement](#environnement-de-développement)
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
+  - [Création d'un projet de démonstration](#création-dun-projet-de-démonstration)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
   - [Structure d'un projet Symfony](#structure-dun-projet-symfony)
   - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
@@ -175,6 +176,12 @@ Lien de téléchargement de composer :
 
 https://getcomposer.org/download/
 
+ou le mettre à jour avec la commande :
+
+```bash
+composer self-update
+```
+
 
 Lien de téléchargement de WampServer :
 
@@ -255,6 +262,36 @@ Vérifions si notre poste de travail est bien configuré pour Symfony
 ```bash
 symfony check:requirements
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Création d'un projet de démonstration
+
+Nous allons créer un projet de démonstration, la documentation se trouve à cette adresse :
+
+https://symfony.com/doc/current/setup.html#the-symfony-demo-application
+
+Nous utilisons la commande suivante :
+
+```bash 
+symfony new symfonyDemo --demo
+```
+
+Nous pouvons entrer dans le dossier et tester ce projet de démonstration, la base de donnée étant déjà configurée en `SQLite`, nous pouvons lancer le serveur web avec la commande suivante :
+
+```bash
+symfony serve
+```
+
+Nous pouvons le tester dans le navigateur avec l'adresse suivante :
+
+http://127.0.0.1:8000/
+
+Cette démo permet de tester les fonctionnalités de Symfony, et de voir comment est structuré un projet Symfony.
 
 ---
 
