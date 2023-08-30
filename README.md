@@ -3821,6 +3821,12 @@ Nous allons charger le composant verify-email-bundle pour vérifier l'adresse em
 composer require symfonycasts/verify-email-bundle
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 #### Création du formulaire d'inscription
 
 Nous allons créer le formulaire d'inscription des utilisateurs avec la commande `make:registration-form` :
@@ -3829,17 +3835,69 @@ Nous allons créer le formulaire d'inscription des utilisateurs avec la commande
 php bin/console make:registration-form
 ```
 
-Nous choisissons l'entité `Utilisateur` et le nom `RegistrationFormType` pour le formulaire.
+Nous choisissons l'entité `Utilisateur` et le nom `RegistrationFormType` pour le formulaire :
 
 ```bash
-1) Install some missing packages:
-      composer require symfonycasts/verify-email-bundle
- 2) In RegistrationController::verifyUserEmail():
-    * Customize the last redirectToRoute() 
-    after a successful email verification.
-    * Make sure you're rendering success flash
-     messages or change the $this->addFlash() line.
- 3) Review and customize the form, controller, and templates as needed.
- 4) Run "php bin/console make:migration" to generate
-  a migration for the newly added Utilisateur::isVerified property.
+ php bin/console make:registration-form
+ 
+ Creating a registration form for App\Entity\Utilisateur
+
+ Do you want to add a #[UniqueEntity] validation attribute 
+ # to your Utilisateur class to make sure duplicate 
+ # accounts aren't created? (yes/no) [yes]:
+ >
+yes
+ Do you want to send an email to verify the user's 
+ email address after registration? (yes/no) [yes]:
+ >
+ yes
+
+ By default, users are required to be authenticated when they click
+  the verification link that is emailed to them.
+ This prevents the user from registering on their
+  laptop, then clicking the link on their phone, without
+ having to log in. 
+ To allow multi device email verification, 
+ we can embed a user id in the verification link.
+
+ Would you like to include the user id in 
+ the verification link to allow anonymous email verification? (yes/no) [no]:
+ >
+no
+
+ What email address will be used to send registration 
+ confirmations? (e.g. mailer@your-domain.com):
+ > bot@cf2m.be          
+
+ What "name" should be associated with that email 
+ address? (e.g. Acme Mail Bot):
+ > Bot CF2m
+
+ Do you want to automatically authenticate the user after registration? (yes/no) [yes]:
+ >   
+yes
+ updated: src/Entity/Utilisateur.php
+ updated: src/Entity/Utilisateur.php
+ created: src/Security/EmailVerifier.php
+ created: templates/registration/confirmation_email.html.twig
+ created: src/Form/RegistrationFormType.php
+ created: src/Controller/RegistrationController.php
+ created: templates/registration/register.html.twig
+
+           
+  Success!
+Next:
+ 1) In RegistrationController::verifyUserEmail():
+    * Customize the last redirectToRoute() after a successful email verification.
+    * Make sure you're rendering success flash messages or change the $this->addFlash() line.
+ 2) Review and customize the form, controller, and templates as needed.
+ 3) Run "php bin/console make:migration" to generate a migration for the newly added Utilisateur::isVerified property.
+
+ Then open your browser, go to "/register" and enjoy your new form!
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
