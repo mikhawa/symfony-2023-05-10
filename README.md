@@ -15,6 +15,7 @@
     - [Environnement de développement](#environnement-de-développement)
     - [Liens de téléchargement des logiciels](#liens-de-téléchargement-des-logiciels)
     - [Installation de Symfony dans l'environnement de développement](#installation-de-symfony-dans-lenvironnement-de-développement)
+  - [Création d'un projet de démonstration](#création-dun-projet-de-démonstration)
   - [Création d'un nouveau projet Symfony](#création-dun-nouveau-projet-symfony)
   - [Structure d'un projet Symfony](#structure-dun-projet-symfony)
   - [Lancement du serveur web de Symfony](#lancement-du-serveur-web-de-symfony)
@@ -83,7 +84,16 @@
       - [Réorganisation des templates](#réorganisation-des-templates)
       - [Possibilité de déconnexion](#possibilité-de-déconnexion)
       - [Remember me](#remember-me)
-      -
+      - [Protection du formulaire de connexion](#protection-du-formulaire-de-connexion)
+    - [Mise en place de la création de commentaires](#mise-en-place-de-la-création-de-commentaires)
+      - [Création d'un CRUD pour les commentaires](#création-dun-crud-pour-les-commentaires)
+        - [Correction des erreurs de type toString sur les commentaires](#correction-des-erreurs-de-type-tostring-sur-les-commentaires)
+        - [Pour avoir une date par défaut lors de la création d'un commentaire](#pour-avoir-une-date-par-défaut-lors-de-la-création-dun-commentaire)
+        - [Protection du CRUD des commentaires](#protection-du-crud-des-commentaires)
+      - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
+        - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
+        - [Redirection vers la page de l'article après connexion](#redirection-vers-la-page-de-larticle-après-connexion)
+        - [Changement de l'ordre des commentaires](#changement-de-lordre-des-commentaires)
 ---
 
 
@@ -167,6 +177,12 @@ Lien de téléchargement de composer :
 
 https://getcomposer.org/download/
 
+ou le mettre à jour avec la commande :
+
+```bash
+composer self-update
+```
+
 
 Lien de téléchargement de WampServer :
 
@@ -247,6 +263,36 @@ Vérifions si notre poste de travail est bien configuré pour Symfony
 ```bash
 symfony check:requirements
 ```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Création d'un projet de démonstration
+
+Nous allons créer un projet de démonstration, la documentation se trouve à cette adresse :
+
+https://symfony.com/doc/current/setup.html#the-symfony-demo-application
+
+Nous utilisons la commande suivante :
+
+```bash 
+symfony new symfonyDemo --demo
+```
+
+Nous pouvons entrer dans le dossier et tester ce projet de démonstration, la base de donnée étant déjà configurée en `SQLite`, nous pouvons lancer le serveur web avec la commande suivante :
+
+```bash
+symfony serve
+```
+
+Nous pouvons le tester dans le navigateur avec l'adresse suivante :
+
+http://127.0.0.1:8000/
+
+Cette démo permet de tester les fonctionnalités de Symfony, et de voir comment est structuré un projet Symfony.
 
 ---
 
@@ -3243,6 +3289,8 @@ Nous séparerons également le menu public `templates/public/inc/menu.html.twig`
 
 On va également ajouter la possibilité de se déconnecter, si nous sommes connectés bien sûr.
 
+Nous allons pour cela vérifier si l'utilisateur est connecté avec la fonction `is_granted()`, avec le rôle par défaut de tous les utilisateurs : `ROLE_USER`.
+
 Le fichier `templates/public/inc/menu.html.twig` :
 
 ```twig
@@ -3297,3 +3345,466 @@ Ainsi le cookie `REMEMBERME` ne sera pas créé par défaut.
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Protection du formulaire de connexion
+
+Nous allons installer rate-limiter pour protéger le formulaire de connexion contre les attaques par force brute.
+
+```bash
+composer require symfony/rate-limiter
+```
+
+Nous allons protéger le formulaire de connexion contre les attaques par force brute, en ne permettant que 5 tentatives par 15 minutes, dans `config/packages/security.yaml` :
+
+```yaml
+
+# config/packages/security.yaml
+security:
+
+  firewalls:
+    # ...
+
+    main:
+      # ...
+
+      # configure the maximum login attempts
+      login_throttling:
+        max_attempts: 5          # per minute ...
+        interval: '15 minutes' # ... or in a custom period
+        
+```
+
+L'adresse ip de l'utilisateur sera bloquée pendant 15 minutes si il dépasse les 5 tentatives de connexion, cette information sera stockée dans le cache du serveur par défaut.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Mise en place de la création de commentaires
+
+Chaque utilisateur connecté pourra créer un commentaire sur un article.
+
+Pour cela le rôle `ROLE_USER` sera suffisant. Il est défini comme tel par défaut
+
+#### Création d'un CRUD pour les commentaires
+
+Nous allons créer un CRUD pour les commentaires, avec la commande `make:crud` :
+
+```bash
+php bin/console make:crud Commentaire
+```
+
+Nous allons accepter la création de tests pour ce CRUD. Nous verrons les tests plus tard. Vous pouvez trouver le fichier de test dans `tests/Controller/CommentaireControllerTest.php`.
+
+Un contrôleur `CommentaireController.php` est créé dans `src/Controller`.
+
+Nous allons vérifier ce CRUD en allant sur la route `/commentaire/` :
+
+https://127.0.0.1:8000/commentaire/
+
+##### Correction des erreurs de type toString sur les commentaires
+
+Si nous essayons de modifier un commentaire, nous avons une erreur de type : `Object of class App\Entity\Article could not be converted to string`.
+
+Nous allons corriger cela en ajoutant une méthode `__toString()` dans l'entité `Article` :
+
+```php
+<?php
+
+namespace App\Entity;
+
+###
+
+class Article
+{
+    ###
+
+    // si demandé en tant que string, on renvoie le titre de l'article
+    public function __toString()
+    {
+        return $this->ArticleTitle;
+    }
+}
+```
+
+Nous devons répéter cette opération pour chaque entité qui est liée à une autre entité dans le CRUD.
+
+Pour la modification d'un commentaire, nous avons une erreur pour l'utilisateur, car nous n'avons pas de méthode `__toString()` dans l'entité `Utilisateur`.
+
+Nous allons donc en ajouter une :
+
+```php
+<?php
+
+namespace App\Entity;
+
+###
+// si demandé en tant que string, on renvoie le nom de l'utilisateur
+    public function __toString()
+    {
+        return $this->name;
+    }
+###
+```
+
+Le CRUD est maintenant fonctionnel.
+
+##### Pour avoir une date par défaut lors de la création d'un commentaire
+
+Nous allons modifier le fichier `src/Entity/Commentaire.php` et lui ajouter un constructeur :
+
+```php
+<?php
+
+###
+// Pour que la date actuelle soit insérée automatiquement
+// dans le formulaire
+    public function __construct()
+    {
+        $this->CommentaireDateCreate = new \DateTime();
+    }
+###
+
+```
+
+[v0.5.2](https://github.com/mikhawa/symfony-2023-05-10/commit/696a44afccaf36b5368254e24510cfc8a71548bb#diff-bfda95459173a4f13453f500a164b7f3afdc09bed8d039383e8d94fabcce2649)
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Protection du CRUD des commentaires
+
+Nous protégerons ensuite les routes de ce CRUD pour que seuls les utilisateurs connectés puissent y accéder. Nous changerons les permissions plus tard pour ne permettre qu'aux administrateurs de modifier les commentaires.
+
+
+Ajoutons `admin` dans l'URL du contrôleur de CRUD  `src/Controller/CommentaireController.php` :
+
+```php
+<?php
+###
+// #[Route('/commentaire')]
+#[Route('/admin/commentaire')]
+###
+```
+
+Nous avons plusieurs solutions pour protéger les routes de ce CRUD, nous allons dans notre cas choisir la solution du fichier `security.yaml`.
+
+Nous allons donc ajouter les lignes suivantes dans `config/packages/security.yaml` :
+
+```yaml
+# config/packages/security.yaml
+security:
+    # ...
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_USER }
+```
+
+Nous ne pourrons désormais y accéder qu'en étant connecté (pour le moment en tant que simple utilisateur (`ROLE_ADMIN`), par le suite par une autre permission, par exemple `ROLE_ADMIN`).
+
+A l'adresse :
+
+https://127.0.0.1:8000/admin/commentaire/
+
+Nous avons désormais une erreur `Access Denied` et une redirection sur https://127.0.0.1:8000/connect si nous ne sommes pas connecté.
+
+
+[v0.5.3](https://github.com/mikhawa/symfony-2023-05-10/commit/00723a787a3665b2063706d45f5f525fc062edfa#diff-19446c4b69407952b20ae26dbd032cdad8dcc487db081a5cb17261831e80a4cc)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+### Création d'un formulaire pour les commentaires sous les articles
+
+Nous allons créer un formulaire pour les commentaires sous les articles.
+
+Nous allons créer un formulaire avec la commande `make:form` :
+
+```bash
+php bin/console make:form
+```
+
+Nous allons nommer ce formulaire `CommentaireArticleType` et le lier à l'entité `Commentaire`.
+
+Nous allons ensuite retirer les champs que nous voulons par défaut dans ce formulaire et ajouter des types de champs pour les champs `CommentaireTitle` et `CommentaireText`.
+
+Nous allons donc modifier le fichier `src/Form/CommentaireArticleType.php` :
+
+```php
+<?php
+
+namespace App\Form;
+
+use App\Entity\Commentaire;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+# types de champs
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
+class CommentaireArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('CommentaireTitle', textType::class, [
+                'label' => 'Titre : ',
+                'attr' => [
+                    'maxlength' => 100,
+                ]
+        ])
+            ->add('CommentaireText', textareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 5,
+                    'placeholder' => 'Votre commentaire',
+                    'required' => 'required',
+                ],
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Commentaire::class,
+        ]);
+    }
+}
+```
+
+Nous allons ensuite ajouter ce formulaire dans le contrôleur `BlogController.php` dans la méthode `article()` :
+
+```php
+<?php
+
+namespace App\Controller;
+
+###
+# Importation du formulaire CommentaireArticleType
+use App\Form\CommentaireArticleType;
+###
+
+    #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, 
+    EntityManagerInterface $entityManager): Response
+    {
+        // récupération de toutes les catégories pour le menu
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
+        // récupération de l'article dont le slug est $slug
+        $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
+
+        // si l'utilisateur est connecté
+        if ($this->getUser()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // on crée une nouvelle instance de commentaire
+            $commentaire = new Commentaire();
+            // on lie le commentaire à l'article
+            $commentaire->setCommentaireManyToOneArticle($article);
+            // on ne publie pas le commentaire par défaut
+            $commentaire->setCommentaireIsPublished(false);
+            // on lie le commentaire à l'utilisateur
+            $commentaire->setUtilisateur($user);
+            // on crée le formulaire
+            $form = $this->createForm(CommentaireArticleType::class, 
+            $commentaire);
+            $form->handleRequest($request);
+
+            // si le formulaire est soumis et valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($commentaire);
+                $entityManager->flush();
+                // redirection vers la page de l'article
+                return $this->redirectToRoute('article', ['slug'=>$slug],
+                 Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            // pas de formulaire si l'utilisateur n'est pas connecté
+            $form = null;
+        }
+
+
+        return $this->render('public/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Ajout du formulaire dans le template `commentaire.html.twig`
+
+Nous allons ensuite ajouter le formulaire dans le template `templates/public/inc/commentaire.html.twig`, que l'on verra que si nous sommes connecté :
+
+Nous pourrions utiliser le `form` qui est `null` dans ce cas, mais nous allons vérifier si l'utilisateur est connecté dans le template avec la variable `app.user`.
+
+```twig
+<div>
+    <h3>Commentaires ({{ article.Commentaires|length }})</h3>
+    <hr>
+    {# si connecté #}
+    {% if app.user %}
+        {# Ajout du formulaire #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Insérer') }}</button>
+        {{ form_end(form) }}
+    {% else %}
+        {# Ajout de la connexion #}
+        <p>Vous devez être connecté pour poster un commentaire <a href='{{ path('app_login') }}'>Connexion</a></p>
+    {% endif %}
+    <hr>
+###
+```
+
+[v0.5.4](https://github.com/mikhawa/symfony-2023-05-10/commit/ae2b653e719b64b2fddce65df59213575a23c16a#diff-a346cbc5f2d083857493e8f4c52eb1c0ababf3ea60a4b20f407ed10432666faf)
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Redirection vers la page de l'article après connexion
+
+Nous allons ajouter une redirection vers la page de l'article après connexion si on clique sur connexion dans le formulaire de commentaire en utilisant une session.
+
+Nous allons modifier le contrôleur `BlogController.php` pour sauvegarder l'article dans la session :
+
+```php
+<?php
+
+namespace App\Controller;
+###
+#[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, 
+    EntityManagerInterface $entityManager): Response
+    {
+        ###
+        } else {
+            $form = null;
+            // on garde le slug de l'article pour le retour
+            // à l'article après connexion
+            $request->getSession()->set('slug', $slug);
+        }
+        ###
+###
+// on peut mettre slug à false dans les autres méthodes
+#[Route('/', name: 'homepage')]
+    public function index(Request $request, EntityManagerInterface
+     $entityManager): Response
+    {
+        ###
+        // on retire le slug de l'article
+        // pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
+        ###
+###
+
+#[Route('/categorie/{slug}', name: 'categorie')]
+    public function categorie(Request $request,$slug,
+     EntityManagerInterface $entityManager): Response
+    {
+        ###
+        // on retire le slug de l'article
+        // pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
+###
+```
+
+Nous allons ensuite modifier le contrôleur `UtilisateurAuthenticator.php` pour récupérer le slug de l'article dans la session et rediriger vers la page de l'article après connexion :
+
+```php
+<?php
+
+namespace App\Security;
+
+###
+ public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            return new RedirectResponse($targetPath);
+        }
+
+        // Récupération du slug de l'article dans la session
+        $slug = $request->getSession()->get('slug');
+        // si le slug existe
+        if($slug){
+            // redirection vers la page de l'article
+            return new RedirectResponse($this->urlGenerator->generate('article', ['slug' => $slug]));
+        }
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+###
+```
+
+[v0.5.5](https://github.com/mikhawa/symfony-2023-05-10/commit/400ce27dc8ebbbfcf35f63a04e917634a4a458b5#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Changement de l'ordre des commentaires
+
+Nous allons modifier le contrôleur `BlogController.php` pour changer l'ordre des commentaires du plus récent au plus ancien :
+
+```php
+<?php
+###
+ #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug,
+     EntityManagerInterface $entityManager): Response
+    {
+        ###
+        // récupération des commentaires de l'article grâce à son id, triés par date de création décroissante
+        $commentaires = $entityManager->getRepository(Commentaire::class)
+      ->findBy(
+      ['CommentaireManyToOneArticle' => $article->getId()],
+       ['CommentaireDateCreate' => 'DESC']);
+          ###
+
+    return $this->render('public/article.html.twig', [
+            'categories' => $categories,
+            'article' => $article,
+            'form' => $form,
+            // on envoie les commentaires à la vue
+            'commentaires' => $commentaires,
+        ]);
+###
+```
+
+Nous allons ensuite modifier le template `templates/public/inc/commentaire.html.twig` remettre la variable `commentaires` dans la page à la place de `article.Commentaires`
+
+[v0.5.6](https://github.com/mikhawa/symfony-2023-05-10/commit/8830e5667a962713760cc24f21c397c0f8853908#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+

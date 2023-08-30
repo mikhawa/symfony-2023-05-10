@@ -20,16 +20,20 @@ use App\Repository\ArticleRepository;
 # Importation de l'entité Commentaire
 use App\Entity\Commentaire;
 use App\Repository\CommentaireRepository;
+# Importation du formulaire CommentaireArticleType
+use App\Form\CommentaireArticleType;
 
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération des 9 derniers articles
         $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
+        // on retire le slug de l'article pour éviter le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
         return $this->render('public/index.html.twig', [
             // on envoie les catégories à la vue
             'categories' => $categories,
@@ -38,7 +42,7 @@ class BlogController extends AbstractController
         ]);
     }
     #[Route('/categorie/{slug}', name: 'categorie')]
-    public function categorie($slug, EntityManagerInterface $entityManager): Response
+    public function categorie(Request $request,$slug, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
@@ -46,6 +50,8 @@ class BlogController extends AbstractController
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['CategorySlug' => $slug]);
         // récupération des articles de la catégorie grâce à la relation ManyToMany de categorie vers articles puis prises de valeurs
         $articles = $categorie->getCategorieM2mArticle()->getValues();
+        // on retire le slug de l'article pour le retour à l'article après connexion
+        $request->getSession()->set('slug', false);
         return $this->render('public/categorie.html.twig', [
             // on envoie la catégorie à la vue
             'categories' => $categories,
@@ -54,25 +60,53 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/article/{slug}', name: 'article')]
-    public function article($slug, EntityManagerInterface $entityManager): Response
+    #[Route('/article/{slug}', name: 'article', methods: ['GET', 'POST'])]
+    public function article(Request $request, $slug, EntityManagerInterface $entityManager): Response
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
         // récupération de l'article dont le slug est $slug
         $article = $entityManager->getRepository(Article::class)->findOneBy(['ArticleSlug' => $slug]);
-        /* code devenu non nécessaire avec les relations ManyToOne et OneToMany avec inversedBy et mappedBy
-         *
-            $categoriesArticle = $article->getCategories()->getValues();
+        // récupération des commentaires de l'article grâce à son id, triés par date de création décroissante
+        $commentaires = $entityManager->getRepository(Commentaire::class)
+            ->findBy(['CommentaireManyToOneArticle' => $article->getId()], ['CommentaireDateCreate' => 'DESC']);
 
-         * $commentaires =
-         * $entityManager->getRepository(Commentaire::class)->findBy(['CommentaireManyToOneArticle' => $article->getId()]);
-         * */
+        // si l'utilisateur est connecté
+        if ($this->getUser()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            $commentaire = new Commentaire();
+            // on lie le commentaire à l'article
+            $commentaire->setCommentaireManyToOneArticle($article);
+            // on ne publie pas le commentaire par défaut
+            $commentaire->setCommentaireIsPublished(false);
+            // on lie le commentaire à l'utilisateur
+            $commentaire->setUtilisateur($user);
+            // on crée le formulaire
+            $form = $this->createForm(CommentaireArticleType::class, $commentaire);
+            $form->handleRequest($request);
+
+            // si le formulaire est soumis et valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($commentaire);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('article', ['slug'=>$slug], Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            $form = null;
+            // on garde le slug de l'article pour le retour à l'article après connexion
+            $request->getSession()->set('slug', $slug);
+        }
+
+
         return $this->render('public/article.html.twig', [
             'categories' => $categories,
             'article' => $article,
-           // 'categoriesArticle' => $categoriesArticle,
-           // 'commentaires' => $commentaires,
+            'form' => $form,
+            // on envoie les commentaires à la vue
+            'commentaires' => $commentaires,
         ]);
     }
 

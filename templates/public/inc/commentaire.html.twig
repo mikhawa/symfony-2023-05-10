@@ -1,7 +1,21 @@
 <div>
     <hr>
-    <h3>Commentaires ({{ article.Commentaires|length }})</h3>
-    {% for commentaire in article.Commentaires %}
+    <h3>Commentaires ({{ commentaires|length }})</h3>
+    <hr>
+    {# si connecté #}
+    {% if app.user %}
+        {# Ajout du formulaire #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Insérer') }}</button>
+        {{ form_end(form) }}
+    {% else %}
+        {# Ajout de la connexion #}
+        <p>Vous devez être connecté pour poster un commentaire <a href='{{ path('app_login') }}'>Connexion</a></p>
+    {% endif %}
+    <hr>
+
+    {% for commentaire in commentaires %}
         <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
         <p>{{ commentaire.CommentaireText }}</p>
     {% else %}

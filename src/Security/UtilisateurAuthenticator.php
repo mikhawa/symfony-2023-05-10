@@ -49,6 +49,10 @@ class UtilisateurAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
+        $slug = $request->getSession()->get('slug');
+        if($slug){
+            return new RedirectResponse($this->urlGenerator->generate('article', ['slug' => $slug]));
+        }
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
