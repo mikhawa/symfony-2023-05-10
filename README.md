@@ -93,6 +93,7 @@
       - [Création d'un formulaire pour les commentaires sous les articles](#création-dun-formulaire-pour-les-commentaires-sous-les-articles)
         - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
         - [Redirection vers la page de l'article après connexion](#redirection-vers-la-page-de-larticle-après-connexion)
+        - [Changement de l'ordre des commentaires](#changement-de-lordre-des-commentaires)
 ---
 
 
@@ -3798,7 +3799,7 @@ Nous allons modifier le contrôleur `BlogController.php` pour changer l'ordre de
 
 Nous allons ensuite modifier le template `templates/public/inc/commentaire.html.twig` remettre la variable `commentaires` dans la page à la place de `article.Commentaires`
 
-
+[v0.5.6](https://github.com/mikhawa/symfony-2023-05-10/commit/8830e5667a962713760cc24f21c397c0f8853908#diff-f8af05fe3ed91657a96bece8df2f0639855fdbe18e5287e3186e088e66664cd0)
 
 ---
 
