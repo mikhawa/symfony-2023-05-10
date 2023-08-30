@@ -94,6 +94,8 @@
         - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
         - [Redirection vers la page de l'article après connexion](#redirection-vers-la-page-de-larticle-après-connexion)
         - [Changement de l'ordre des commentaires](#changement-de-lordre-des-commentaires)
+    - [Inscription des utilisateurs](#inscription-des-utilisateurs)
+      - [Création du formulaire d'inscription](#création-du-formulaire-dinscription)
 ---
 
 
@@ -3811,3 +3813,33 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
+### Inscription des utilisateurs
+
+Nous allons charger le composant verify-email-bundle pour vérifier l'adresse email des utilisateurs :
+
+```bash
+composer require symfonycasts/verify-email-bundle
+```
+
+#### Création du formulaire d'inscription
+
+Nous allons créer le formulaire d'inscription des utilisateurs avec la commande `make:registration-form` :
+
+```bash
+php bin/console make:registration-form
+```
+
+Nous choisissons l'entité `Utilisateur` et le nom `RegistrationFormType` pour le formulaire.
+
+```bash
+1) Install some missing packages:
+      composer require symfonycasts/verify-email-bundle
+ 2) In RegistrationController::verifyUserEmail():
+    * Customize the last redirectToRoute() 
+    after a successful email verification.
+    * Make sure you're rendering success flash
+     messages or change the $this->addFlash() line.
+ 3) Review and customize the form, controller, and templates as needed.
+ 4) Run "php bin/console make:migration" to generate
+  a migration for the newly added Utilisateur::isVerified property.
+```
