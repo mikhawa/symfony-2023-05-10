@@ -3927,7 +3927,7 @@ php bin/console doctrine:migrations:migrate
 
 A l'adresse : `datas/sym_64_2023-08-31.sql`, n'oubliez pas d'importe ce fichier dans votre DB locale.
 
-
+[v0.5.7](https://github.com/mikhawa/symfony-2023-05-10/commit/09c867baac95d97856871484b126b334d7a6f202#diff-e270d1e885665b0eaf1868155ad57e3d28ffba0047c1a542a52cf537b869e081)
 
 ---
 
