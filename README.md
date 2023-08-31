@@ -96,6 +96,9 @@
         - [Changement de l'ordre des commentaires](#changement-de-lordre-des-commentaires)
     - [Inscription des utilisateurs](#inscription-des-utilisateurs)
       - [Création du formulaire d'inscription](#création-du-formulaire-dinscription)
+        - [Lancement de la migration de la DB après make:registration-form](#lancement-de-la-migration-de-la-db-après-makeregistration-form)
+        - [Sauvegarde de la DB dans le dossier `datas` après make:registration-form](#sauvegarde-de-la-db-dans-le-dossier-datas-après-makeregistration-form)
+        - 
 ---
 
 
@@ -3901,3 +3904,35 @@ Next:
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+##### Lancement de la migration de la DB après make:registration-form
+
+Nous allons lancer la migration de la DB après la création du formulaire d'inscription :
+
+```bash
+php bin/console make:migration
+```
+
+Le fichier de migration est créé dans le dossier `migrations` :
+
+`migrations/Version20230831064226.php`
+
+Lancement de la migration :
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+##### Sauvegarde de la DB dans le dossier `datas` après make:registration-form
+
+A l'adresse : `datas/sym_64_2023-08-31.sql`, n'oubliez pas d'importe ce fichier dans votre DB locale.
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
