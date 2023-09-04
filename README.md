@@ -3894,7 +3894,8 @@ Next:
     * Customize the last redirectToRoute() after a successful email verification.
     * Make sure you're rendering success flash messages or change the $this->addFlash() line.
  2) Review and customize the form, controller, and templates as needed.
- 3) Run "php bin/console make:migration" to generate a migration for the newly added Utilisateur::isVerified property.
+ 3) Run "php bin/console make:migration" to generate a migration for the newly added 
+ Utilisateur::isVerified property.
 
  Then open your browser, go to "/register" and enjoy your new form!
 ```
@@ -3925,7 +3926,7 @@ php bin/console doctrine:migrations:migrate
 
 ##### Sauvegarde de la DB dans le dossier `datas` après make:registration-form
 
-A l'adresse : `datas/sym_64_2023-08-31.sql`, n'oubliez pas d'importe ce fichier dans votre DB locale.
+A l'adresse : `datas/sym_64_2023-08-31.sql`, n'oubliez pas d'importer ce fichier dans votre DB locale.
 
 [v0.5.7](https://github.com/mikhawa/symfony-2023-05-10/commit/09c867baac95d97856871484b126b334d7a6f202#diff-e270d1e885665b0eaf1868155ad57e3d28ffba0047c1a542a52cf537b869e081)
 
