@@ -3956,3 +3956,13 @@ Nous devons mettre à jour le fichier `.env.local` pour le mailer :
 # MAILER_DSN=null://null
 ###< symfony/mailer ###
 ```
+
+Nous allons installer gmail pour le mailer en dev (en utilisant un mot de passe d'application) :
+
+```bash
+composer require symfony/google-mailer
+```
+
+Documentation : https://packagist.org/packages/symfony/google-mailer
+Et pour obtenir une clef d'activation : https://github.com/symfony/symfony-docs/issues/17115
+
