@@ -3966,3 +3966,22 @@ composer require symfony/google-mailer
 Documentation : https://packagist.org/packages/symfony/google-mailer
 Et pour obtenir une clef d'activation : https://github.com/symfony/symfony-docs/issues/17115
 
+Nous allons ensuite mettre à jour le fichier `.env.local`, ici le `.env.` pour le voir sur github :
+
+```bash
+###> symfony/google-mailer ###
+# Gmail SHOULD NOT be used on production, use it in development only.
+# MAILER_DSN=gmail://USERNAME:PASSWORD@default
+###< symfony/google-mailer ###
+```
+
+Cette adresse devrait fonctionner :
+
+https://127.0.0.1:8000/register
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
