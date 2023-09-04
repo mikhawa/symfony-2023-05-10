@@ -98,7 +98,7 @@
       - [Création du formulaire d'inscription](#création-du-formulaire-dinscription)
         - [Lancement de la migration de la DB après make:registration-form](#lancement-de-la-migration-de-la-db-après-makeregistration-form)
         - [Sauvegarde de la DB dans le dossier `datas` après make:registration-form](#sauvegarde-de-la-db-dans-le-dossier-datas-après-makeregistration-form)
-        - 
+        - [Mise à jour du .env.local pour le mailer](#mise-à-jour-du-envlocal-pour-le-mailer)
 ---
 
 
@@ -3937,3 +3937,22 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
+##### Mise à jour du .env.local pour le mailer
+
+Si nous allons à l'adresse : 
+
+https://127.0.0.1:8000/register
+
+Nous avons une erreur :
+
+```bash
+The controller for URI "/register" is not callable: Environment variable not found: "MAILER_DSN".
+```
+
+Nous devons mettre à jour le fichier `.env.local` pour le mailer :
+
+```bash
+###> symfony/mailer ###
+# MAILER_DSN=null://null
+###< symfony/mailer ###
+```
