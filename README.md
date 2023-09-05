@@ -99,6 +99,8 @@
         - [Lancement de la migration de la DB après make:registration-form](#lancement-de-la-migration-de-la-db-après-makeregistration-form)
         - [Sauvegarde de la DB dans le dossier `datas` après make:registration-form](#sauvegarde-de-la-db-dans-le-dossier-datas-après-makeregistration-form)
         - [Mise à jour du .env.local pour le mailer](#mise-à-jour-du-envlocal-pour-le-mailer)
+        - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
+        - 
 ---
 
 
@@ -3966,7 +3968,7 @@ composer require symfony/google-mailer
 Documentation : https://packagist.org/packages/symfony/google-mailer
 Et pour obtenir une clef d'activation : https://github.com/symfony/symfony-docs/issues/17115
 
-Nous allons ensuite mettre à jour le fichier `.env.local`, ici le `.env.` pour le voir sur github :
+Nous allons ensuite mettre à jour le fichier `.env.local`, ici le `.env.` pour permettre de le voir sur github :
 
 ```bash
 ###> symfony/google-mailer ###
@@ -3985,3 +3987,77 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+##### Ajout du champ `name` dans le formulaire d'inscription
+
+Nous allons ajouter le champ `name` dans le formulaire d'inscription :
+
+`src/Form/RegistrationFormType.php`
+
+```php
+###
+public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('email')
+            // ajout du champ name
+            ->add('name')
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les termes.',
+                    ]),
+                ],
+            ])
+###
+```
+
+Puis dans la vue :
+
+`templates/registration/register.html.twig`
+
+```twig
+{# #}
+{{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {# Ajout du champs name #}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{# #}
+```
+
+Un mail a dû être envoyé depuis `src/Controller/RegistrationController.php` à l'adresse mail indiquée avec le template `templates/registration/confirmation_email.html.twig` :
+
+```twig
+{# templates/registration/confirmation_email.html.twig#}
+
+<h1>Hi! Please confirm your email!</h1>
+
+<p>
+    Please confirm your email address by clicking the following link: <br><br>
+    <a href="https://127.0.0.1:8000/verify/email?expires=1693924223&signature=ZGpiLD%2Bk8J0EAN61PH54TzWODKm0fO31xk6o8EA7S6c%3D&token=OcRVcAey%2B8YqgTkp941idS8uYL%2FzOuotvODH16FAm1U%3D">Confirm my Email</a>.
+    This link will expire in 1 hour.
+</p>
+
+<p>
+    Cheers!
+</p>
+```
+
+On peut donc valider ce mail et se connecter à cette adresse reçue par mail dans l'heure :
+
+https://127.0.0.1:8000/verify/email?expires=1693924223&signature=ZGpiLD%2Bk8J0EAN61PH54TzWODKm0fO31xk6o8EA7S6c%3D&token=OcRVcAey%2B8YqgTkp941idS8uYL%2FzOuotvODH16FAm1U%3D
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
