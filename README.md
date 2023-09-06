@@ -4061,3 +4061,36 @@ https://127.0.0.1:8000/verify/email?expires=1693924223&signature=ZGpiLD%2Bk8J0EA
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+##### Traduction du formulaire d'inscription et des mails
+
+Les fichiers concernés sont :
+- `src/Form/RegistrationFormType.php`
+- `templates/registration/register.html.twig`
+- `templates/registration/confirmation_email.html.twig`
+
+Et au niveau du contrôleur `src/Controller/RegistrationController.php` :
+  
+```php
+###
+  #[Route('/register', name: 'app_register')]
+  ###
+  // redirection vers l'accueil
+            return $this->redirectToRoute('homepage');
+            // on n'autorise pas l'utilisateur à se connecter directement après son inscription
+            /*
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+            */
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
