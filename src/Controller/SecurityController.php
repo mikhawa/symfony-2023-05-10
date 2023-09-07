@@ -20,6 +20,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('homepage');
          }
 
+        // on récupère toutes les catégories
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
 
         // get the login error if there is one

@@ -94,6 +94,15 @@
         - [Ajout du formulaire dans le template `commentaire.html.twig`](#ajout-du-formulaire-dans-le-template-commentairehtmltwig)
         - [Redirection vers la page de l'article après connexion](#redirection-vers-la-page-de-larticle-après-connexion)
         - [Changement de l'ordre des commentaires](#changement-de-lordre-des-commentaires)
+    - [Inscription des utilisateurs](#inscription-des-utilisateurs)
+      - [Création du formulaire d'inscription](#création-du-formulaire-dinscription)
+        - [Lancement de la migration de la DB après make:registration-form](#lancement-de-la-migration-de-la-db-après-makeregistration-form)
+        - [Sauvegarde de la DB dans le dossier `datas` après make:registration-form](#sauvegarde-de-la-db-dans-le-dossier-datas-après-makeregistration-form)
+        - [Mise à jour du .env.local pour le mailer](#mise-à-jour-du-envlocal-pour-le-mailer)
+        - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
+        - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
+        - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
+        - 
 ---
 
 
@@ -771,6 +780,20 @@ Nous allons modifier le fichier `.env.local` pour y mettre les informations de c
 # DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=15&charset=utf8"
 ###< doctrine/doctrine-bundle ###
 ```
+
+! Depuis la version 6.3 de Symfony, il est possible qu'il faille installer une librairie supplémentaire pour les annotations de doctrine :
+
+```bash
+composer require doctrine/annotations
+```
+
+Sinon un bug est possible.
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 #### Création de la base de données
 
@@ -3811,3 +3834,450 @@ Retour au [Menu de navigation](#menu-de-navigation)
 ---
 
 
+### Inscription des utilisateurs
+
+Nous allons charger le composant verify-email-bundle pour vérifier l'adresse email des utilisateurs :
+
+```bash
+composer require symfonycasts/verify-email-bundle
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création du formulaire d'inscription
+
+Nous allons créer le formulaire d'inscription des utilisateurs avec la commande `make:registration-form` :
+
+```bash
+php bin/console make:registration-form
+```
+
+Nous choisissons l'entité `Utilisateur` et le nom `RegistrationFormType` pour le formulaire :
+
+```bash
+ php bin/console make:registration-form
+ 
+ Creating a registration form for App\Entity\Utilisateur
+
+ Do you want to add a #[UniqueEntity] validation attribute 
+ # to your Utilisateur class to make sure duplicate 
+ # accounts aren't created? (yes/no) [yes]:
+ >
+yes
+ Do you want to send an email to verify the user's 
+ email address after registration? (yes/no) [yes]:
+ >
+ yes
+
+ By default, users are required to be authenticated when they click
+  the verification link that is emailed to them.
+ This prevents the user from registering on their
+  laptop, then clicking the link on their phone, without
+ having to log in. 
+ To allow multi device email verification, 
+ we can embed a user id in the verification link.
+
+ Would you like to include the user id in 
+ the verification link to allow anonymous email verification? (yes/no) [no]:
+ >
+no
+
+ What email address will be used to send registration 
+ confirmations? (e.g. mailer@your-domain.com):
+ > bot@cf2m.be          
+
+ What "name" should be associated with that email 
+ address? (e.g. Acme Mail Bot):
+ > Bot CF2m
+
+ Do you want to automatically authenticate the user after registration? (yes/no) [yes]:
+ >   
+yes
+ updated: src/Entity/Utilisateur.php
+ updated: src/Entity/Utilisateur.php
+ created: src/Security/EmailVerifier.php
+ created: templates/registration/confirmation_email.html.twig
+ created: src/Form/RegistrationFormType.php
+ created: src/Controller/RegistrationController.php
+ created: templates/registration/register.html.twig
+
+           
+  Success!
+Next:
+ 1) In RegistrationController::verifyUserEmail():
+    * Customize the last redirectToRoute() after a successful email verification.
+    * Make sure you're rendering success flash messages or change the $this->addFlash() line.
+ 2) Review and customize the form, controller, and templates as needed.
+ 3) Run "php bin/console make:migration" to generate a migration for the newly added 
+ Utilisateur::isVerified property.
+
+ Then open your browser, go to "/register" and enjoy your new form!
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### Lancement de la migration de la DB après make:registration-form
+
+Nous allons lancer la migration de la DB après la création du formulaire d'inscription :
+
+```bash
+php bin/console make:migration
+```
+
+Le fichier de migration est créé dans le dossier `migrations` :
+
+`migrations/Version20230831064226.php`
+
+Lancement de la migration :
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+##### Sauvegarde de la DB dans le dossier `datas` après make:registration-form
+
+A l'adresse : `datas/sym_64_2023-08-31.sql`, n'oubliez pas d'importer ce fichier dans votre DB locale.
+
+[v0.5.7](https://github.com/mikhawa/symfony-2023-05-10/commit/09c867baac95d97856871484b126b334d7a6f202#diff-e270d1e885665b0eaf1868155ad57e3d28ffba0047c1a542a52cf537b869e081)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+
+##### Mise à jour du .env.local pour le mailer
+
+Si nous allons à l'adresse : 
+
+https://127.0.0.1:8000/register
+
+Nous avons une erreur :
+
+```bash
+The controller for URI "/register" is not callable: Environment variable not found: "MAILER_DSN".
+```
+
+Nous devons mettre à jour le fichier `.env.local` pour le mailer :
+
+```bash
+###> symfony/mailer ###
+# MAILER_DSN=null://null
+###< symfony/mailer ###
+```
+
+Nous allons installer gmail pour le mailer en dev (en utilisant un mot de passe d'application) :
+
+```bash
+composer require symfony/google-mailer
+```
+
+Documentation : https://packagist.org/packages/symfony/google-mailer
+Et pour obtenir une clef d'activation : https://github.com/symfony/symfony-docs/issues/17115
+
+Nous allons ensuite mettre à jour le fichier `.env.local`, ici le `.env.` pour permettre de le voir sur github :
+
+```bash
+###> symfony/google-mailer ###
+# Gmail SHOULD NOT be used on production, use it in development only.
+# MAILER_DSN=gmail://USERNAME:PASSWORD@default
+###< symfony/google-mailer ###
+```
+
+Cette adresse devrait fonctionner :
+
+https://127.0.0.1:8000/register
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### Ajout du champ `name` dans le formulaire d'inscription
+
+Nous allons ajouter le champ `name` dans le formulaire d'inscription :
+
+`src/Form/RegistrationFormType.php`
+
+```php
+###
+public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('email')
+            // ajout du champ name
+            ->add('name')
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les termes.',
+                    ]),
+                ],
+            ])
+###
+```
+
+Puis dans la vue :
+
+`templates/registration/register.html.twig`
+
+```twig
+{# #}
+{{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {# Ajout du champs name #}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{# #}
+```
+
+Un mail a dû être envoyé depuis `src/Controller/RegistrationController.php` à l'adresse mail indiquée avec le template `templates/registration/confirmation_email.html.twig` :
+
+```twig
+{# templates/registration/confirmation_email.html.twig#}
+
+<h1>Hi! Please confirm your email!</h1>
+
+<p>
+    Please confirm your email address by clicking the following link: <br><br>
+    <a href="https://127.0.0.1:8000/verify/email?expires=1693924223&signature=ZGpiLD%2Bk8J0EAN61PH54TzWODKm0fO31xk6o8EA7S6c%3D&token=OcRVcAey%2B8YqgTkp941idS8uYL%2FzOuotvODH16FAm1U%3D">Confirm my Email</a>.
+    This link will expire in 1 hour.
+</p>
+
+<p>
+    Cheers!
+</p>
+```
+
+On peut donc valider ce mail et se connecter à cette adresse reçue par mail dans l'heure :
+
+https://127.0.0.1:8000/verify/email?expires=1693924223&signature=ZGpiLD%2Bk8J0EAN61PH54TzWODKm0fO31xk6o8EA7S6c%3D&token=OcRVcAey%2B8YqgTkp941idS8uYL%2FzOuotvODH16FAm1U%3D
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### Traduction du formulaire d'inscription et des mails
+
+Les fichiers concernés sont :
+- `src/Form/RegistrationFormType.php`
+- `templates/registration/register.html.twig`
+- `templates/registration/confirmation_email.html.twig`
+
+Nous n'utilisons pas encore le système de traduction de Symfony, nous le mettrons en place plus tard.
+
+Et au niveau du contrôleur `src/Controller/RegistrationController.php` :
+  
+```php
+###
+  #[Route('/register', name: 'app_register')]
+  ###
+  // redirection vers l'accueil
+            return $this->redirectToRoute('homepage');
+            // on n'autorise pas l'utilisateur à se
+            // connecter directement après son inscription
+            /*
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+            */
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### Création du lien d'enregistrement et design de celui-ci
+
+Nous allons créer un lien d'enregistrement dans le menu de navigation :
+
+`templates/public/inc/menu.html.twig`
+
+```twig
+{# templates/public/inc/menu.html.twig #}
+{# ... #}
+ {% if is_granted("ROLE_USER") %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_logout') }}"
+            >Déconnexion</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_login') }}"
+            >Connexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_register') }}"
+            >Inscription</a>
+        </li>
+    {% endif %}
+{# ... #}
+```
+
+Puis un lien dans la page de connexion :
+
+`templates/public/security/login.html.twig`
+
+```twig
+{# templates/public/security/login.html.twig #}
+{# ... #}
+<h3 class="h5 mb-3 mt-4 font-weight-normal">Vous n'avez pas de compte ?
+ <a href="{{ path('app_register') }}">Inscrivez-vous</a></h3>
+{# ... #}
+```
+
+Ensuite nous allons mettre le design à jour :
+
+`templates/registration/register.html.twig`
+
+```twig
+{# templates/registration/register.html.twig #}
+{% extends 'public/public.template.html.twig' %}
+
+{% block title %}{{ parent() }} Inscription{% endblock %}
+{% block menuLinks %}
+    {% include 'public/inc/menu.html.twig' %}
+{% endblock %}
+{%block htitle %}Inscription{% endblock %}
+{%block hdesc %}Veuillez vous Inscrire. 
+Vous devrez valider votre compte via un
+ lien dans votre mail.{% endblock %}
+{% block boutonshauts %}{% endblock %}
+
+{% block articlePerOne %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">
+        {{ flash_error }}</div>
+    {% endfor %}
+
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+```
+
+Puis le formulaire d'inscription :
+
+`src/Form/RegistrationFormType.php`
+
+```php
+###
+$builder
+            ->add('email',  null, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Votre email',
+                    'class' => 'form-control',
+                ]
+            ])
+            ->add('name',  null, [
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Votre nom',
+                    'class' => 'form-control',
+                ]
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'Vous acceptez les termes du site',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les termes.',
+                    ]),
+                ],
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'Votre mot de passe',
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least 
+                        {{ limit }} characters',
+                        // max length allowed by Symfony for
+                        // security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+        ;
+    }
+###
+```
+
+Ajout de l'appel du menu dans `src/Controller/RegistrationController.php` :
+
+```php
+###
+# Importation de l'entité Categorie
+use App\Entity\Categorie;
+
+###
+// on récupère toutes les catégories
+        $categories = $entityManager->
+        getRepository(Categorie::class)->findAll();
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+            // on envoie les catégories à la vue
+            'categories' => $categories,
+        ]);
+        ###
+```
+
+[v0.5.8](https://github.com/mikhawa/symfony-2023-05-10/commit/602c69a189f032c07679c7d2af7b925417cfd8e2#diff-d6e0320f959fd80725fad202416df75fa98c151cd17f17879872f7ebbd50e2e0)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
