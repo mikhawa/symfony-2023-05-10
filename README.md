@@ -102,7 +102,7 @@
         - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
         - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
         - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
-        - 
+  - [Installation d'EasyAdmin]
 ---
 
 
@@ -4290,8 +4290,42 @@ Nous allons installer EasyAdmin pour gérer les utilisateurs (dont leurs droits)
 composer require easycorp/easyadmin-bundle
 ```
 
+Puis nous allons créer un tableau de bord pour l'administration :
+
 ```bash
 php bin/console make:admin:dashboard
+
+# puis
+
+Next steps:
+ * Configure your Dashboard at 
+ "src/Controller/Admin/DashboardController.php"
+ * Run "make:admin:crud" to generate CRUD controllers 
+ and link them from the Dashboard.
 ```
 
 ```bash
+php bin/console make:admin:crud
+```
+
+```bash
+php bin/console make:admin:crud Article
+```
+
+```bash
+php bin/console make:admin:crud Comment
+```
+
+```bash
+php bin/console make:admin:crud Categorie
+```
+
+```bash
+php bin/console make:admin:crud User
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
