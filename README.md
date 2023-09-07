@@ -100,6 +100,8 @@
         - [Sauvegarde de la DB dans le dossier `datas` après make:registration-form](#sauvegarde-de-la-db-dans-le-dossier-datas-après-makeregistration-form)
         - [Mise à jour du .env.local pour le mailer](#mise-à-jour-du-envlocal-pour-le-mailer)
         - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
+        - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
+        - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
         - 
 ---
 
@@ -784,6 +786,8 @@ Nous allons modifier le fichier `.env.local` pour y mettre les informations de c
 ```bash
 composer require doctrine/annotations
 ```
+
+Sinon un bug est possible.
 
 ---
 
@@ -4108,3 +4112,139 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+##### Création du lien d'enregistrement et design de celui-ci
+
+Nous allons créer un lien d'enregistrement dans le menu de navigation :
+
+`templates/public/inc/menu.html.twig`
+
+```twig
+{# templates/public/inc/menu.html.twig #}
+{# ... #}
+ {% if is_granted("ROLE_USER") %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ path('app_register') }}">Inscription</a>
+        </li>
+    {% endif %}
+{# ... #}
+```
+
+Puis un lien dans la page de connexion :
+
+`templates/public/security/login.html.twig`
+
+```twig
+{# templates/public/security/login.html.twig #}
+{# ... #}
+<h3 class="h5 mb-3 mt-4 font-weight-normal">Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></h3>
+{# ... #}
+```
+
+Ensuite nous allons mettre le design à jour :
+
+`templates/registration/register.html.twig`
+
+```twig
+{# templates/registration/register.html.twig #}
+{% extends 'public/public.template.html.twig' %}
+
+{% block title %}{{ parent() }} Inscription{% endblock %}
+{% block menuLinks %}
+    {% include 'public/inc/menu.html.twig' %}
+{% endblock %}
+{%block htitle %}Inscription{% endblock %}
+{%block hdesc %}Veuillez vous Inscrire. Vous devrez valider votre compte via un lien dans votre mail.{% endblock %}
+{% block boutonshauts %}{% endblock %}
+
+{% block articlePerOne %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+```
+
+Puis le formulaire d'inscription :
+
+`src/Form/RegistrationFormType.php`
+
+```php
+###
+$builder
+            ->add('email',  null, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Votre email',
+                    'class' => 'form-control',
+                ]
+            ])
+            ->add('name',  null, [
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Votre nom',
+                    'class' => 'form-control',
+                ]
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'Vous acceptez les termes du site',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les termes.',
+                    ]),
+                ],
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'Votre mot de passe',
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+        ;
+    }
+###
+```
+
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---

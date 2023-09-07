@@ -18,6 +18,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+# Importation de l'entité Categorie
+use App\Entity\Categorie;
+
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -27,7 +30,7 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UtilisateurAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new Utilisateur();
@@ -66,9 +69,13 @@ class RegistrationController extends AbstractController
             );
             */
         }
+        // on récupère toutes les catégories
+        $categories = $entityManager->getRepository(Categorie::class)->findAll();
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            // on envoie les catégories à la vue
+            'categories' => $categories,
         ]);
     }
 

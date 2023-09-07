@@ -1,13 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'public/public.template.html.twig' %}
 
-{% block title %}Enregistrement{% endblock %}
+{% block title %}{{ parent() }} Inscription{% endblock %}
+{% block menuLinks %}
+    {% include 'public/inc/menu.html.twig' %}
+{% endblock %}
+{%block htitle %}Inscription{% endblock %}
+{%block hdesc %}Veuillez vous Inscrire. Vous devrez valider votre compte via un lien dans votre mail.{% endblock %}
+{% block boutonshauts %}{% endblock %}
 
-{% block body %}
+{% block articlePerOne %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
 
     {{ form_errors(registrationForm) }}
 

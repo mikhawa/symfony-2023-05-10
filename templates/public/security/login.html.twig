@@ -17,7 +17,7 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Vous êtes connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
     {% endif %}
 
@@ -38,4 +38,5 @@
         Connexion
     </button>
 </form>
+    <h3 class="h5 mb-3 mt-4 font-weight-normal">Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></h3>
 {% endblock %}
