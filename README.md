@@ -4095,7 +4095,8 @@ Et au niveau du contrôleur `src/Controller/RegistrationController.php` :
   ###
   // redirection vers l'accueil
             return $this->redirectToRoute('homepage');
-            // on n'autorise pas l'utilisateur à se connecter directement après son inscription
+            // on n'autorise pas l'utilisateur à se
+            // connecter directement après son inscription
             /*
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -4123,14 +4124,20 @@ Nous allons créer un lien d'enregistrement dans le menu de navigation :
 {# ... #}
  {% if is_granted("ROLE_USER") %}
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_logout') }}"
+            >Déconnexion</a>
         </li>
     {% else %}
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_login') }}"
+            >Connexion</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ path('app_register') }}">Inscription</a>
+            <a class="nav-link" aria-current="page"
+             href="{{ path('app_register') }}"
+            >Inscription</a>
         </li>
     {% endif %}
 {# ... #}
@@ -4143,7 +4150,8 @@ Puis un lien dans la page de connexion :
 ```twig
 {# templates/public/security/login.html.twig #}
 {# ... #}
-<h3 class="h5 mb-3 mt-4 font-weight-normal">Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></h3>
+<h3 class="h5 mb-3 mt-4 font-weight-normal">Vous n'avez pas de compte ?
+ <a href="{{ path('app_register') }}">Inscrivez-vous</a></h3>
 {# ... #}
 ```
 
@@ -4160,12 +4168,15 @@ Ensuite nous allons mettre le design à jour :
     {% include 'public/inc/menu.html.twig' %}
 {% endblock %}
 {%block htitle %}Inscription{% endblock %}
-{%block hdesc %}Veuillez vous Inscrire. Vous devrez valider votre compte via un lien dans votre mail.{% endblock %}
+{%block hdesc %}Veuillez vous Inscrire. 
+Vous devrez valider votre compte via un
+ lien dans votre mail.{% endblock %}
 {% block boutonshauts %}{% endblock %}
 
 {% block articlePerOne %}
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="alert alert-danger" role="alert">
+        {{ flash_error }}</div>
     {% endfor %}
 
 
@@ -4230,8 +4241,10 @@ $builder
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        'minMessage' => 'Your password should be at least 
+                        {{ limit }} characters',
+                        // max length allowed by Symfony for
+                        // security reasons
                         'max' => 4096,
                     ]),
                 ],
@@ -4241,7 +4254,27 @@ $builder
 ###
 ```
 
+Ajout de l'appel du menu dans `src/Controller/RegistrationController.php` :
 
+```php
+###
+# Importation de l'entité Categorie
+use App\Entity\Categorie;
+
+###
+// on récupère toutes les catégories
+        $categories = $entityManager->
+        getRepository(Categorie::class)->findAll();
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+            // on envoie les catégories à la vue
+            'categories' => $categories,
+        ]);
+        ###
+```
+
+[v0.5.8](https://github.com/mikhawa/symfony-2023-05-10/commit/602c69a189f032c07679c7d2af7b925417cfd8e2#diff-d6e0320f959fd80725fad202416df75fa98c151cd17f17879872f7ebbd50e2e0)
 
 ---
 
