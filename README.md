@@ -4281,3 +4281,17 @@ use App\Entity\Categorie;
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+## Installation d'EasyAdmin
+
+Nous allons installer EasyAdmin pour gérer les utilisateurs (dont leurs droits), les articles, les commentaires et les catégories.
+
+```bash
+composer require easycorp/easyadmin-bundle
+```
+
+```bash
+php bin/console make:admin:dashboard
+```
+
+```bash
