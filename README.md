@@ -779,6 +779,18 @@ Nous allons modifier le fichier `.env.local` pour y mettre les informations de c
 ###< doctrine/doctrine-bundle ###
 ```
 
+! Depuis la version 6.3 de Symfony, il est possible qu'il faille installer une librairie supplémentaire pour les annotations de doctrine :
+
+```bash
+composer require doctrine/annotations
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 #### Création de la base de données
 
 Nous allons créer la base de données en utilisant la commande suivante :
@@ -4068,6 +4080,8 @@ Les fichiers concernés sont :
 - `src/Form/RegistrationFormType.php`
 - `templates/registration/register.html.twig`
 - `templates/registration/confirmation_email.html.twig`
+
+Nous n'utilisons pas encore le système de traduction de Symfony, nous le mettrons en place plus tard.
 
 Et au niveau du contrôleur `src/Controller/RegistrationController.php` :
   
