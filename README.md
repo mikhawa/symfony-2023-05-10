@@ -103,7 +103,13 @@
         - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
         - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
   - [Installation d'EasyAdmin](#installation-deasyadmin)
-    - 
+    - [Configuration d'EasyAdmin](#configuration-deasyadmin)
+      - [Configuration du tableau de bord](#configuration-du-tableau-de-bord)
+    - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
+      - [Création du CRUD pour les articles](#création-du-crud-pour-les-articles)
+      - [Création du CRUD pour les catégories](#création-du-crud-pour-les-catégories)
+      - [Création du CRUD pour les commentaires](#création-du-crud-pour-les-commentaires)
+      - [Création du CRUD pour les utilisateurs](#création-du-crud-pour-les-utilisateurs)
 ---
 
 
@@ -4291,23 +4297,91 @@ Nous allons installer EasyAdmin pour gérer les utilisateurs (dont leurs droits)
 composer require easycorp/easyadmin-bundle
 ```
 
+La documentation est ici :
+
+https://symfony.com/bundles/EasyAdminBundle/current/index.html
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Configuration d'EasyAdmin
+
+
 Puis nous allons créer un tableau de bord pour l'administration :
 
 ```bash
 php bin/console make:admin:dashboard
-
-# puis
-
-Next steps:
- * Configure your Dashboard at 
- "src/Controller/Admin/DashboardController.php"
- * Run "make:admin:crud" to generate CRUD controllers 
- and link them from the Dashboard.
 ```
+
+On y accède à cette URL :
+
+https://127.0.0.1:8000/admin
+
+
+#### Configuration du tableau de bord
+
+
+On peut ensuite configurer le tableau de bord dans le fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+###
+use Symfony\Component\Routing\Annotation\Route;
+# Importation des entités utiles
+use App\Entity\Categorie;
+use App\Entity\Article;
+use App\Entity\Commentaire;
+use App\Entity\Utilisateur;
+
+###
+
+// Option 3. You can render some custom template to
+// display a proper dashboard with widgets, etc.
+// (tip: it's easier if your template extends from
+// @EasyAdmin/page/content.html.twig)
+return $this->render('admin/admin.homepage.html.twig');
+###
+
+```
+
+En le liant au template :
+
+`templates/admin/admin.homepage.html.twig`
+
+```twig
+{# templates/admin/admin.homepage.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+```
+
+
+La documentation du dashboard est ici :
+
+https://symfony.com/bundles/EasyAdminBundle/current/dashboards.html#dashboard-configuration
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Création des CRUD dans EasyAdmin
+
+
+Voici la commande générale pour la création des CRUD :
 
 ```bash
 php bin/console make:admin:crud
 ```
+
+On peut ensuite choisir l'entité à gérer.
+
+
+#### Création du CRUD pour l'entité Article
 
 ```bash
 php bin/console make:admin:crud Article
