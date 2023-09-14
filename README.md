@@ -106,10 +106,8 @@
     - [Configuration d'EasyAdmin](#configuration-deasyadmin)
       - [Configuration du tableau de bord](#configuration-du-tableau-de-bord)
     - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
-      - [Création du CRUD pour les articles](#création-du-crud-pour-les-articles)
-      - [Création du CRUD pour les catégories](#création-du-crud-pour-les-catégories)
-      - [Création du CRUD pour les commentaires](#création-du-crud-pour-les-commentaires)
-      - [Création du CRUD pour les utilisateurs](#création-du-crud-pour-les-utilisateurs)
+      - [Création du CRUD pour l'entité Article](#création-du-crud-pour-lentité-article)
+      - [Création du CRUD pour l'entité Commentaire](#création-du-crud-pour-lentité-commentaire)
 ---
 
 
@@ -4355,7 +4353,14 @@ En le liant au template :
 ```twig
 {# templates/admin/admin.homepage.html.twig #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
-
+{# On commente les actions comme il n'y en a pas encore
+        {% for data in my_own_data %}
+            <tr>
+                <td>{{ data.someColumn }}</td>
+                <td>{{ data.anotherColumn }}</td>
+            </tr>
+        {% endfor %}
+        #}
 ```
 
 
@@ -4383,12 +4388,39 @@ On peut ensuite choisir l'entité à gérer.
 
 #### Création du CRUD pour l'entité Article
 
-```bash
-php bin/console make:admin:crud Article
+
+Le fichier du CRUD est ici : 
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+On peut l'utiliser immédiatement en le mettant dans les liens du fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+###
+public function configureMenuItems(): iterable
+{
+return [
+    MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+    MenuItem::linkToCrud('Les articles', 'fas fa-list', Article::class),
+    // yield MenuItem::linkToCrud('The Label',
+    // 'fas fa-list', EntityClass::class);
+];
+}
+###
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création du CRUD pour l'entité Commentaire
+
 ```bash
-php bin/console make:admin:crud Comment
+php bin/console make:admin:crud Commentaire
 ```
 
 ```bash
@@ -4396,7 +4428,7 @@ php bin/console make:admin:crud Categorie
 ```
 
 ```bash
-php bin/console make:admin:crud User
+php bin/console make:admin:crud Utilisateur
 ```
 
 ---
