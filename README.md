@@ -102,7 +102,8 @@
         - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
         - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
         - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
-  - [Installation d'EasyAdmin]
+  - [Installation d'EasyAdmin](#installation-deasyadmin)
+    - 
 ---
 
 
