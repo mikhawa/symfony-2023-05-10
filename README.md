@@ -4318,6 +4318,25 @@ On y accède à cette URL :
 
 https://127.0.0.1:8000/admin
 
+On va créer un lien vers l'administration dans le menu, pour le moment pour les simples utilisateurs, puis plus tard seulement pour les administrateurs :
+
+`templates/public/inc/menu.html.twig`
+
+```twig
+{# templates/public/inc/menu.html.twig #}
+{# ... #} 
+{% if is_granted("ROLE_USER") %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+        </li>
+    {% else %}
+{# ... #}
+```
+
+
 
 #### Configuration du tableau de bord
 
@@ -4419,17 +4438,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 #### Création du CRUD pour l'entité Commentaire
 
-```bash
-php bin/console make:admin:crud Commentaire
-```
 
-```bash
-php bin/console make:admin:crud Categorie
-```
-
-```bash
-php bin/console make:admin:crud Utilisateur
-```
 
 ---
 
