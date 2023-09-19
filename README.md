@@ -107,7 +107,8 @@
       - [Configuration du tableau de bord](#configuration-du-tableau-de-bord)
     - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
       - [Création du CRUD pour l'entité Article](#création-du-crud-pour-lentité-article)
-      - [Création du CRUD pour l'entité Commentaire](#création-du-crud-pour-lentité-commentaire)
+      - [Création du CRUD pour l'entité Commentaire et Catégorie](#création-du-crud-pour-lentité-commentaire-et-catégorie)
+      - 
 ---
 
 
@@ -4336,7 +4337,11 @@ On va créer un lien vers l'administration dans le menu, pour le moment pour les
 {# ... #}
 ```
 
+---
 
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
 #### Configuration du tableau de bord
 
@@ -4436,7 +4441,33 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-#### Création du CRUD pour l'entité Commentaire
+#### Création du CRUD pour l'entité Commentaire et Catégorie
+
+On peut les utiliser immédiatement en le mettant dans les liens du fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+ public function configureMenuItems(): iterable
+    {
+        return [
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::subMenu('Gestion du Blog', 'fas fa-newspaper')
+            ->setSubItems([
+                MenuItem::linkToCrud('Les catégories', 
+                'fas fa-list', Categorie::class),
+                MenuItem::linkToCrud('Les articles', 
+                'fas fa-list', Article::class),
+                MenuItem::linkToCrud('Les commentaires', 
+                'fas fa-list', Commentaire::class),
+            ]),
+            MenuItem::linkToRoute('Retour au site', 
+            'fas fa-home', 'homepage'),
+
+        // yield MenuItem::linkToCrud('The Label',
+        // 'fas fa-list', EntityClass::class);
+        ];
+```
 
 
 

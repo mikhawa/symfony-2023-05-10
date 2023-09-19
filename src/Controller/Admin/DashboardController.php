@@ -47,8 +47,13 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
-            MenuItem::linkToCrud('Les articles', 'fas fa-list', Article::class),
-            MenuItem::linkToCrud('Les commentaires', 'fas fa-list', Commentaire::class),
+            MenuItem::subMenu('Gestion du Blog', 'fas fa-newspaper')->setSubItems([
+                MenuItem::linkToCrud('Les catégories', 'fas fa-list', Categorie::class),
+                MenuItem::linkToCrud('Les articles', 'fas fa-list', Article::class),
+                MenuItem::linkToCrud('Les commentaires', 'fas fa-list', Commentaire::class),
+            ]),
+            MenuItem::linkToRoute('Retour au site', 'fas fa-home', 'homepage'),
+
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         ];
     }
