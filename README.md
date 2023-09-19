@@ -102,7 +102,13 @@
         - [Ajout du champ `name` dans le formulaire d'inscription](#ajout-du-champ-name-dans-le-formulaire-dinscription)
         - [Traduction du formulaire d'inscription et des mails](#traduction-du-formulaire-dinscription-et-des-mails)
         - [Création du lien d'enregistrement et design de celui-ci](#création-du-lien-denregistrement-et-design-de-celui-ci)
-        - 
+  - [Installation d'EasyAdmin](#installation-deasyadmin)
+    - [Configuration d'EasyAdmin](#configuration-deasyadmin)
+      - [Configuration du tableau de bord](#configuration-du-tableau-de-bord)
+    - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
+      - [Création du CRUD pour l'entité Article](#création-du-crud-pour-lentité-article)
+      - [Création du CRUD pour l'entité Commentaire et Catégorie](#création-du-crud-pour-lentité-commentaire-et-catégorie)
+      - 
 ---
 
 
@@ -4275,6 +4281,195 @@ use App\Entity\Categorie;
 ```
 
 [v0.5.8](https://github.com/mikhawa/symfony-2023-05-10/commit/602c69a189f032c07679c7d2af7b925417cfd8e2#diff-d6e0320f959fd80725fad202416df75fa98c151cd17f17879872f7ebbd50e2e0)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+## Installation d'EasyAdmin
+
+Nous allons installer EasyAdmin pour gérer les utilisateurs (dont leurs droits), les articles, les commentaires et les catégories.
+
+```bash
+composer require easycorp/easyadmin-bundle
+```
+
+La documentation est ici :
+
+https://symfony.com/bundles/EasyAdminBundle/current/index.html
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Configuration d'EasyAdmin
+
+
+Puis nous allons créer un tableau de bord pour l'administration :
+
+```bash
+php bin/console make:admin:dashboard
+```
+
+On y accède à cette URL :
+
+https://127.0.0.1:8000/admin
+
+On va créer un lien vers l'administration dans le menu, pour le moment pour les simples utilisateurs, puis plus tard seulement pour les administrateurs :
+
+`templates/public/inc/menu.html.twig`
+
+```twig
+{# templates/public/inc/menu.html.twig #}
+{# ... #} 
+{% if is_granted("ROLE_USER") %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+        </li>
+    {% else %}
+{# ... #}
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Configuration du tableau de bord
+
+
+On peut ensuite configurer le tableau de bord dans le fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+###
+use Symfony\Component\Routing\Annotation\Route;
+# Importation des entités utiles
+use App\Entity\Categorie;
+use App\Entity\Article;
+use App\Entity\Commentaire;
+use App\Entity\Utilisateur;
+
+###
+
+// Option 3. You can render some custom template to
+// display a proper dashboard with widgets, etc.
+// (tip: it's easier if your template extends from
+// @EasyAdmin/page/content.html.twig)
+return $this->render('admin/admin.homepage.html.twig');
+###
+
+```
+
+En le liant au template :
+
+`templates/admin/admin.homepage.html.twig`
+
+```twig
+{# templates/admin/admin.homepage.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+{# On commente les actions comme il n'y en a pas encore
+        {% for data in my_own_data %}
+            <tr>
+                <td>{{ data.someColumn }}</td>
+                <td>{{ data.anotherColumn }}</td>
+            </tr>
+        {% endfor %}
+        #}
+```
+
+
+La documentation du dashboard est ici :
+
+https://symfony.com/bundles/EasyAdminBundle/current/dashboards.html#dashboard-configuration
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Création des CRUD dans EasyAdmin
+
+
+Voici la commande générale pour la création des CRUD :
+
+```bash
+php bin/console make:admin:crud
+```
+
+On peut ensuite choisir l'entité à gérer.
+
+
+#### Création du CRUD pour l'entité Article
+
+
+Le fichier du CRUD est ici : 
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+On peut l'utiliser immédiatement en le mettant dans les liens du fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+###
+public function configureMenuItems(): iterable
+{
+return [
+    MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+    MenuItem::linkToCrud('Les articles', 'fas fa-list', Article::class),
+    // yield MenuItem::linkToCrud('The Label',
+    // 'fas fa-list', EntityClass::class);
+];
+}
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Création du CRUD pour l'entité Commentaire et Catégorie
+
+On peut les utiliser immédiatement en le mettant dans les liens du fichier :
+
+`src/Controller/Admin/DashboardController.php`
+
+```php
+ public function configureMenuItems(): iterable
+    {
+        return [
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::subMenu('Gestion du Blog', 'fas fa-newspaper')
+            ->setSubItems([
+                MenuItem::linkToCrud('Les catégories', 
+                'fas fa-list', Categorie::class),
+                MenuItem::linkToCrud('Les articles', 
+                'fas fa-list', Article::class),
+                MenuItem::linkToCrud('Les commentaires', 
+                'fas fa-list', Commentaire::class),
+            ]),
+            MenuItem::linkToRoute('Retour au site', 
+            'fas fa-home', 'homepage'),
+
+        // yield MenuItem::linkToCrud('The Label',
+        // 'fas fa-list', EntityClass::class);
+        ];
+```
+
+
 
 ---
 
