@@ -4,6 +4,9 @@
 
 ## Installation de Symfony dans l'environnement de développement sous Windows
 
+## Lien vers le site de démo
+
+https://sym6.cf2m.be/
 
 ---
 
