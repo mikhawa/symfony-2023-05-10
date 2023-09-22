@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+
+# Pour gérer le CRUD
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ArticleCrudController extends AbstractCrudController
@@ -12,14 +15,18 @@ class ArticleCrudController extends AbstractCrudController
         return Article::class;
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
+    # Options de configuration du CRUD
+    public function configureCrud(Crud $crud): Crud
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        return $crud
+            // classés par id décroissant
+            ->setDefaultSort(['id' => 'DESC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des articles')
+            ->setPageTitle('new', 'Créer un article')
+            ->setPageTitle('edit', 'Modifier un article');
+
     }
-    */
 }

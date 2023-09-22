@@ -111,6 +111,8 @@ https://sym6.cf2m.be/
     - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
       - [Création du CRUD pour l'entité Article](#création-du-crud-pour-lentité-article)
       - [Création du CRUD pour l'entité Commentaire et Catégorie](#création-du-crud-pour-lentité-commentaire-et-catégorie)
+    - [Modifications des CRUD](#modifications-des-crud)
+      - [Modification du CRUD pour l'entité Article](#modification-du-crud-pour-lentité-article)
       - 
 ---
 
@@ -4479,3 +4481,66 @@ On peut les utiliser immédiatement en le mettant dans les liens du fichier :
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Modifications des CRUD
+
+Documentation des CRUD dans EasyAdmin :
+
+https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-controller-pages
+
+
+#### Modification du CRUD pour l'entité Article
+
+##### configureCrud
+
+On peut modifier le CRUD pour l'entité Article dans le fichier :
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+```php
+<?php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Article;
+
+# Pour gérer le CRUD
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+
+class ArticleCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Article::class;
+    }
+
+    # Options de configuration du CRUD
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par id décroissant
+            ->setDefaultSort(['id' => 'DESC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des articles')
+            ->setPageTitle('new', 'Créer un article')
+            ->setPageTitle('edit', 'Modifier un article');
+
+    }
+}
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### configureFields
+
+On peut modifier les champs du CRUD pour l'entité Article dans le fichier :
+
+`src/Controller/Admin/ArticleCrudController.php`
+
