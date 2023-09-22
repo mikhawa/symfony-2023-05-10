@@ -113,7 +113,9 @@ https://sym6.cf2m.be/
       - [Création du CRUD pour l'entité Commentaire et Catégorie](#création-du-crud-pour-lentité-commentaire-et-catégorie)
     - [Modifications des CRUD](#modifications-des-crud)
       - [Modification du CRUD pour l'entité Article](#modification-du-crud-pour-lentité-article)
-      - 
+        - [ArticleCrudController : configureCrud](#articlecrudcontroller--configurecrud)
+        - [ArticleCrudController : configureFields](#articlecrudcontroller--configurefields)
+        - 
 ---
 
 
@@ -4491,7 +4493,7 @@ https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-controller-pa
 
 #### Modification du CRUD pour l'entité Article
 
-##### configureCrud
+##### ArticleCrudController : configureCrud
 
 On peut modifier le CRUD pour l'entité Article dans le fichier :
 
@@ -4538,9 +4540,41 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
-##### configureFields
+##### ArticleCrudController : configureFields
+
+Documentation :
+
+https://symfony.com/bundles/EasyAdminBundle/current/fields.html#displaying-different-fields-per-page
 
 On peut modifier les champs du CRUD pour l'entité Article dans le fichier :
 
 `src/Controller/Admin/ArticleCrudController.php`
 
+```php
+###
+public function configureFields(string $pageName): iterable
+    {
+        return [
+            # id seulement sur l'accueil
+            IntegerField::new('id')->onlyOnIndex(),
+            TextField::new('ArticleTitle'),
+            # slug seulement sur les formulaires,
+            # lié au titre avec création automatique
+            SlugField::new('ArticleSlug')->onlyOnForms()
+                ->setTargetFieldName('ArticleTitle'),
+            TextEditorField::new('ArticleContent'),
+            DateTimeField::new('ArticleDateCreate'),
+            # date de l'update cachée sur l'accueil
+            DateTimeField::new('ArticleDateUpdate')->hideOnIndex(),
+            BooleanField::new('ArticleIsPublished'),
+
+        ];
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
