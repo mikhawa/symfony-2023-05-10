@@ -72,8 +72,10 @@ class ArticleCrudController extends AbstractCrudController
             # https://symfony.com/bundles/EasyAdminBundle/current/fields/AssociationField.html
             # Lien avec la table utilisateur ManyToOne
             AssociationField::new('utilisateur'),
-            # Lien avec la table commentaire OneToMany
+            # Lien avec la table commentaire OneToMany ! non fonctionnel, à corriger
             AssociationField::new('Commentaires'),
+            # Lien avec la table catégorie ManyToMany ! non fonctionnel en update, à corriger
+            AssociationField::new('categories'),
 
             /*
             ChoiceField::new('utilisateur.name')

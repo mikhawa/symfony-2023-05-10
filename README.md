@@ -4608,6 +4608,17 @@ public function __toString(): string
 ###
 ```
 
+Et de même pour les catégories :
+
+```php
+###
+public function __toString(): string
+    {
+        return $this->CategorieTitle;
+    }
+###
+```
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
