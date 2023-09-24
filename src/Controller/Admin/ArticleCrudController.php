@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 # Utilisation des champs de EasyAdmin
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -67,6 +68,13 @@ class ArticleCrudController extends AbstractCrudController
             BooleanField::new('ArticleIsPublished'),
             # Panel pour regrouper les champs
             FormField::addPanel('Lien avec les autres tables'),
+            # Association avec les autres tables
+            # https://symfony.com/bundles/EasyAdminBundle/current/fields/AssociationField.html
+            # Lien avec la table utilisateur ManyToOne
+            AssociationField::new('utilisateur'),
+            # Lien avec la table commentaire OneToMany
+            AssociationField::new('Commentaires'),
+
             /*
             ChoiceField::new('utilisateur.name')
 

@@ -4553,8 +4553,7 @@ On peut modifier les champs du CRUD pour l'entité Article dans le fichier :
 ```php
 ###
 # Utilisation des champs de EasyAdmin
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -4578,8 +4577,33 @@ public function configureFields(string $pageName): iterable
             # date de l'update cachée sur l'accueil
             DateTimeField::new('ArticleDateUpdate')->hideOnIndex(),
             BooleanField::new('ArticleIsPublished'),
+            # Panel pour regrouper les champs
+            FormField::addPanel('Lien avec les autres tables'),
+            # Association avec les autres tables
+            # AssociationField
+            # Lien avec la table utilisateur ManyToOne
+            AssociationField::new('utilisateur'),
+            # Lien avec la table commentaire OneToMany
+            AssociationField::new('Commentaires'),
 
         ];
+    }
+###
+```
+
+En cas d'erreurs de ce type : 
+  
+```bash
+Object of class App\Entity\Commentaire could not be converted to string
+```
+
+On doit ajouter la méthode `__toString()` dans l'entité `Commentaire` :
+
+```php
+###
+public function __toString(): string
+    {
+        return $this->CommentaireTitle;
     }
 ###
 ```
