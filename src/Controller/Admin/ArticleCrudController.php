@@ -25,12 +25,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class ArticleCrudController extends AbstractCrudController
 {
+    # Définition de l'entité gérée par le CRUD
+    # https://symfony.com/bundles/EasyAdminBundle/current/crud.html#page-names-and-constants
     public static function getEntityFqcn(): string
     {
         return Article::class;
     }
 
     # Options de configuration du CRUD
+    # https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-controller-configuration
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
