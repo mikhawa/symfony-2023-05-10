@@ -4307,6 +4307,10 @@ La documentation est ici :
 
 https://symfony.com/bundles/EasyAdminBundle/current/index.html
 
+Et le github de la démo est là :
+
+https://github.com/EasyCorp/easyadmin-demo
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)

@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 # Utilisation des champs de EasyAdmin
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -74,6 +75,9 @@ class ArticleCrudController extends AbstractCrudController
             AssociationField::new('utilisateur'),
             # Lien avec la table commentaire OneToMany ! non fonctionnel, à corriger
             AssociationField::new('Commentaires'),
+            /*CollectionField::new('Commentaires')
+                ->setEntryType(CommentaireType::class) // Remplacez CommentaireType::class par votre propre formulaire de commentaire
+                ->onlyOnForms(),*/
             # Lien avec la table catégorie ManyToMany ! non fonctionnel en update, à corriger
             AssociationField::new('categories'),
 
