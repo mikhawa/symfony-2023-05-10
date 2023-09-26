@@ -75,20 +75,8 @@ class ArticleCrudController extends AbstractCrudController
             AssociationField::new('utilisateur'),
             # Lien avec la table commentaire OneToMany ! non fonctionnel, à corriger
             AssociationField::new('Commentaires'),
-            /*CollectionField::new('Commentaires')
-                ->setEntryType(CommentaireType::class) // Remplacez CommentaireType::class par votre propre formulaire de commentaire
-                ->onlyOnForms(),*/
             # Lien avec la table catégorie ManyToMany ! non fonctionnel en update, à corriger
             AssociationField::new('categories'),
-
-            /*
-            ChoiceField::new('utilisateur.name')
-
-            ChoiceField::new('categories.categoriesTitle')
-                ->setChoices(fn () => new Categorie())
-                ->allowMultipleChoices(),
-            'utilisateur.name',
-            'Commentaires.CommentaireTitle',*/
         ];
     }
 }
