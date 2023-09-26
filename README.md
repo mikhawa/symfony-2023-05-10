@@ -4583,13 +4583,16 @@ public function configureFields(string $pageName): iterable
             BooleanField::new('ArticleIsPublished'),
             # Panel pour regrouper les champs
             FormField::addPanel('Lien avec les autres tables'),
+            #
             # Association avec les autres tables
-            # AssociationField
+            #
+            # https://symfony.com/bundles/EasyAdminBundle/current/fields/AssociationField.html
             # Lien avec la table utilisateur ManyToOne
             AssociationField::new('utilisateur'),
             # Lien avec la table commentaire OneToMany
-            AssociationField::new('Commentaires'),
-
+            AssociationField::new('Commentaires')->onlyOnIndex(),
+            # Lien avec la table catégorie ManyToMany
+            AssociationField::new('categories'),
         ];
     }
 ###
@@ -4622,6 +4625,19 @@ public function __toString(): string
     }
 ###
 ```
+
+Pour faire fonctionner les modifications/ajout/suppressions de catégories, il vaut mieux refaire la relation en indiquant que la relation utilise une table intermédiaire (m2m) :
+
+`src/Entity/Article.php`
+
+```php
+###
+#[ORM\ManyToMany(targetEntity: Categorie::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'categorie_article')]
+    private Collection $categories;
+###
+```
+
 
 ---
 
