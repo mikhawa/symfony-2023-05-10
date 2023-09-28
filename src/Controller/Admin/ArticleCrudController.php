@@ -76,9 +76,16 @@ class ArticleCrudController extends AbstractCrudController
             # Lien avec la table utilisateur ManyToOne
             AssociationField::new('utilisateur'),
             # Lien avec la table commentaire OneToMany
-            AssociationField::new('Commentaires'),
-            # Lien avec la table catégorie ManyToMany
-            AssociationField::new('categories'),
+            AssociationField::new('Commentaires')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+            # Lien avec la table catégorie ManyToMany -
+            # Il faut ajouter le setFormTypeOptions pour éviter que les catégories
+            # ne soient pas ajoutées, modifiées ou supprimées !
+            # https://stackoverflow.com/questions/65900855/easyadmin-manytomany-relation-not-saving-data-in-base
+            AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
         ];
     }
 }

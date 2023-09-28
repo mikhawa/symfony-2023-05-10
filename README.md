@@ -4554,6 +4554,17 @@ On peut modifier les champs du CRUD pour l'entité Article dans le fichier :
 
 `src/Controller/Admin/ArticleCrudController.php`
 
+Pour faire fonctionner les modifications/ajout/suppressions de catégories et/ou commentaires, il faut savoir que Doctrine gère les relations ManyToMany ou ManyToOne en lecture seule, il faut donc ajouter les options `by_reference` à `false` dans le fichier :
+
+```php
+###
+AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+```
+
+`src/Controller/Admin/ArticleCrudController.php`
+
 ```php
 ###
 # Utilisation des champs de EasyAdmin
@@ -4566,7 +4577,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 ###
-public function configureFields(string $pageName): iterable
+# Champs à afficher dans le CRUD
+    # https://symfony.com/bundles/EasyAdminBundle/current/fields.html#field-types
+    public function configureFields(string $pageName): iterable
     {
         return [
             # id seulement sur l'accueil
@@ -4590,9 +4603,16 @@ public function configureFields(string $pageName): iterable
             # Lien avec la table utilisateur ManyToOne
             AssociationField::new('utilisateur'),
             # Lien avec la table commentaire OneToMany
-            AssociationField::new('Commentaires')->onlyOnIndex(),
-            # Lien avec la table catégorie ManyToMany
-            AssociationField::new('categories'),
+            AssociationField::new('Commentaires')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+            # Lien avec la table catégorie ManyToMany -
+            # Il faut ajouter le setFormTypeOptions pour éviter que les catégories
+            # ne soient pas ajoutées, modifiées ou supprimées !
+            # https://stackoverflow.com/questions/65900855/easyadmin-manytomany-relation-not-saving-data-in-base
+            AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
         ];
     }
 ###
@@ -4625,19 +4645,6 @@ public function __toString(): string
     }
 ###
 ```
-
-Pour faire fonctionner les modifications/ajout/suppressions de catégories, il vaut mieux refaire la relation en indiquant que la relation utilise une table intermédiaire (m2m) :
-
-`src/Entity/Article.php`
-
-```php
-###
-#[ORM\ManyToMany(targetEntity: Categorie::class, cascade: ['persist'])]
-    #[ORM\JoinTable(name: 'categorie_article')]
-    private Collection $categories;
-###
-```
-
 
 ---
 
