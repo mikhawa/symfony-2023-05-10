@@ -4646,6 +4646,8 @@ public function __toString(): string
 ###
 ```
 
+[v0.5.10](https://github.com/mikhawa/symfony-2023-05-10/commit/4427610ac9fe3202e10627c33ad3d3d9d64c58d9#diff-aac03435af3425fceb1fcd79866ac2a82be156cf64d00346f6a0f2e41895dfed)
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
