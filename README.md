@@ -121,7 +121,7 @@ https://sym6.cf2m.be/
       - [Modification du CRUD pour l'entité Categorie](#modification-du-crud-pour-lentité-catégorie)
         - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
         - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
-    - [Mise en français de l'interface d'administration](mise-en-français-de-linterface-dadministration)
+    - [Mise en français de l'interface d'administration](#mise-en-français-de-linterface-dadministration)
     
 ---
 
