@@ -17,7 +17,7 @@
 
     {% for commentaire in commentaires %}
         <h5>{{ commentaire.CommentaireTitle }} <small>Par {{ commentaire.utilisateur.name}} le {{ commentaire.CommentaireDateCreate|date("Y-m-d") }}</small></h5>
-        <p>{{ commentaire.CommentaireText }}</p>
+        <p>{{ commentaire.CommentaireText|striptags }}</p>
     {% else %}
         <p>Aucun commentaire</p>
     {% endfor %}

@@ -22,7 +22,7 @@
             <h5>Présent dans aucune catégorie</h5>
         {% endfor %}
         <hr>
-        <p>{{ article.ArticleContent|nl2br }}</p>
+        <p>{{ article.ArticleContent|striptags|nl2br }}</p>
         <h4 class="h5">Par {{ article.utilisateur.name }} le {{ article.ArticleDateCreate|date("d/m/Y") }}</h4>
     </div>
     {% block commentaire %}{% include 'public/inc/commentaire.html.twig' %}{% endblock %}
