@@ -121,7 +121,8 @@ https://sym6.cf2m.be/
       - [Modification du CRUD pour l'entité Categorie](#modification-du-crud-pour-lentité-catégorie)
         - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
         - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
-    - 
+    - [Mise en français de l'interface d'administration](mise-en-français-de-linterface-dadministration)
+    
 ---
 
 
@@ -4852,4 +4853,12 @@ On peut aussi traduire le titre et contenu du tableau de bord de l'administratio
 ```twig
 {% block content_title %}Administration du site{% endblock %}
 ```
+
+[v0.5.11](https://github.com/mikhawa/symfony-2023-05-10/commit/45238bafaca00d91716e3f3a873ef3a45701d204#diff-90802cb0c2e0f8d3951bb790ec936581bf7dc98aabdc64f2159598ae51d0dce9)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
