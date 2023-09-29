@@ -36,6 +36,7 @@ class Article
     private ?bool $ArticleIsPublished = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Categorie_m2m_Article')]
+    // #[ORM\JoinTable(name: 'categorie_article')] pour débugguer; piste à suivre
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]

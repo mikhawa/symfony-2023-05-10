@@ -1,17 +1,18 @@
 {# templates/admin/admin.homepage.html.twig #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title %}The Title of the Page{% endblock %}
+{% block content_title %}Administration du site{% endblock %}
 {% block page_actions %}
-    <a class="btn btn-primary" href="...">Some Action</a>
+    <a class="btn btn-primary" href="https://127.0.0.1:8000/admin/fr?crudAction=new&crudControllerFqcn=App%5CController%5CAdmin%5CArticleCrudController">Ajouter un article</a>
 {% endblock %}
 
 {% block main %}
+
     <table class="datagrid">
         <thead>
         <tr>
-            <td>Some Column</td>
-            <td>Another Column</td>
+            <td>Une colonne</td>
+            <td>Une autres colonne</td>
         </tr>
         </thead>
         <tbody>

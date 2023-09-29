@@ -37,7 +37,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Article::class)]
     private Collection $articles;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commentaire::class)]
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commentaire::class, cascade: ['persist'])]
     private Collection $commentaires;
 
     #[ORM\Column(type: 'boolean')]

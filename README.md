@@ -111,7 +111,18 @@ https://sym6.cf2m.be/
     - [Création des CRUD dans EasyAdmin](#création-des-crud-dans-easyadmin)
       - [Création du CRUD pour l'entité Article](#création-du-crud-pour-lentité-article)
       - [Création du CRUD pour l'entité Commentaire et Catégorie](#création-du-crud-pour-lentité-commentaire-et-catégorie)
-      - 
+    - [Modifications des CRUD](#modifications-des-crud)
+      - [Modification du CRUD pour l'entité Article](#modification-du-crud-pour-lentité-article)
+        - [ArticleCrudController : configureCrud](#articlecrudcontroller--configurecrud)
+        - [ArticleCrudController : configureFields](#articlecrudcontroller--configurefields)
+      - [Modification du CRUD pour l'entité Commentaire](#modification-du-crud-pour-lentité-commentaire)
+        - [CommentaireCrudController : configureCrud](#commentairecrudcontroller--configurecrud)
+        - [CommentaireCrudController : configureFields](#commentairecrudcontroller--configurefields)
+      - [Modification du CRUD pour l'entité Categorie](#modification-du-crud-pour-lentité-catégorie)
+        - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
+        - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
+    - [Mise en français de l'interface d'administration](mise-en-français-de-linterface-dadministration)
+    
 ---
 
 
@@ -4303,6 +4314,10 @@ La documentation est ici :
 
 https://symfony.com/bundles/EasyAdminBundle/current/index.html
 
+Et le github de la démo est là :
+
+https://github.com/EasyCorp/easyadmin-demo
+
 ---
 
 Retour au [Menu de navigation](#menu-de-navigation)
@@ -4472,6 +4487,243 @@ On peut les utiliser immédiatement en le mettant dans les liens du fichier :
         ];
 ```
 
+[v0.5.9](https://github.com/mikhawa/symfony-2023-05-10/commit/6d725b61ec2e320bc95c93c1dd6efd17d152c614#diff-d1c087a6c634dad04bbc797bc3f22cff5a33778fd6ce1a5add3e7d8ef8c72df6)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Modifications des CRUD
+
+Documentation des CRUD dans EasyAdmin :
+
+https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-controller-pages
+
+
+#### Modification du CRUD pour l'entité Article
+
+##### ArticleCrudController : configureCrud
+
+On peut modifier le CRUD pour l'entité Article dans le fichier :
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+```php
+<?php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Article;
+
+# Pour gérer le CRUD
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+
+class ArticleCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Article::class;
+    }
+
+    # Options de configuration du CRUD
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par id décroissant
+            ->setDefaultSort(['id' => 'DESC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des articles')
+            ->setPageTitle('new', 'Créer un article')
+            ->setPageTitle('edit', 'Modifier un article');
+
+    }
+}
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### ArticleCrudController : configureFields
+
+Documentation :
+
+https://symfony.com/bundles/EasyAdminBundle/current/fields.html#displaying-different-fields-per-page
+
+On peut modifier les champs du CRUD pour l'entité Article dans le fichier :
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+Pour faire fonctionner les modifications/ajout/suppressions de catégories et/ou commentaires, il faut savoir que Doctrine gère les relations ManyToMany ou ManyToOne en lecture seule, il faut donc ajouter les options `by_reference` à `false` dans le fichier :
+
+```php
+###
+AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+```
+
+`src/Controller/Admin/ArticleCrudController.php`
+
+```php
+###
+# Utilisation des champs de EasyAdmin
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+###
+# Champs à afficher dans le CRUD
+    # https://symfony.com/bundles/EasyAdminBundle/current/fields.html#field-types
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            # id seulement sur l'accueil
+            IntegerField::new('id')->onlyOnIndex(),
+            TextField::new('ArticleTitle'),
+            # slug seulement sur les formulaires,
+            # lié au titre avec création automatique
+            SlugField::new('ArticleSlug')->onlyOnForms()
+                ->setTargetFieldName('ArticleTitle'),
+            TextEditorField::new('ArticleContent'),
+            DateTimeField::new('ArticleDateCreate'),
+            # date de l'update cachée sur l'accueil
+            DateTimeField::new('ArticleDateUpdate')->hideOnIndex(),
+            BooleanField::new('ArticleIsPublished'),
+            # Panel pour regrouper les champs
+            FormField::addPanel('Lien avec les autres tables'),
+            #
+            # Association avec les autres tables
+            #
+            # https://symfony.com/bundles/EasyAdminBundle/current/fields/AssociationField.html
+            # Lien avec la table utilisateur ManyToOne
+            AssociationField::new('utilisateur'),
+            # Lien avec la table commentaire OneToMany
+            AssociationField::new('Commentaires')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+            # Lien avec la table catégorie ManyToMany -
+            # Il faut ajouter le setFormTypeOptions pour éviter que les catégories
+            # ne soient pas ajoutées, modifiées ou supprimées !
+            # https://stackoverflow.com/questions/65900855/easyadmin-manytomany-relation-not-saving-data-in-base
+            AssociationField::new('categories')->setFormTypeOptions([
+                'by_reference' => false,
+            ]),
+        ];
+    }
+###
+```
+
+En cas d'erreurs de ce type : 
+  
+```bash
+Object of class App\Entity\Commentaire could not be converted to string
+```
+
+On doit ajouter la méthode `__toString()` dans l'entité `Commentaire` :
+
+```php
+###
+public function __toString(): string
+    {
+        return $this->CommentaireTitle;
+    }
+###
+```
+
+Et de même pour les catégories :
+
+```php
+###
+public function __toString(): string
+    {
+        return $this->CategorieTitle;
+    }
+###
+```
+
+[v0.5.10](https://github.com/mikhawa/symfony-2023-05-10/commit/4427610ac9fe3202e10627c33ad3d3d9d64c58d9#diff-aac03435af3425fceb1fcd79866ac2a82be156cf64d00346f6a0f2e41895dfed)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Modification du CRUD pour l'entité Commentaire
+
+##### CommentaireCrudController : configureCrud
+
+On peut modifier le CRUD pour l'entité Commentaire dans le fichier :
+
+`src/Controller/Admin/CommentaireCrudController.php`
+
+```php
+###
+public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par id décroissant
+            ->setDefaultSort(['id' => 'DESC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des commentaires')
+            ->setPageTitle('new', 'Créer un commentaire')
+            ->setPageTitle('edit', 'Modifier un commentaire');
+
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### CommentaireCrudController : configureFields
+
+
+`src/Controller/Admin/CommentaireCrudController.php`
+
+```php
+###
+public function configureFields(string $pageName): iterable
+    {
+        return [
+            # id seulement sur l'accueil
+            IntegerField::new('id')->onlyOnIndex(),
+            TextField::new('CommentaireTitle'),
+            TextEditorField::new('CommentaireText'),
+            DateTimeField::new('CommentaireDateCreate'),
+            BooleanField::new('CommentaireIsPublished'),
+            # Panel pour regrouper les champs
+            FormField::addPanel('Lien avec les autres tables'),
+            # Lien avec l'utilisateur
+            AssociationField::new('utilisateur'),
+            # Lien avec l'article, le rendre non modifiable
+            AssociationField::new('CommentaireManyToOneArticle')
+                ->setDisabled()
+                ->setFormTypeOptions([
+                    'label' => 'Article',
+                    'help' => 'Article non modifiable',
+                ]),
+        ];
+    }
+###
+```
 
 
 ---
@@ -4479,3 +4731,134 @@ On peut les utiliser immédiatement en le mettant dans les liens du fichier :
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Modification du CRUD pour l'entité Categorie
+
+##### CategorieCrudController : configureCrud
+
+On peut modifier le CRUD pour l'entité Categorie dans le fichier :
+
+`src/Controller/Admin/CategorieCrudController.php`
+
+```php
+###
+public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par titre croissant
+            ->setDefaultSort(['CategorieTitle' => 'ASC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des catégories')
+            ->setPageTitle('new', 'Créer une catégorie')
+            ->setPageTitle('edit', 'Modifier une catégorie');
+
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### CategorieCrudController : configureFields
+
+
+`src/Controller/Admin/CategorieCrudController.php`
+
+```php
+###
+# Pour gérer le CRUD
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+###
+public function configureFields(string $pageName): iterable
+    {
+        return [
+            # id seulement sur l'accueil
+            IntegerField::new('id')->onlyOnIndex(),
+            TextField::new('CategorieTitle')->setFormTypeOptions([
+                'label' => 'Titre',
+                'help' => 'Titre de la catégorie',]),
+            # slug seulement sur les formulaires,
+            # lié au titre avec création automatique
+            SlugField::new('CategorySlug')->onlyOnForms()
+                ->setTargetFieldName('CategorieTitle')
+                ->setFormTypeOptions([
+                    'label' => 'Slug',
+                    'help' => 'Créé à partir du titre, 
+                    modifiable en cliquant sur le cadenas',]),
+            # description
+            TextEditorField::new('CategorieDesc')->setFormTypeOptions([
+                'label' => 'Description',
+                'help' => 'Description de la catégorie',
+                ]),
+            # Panel pour regrouper les champs
+            FormField::addPanel('Lien avec les autres tables'),
+            # Lien avec les articles
+            AssociationField::new('Categorie_m2m_Article')
+                ->setFormTypeOptions([
+                    'label' => 'Articles',
+                    'help' => 'Articles liés à cette catégorie',
+                ]),
+
+        ];
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+### Mise en français de l'interface d'administration
+
+Dans le fichier `src/Controller/Admin/DashboardController.php`
+
+```php
+###
+// on ajoute la variable { _locale } pour la langue à l'URL
+#[Route('/admin/{_locale}', name: 'admin')]
+    public function index(): Response
+###
+```
+
+Puis on change la locale dans le fichier `config/packages/translation.yaml`
+
+```yaml
+framework:
+    default_locale: fr
+```
+
+Les boutons seront automatiquement traduits en français avec une URL de ce type :
+
+https://127.0.0.1:8000/admin/fr
+
+On peut aussi traduire le titre et contenu du tableau de bord de l'administration dans le fichier 
+
+`templates/admin/admin.homepage.html.twig`
+
+```twig
+{% block content_title %}Administration du site{% endblock %}
+```
+
+[v0.5.11](https://github.com/mikhawa/symfony-2023-05-10/commit/45238bafaca00d91716e3f3a873ef3a45701d204#diff-90802cb0c2e0f8d3951bb790ec936581bf7dc98aabdc64f2159598ae51d0dce9)
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
