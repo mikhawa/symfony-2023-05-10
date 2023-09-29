@@ -50,7 +50,7 @@ class CommentaireCrudController extends AbstractCrudController
             FormField::addPanel('Lien avec les autres tables'),
             # Lien avec l'utilisateur
             AssociationField::new('utilisateur'),
-            # Lien avec l'article
+            # Lien avec l'article, le rendre non modifiable
             AssociationField::new('CommentaireManyToOneArticle')
                 ->setDisabled()
                 ->setFormTypeOptions([

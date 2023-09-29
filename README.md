@@ -118,6 +118,9 @@ https://sym6.cf2m.be/
       - [Modification du CRUD pour l'entité Commentaire](#modification-du-crud-pour-lentité-commentaire)
         - [CommentaireCrudController : configureCrud](#commentairecrudcontroller--configurecrud)
         - [CommentaireCrudController : configureFields](#commentairecrudcontroller--configurefields)
+      - [Modification du CRUD pour l'entité Categorie](#modification-du-crud-pour-lentité-catégorie)
+        - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
+        - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
 ---
 
 
@@ -4694,3 +4697,69 @@ Retour au [Menu de navigation](#menu-de-navigation)
 `src/Controller/Admin/CommentaireCrudController.php`
 
 ```php
+###
+public function configureFields(string $pageName): iterable
+    {
+        return [
+            # id seulement sur l'accueil
+            IntegerField::new('id')->onlyOnIndex(),
+            TextField::new('CommentaireTitle'),
+            TextEditorField::new('CommentaireText'),
+            DateTimeField::new('CommentaireDateCreate'),
+            BooleanField::new('CommentaireIsPublished'),
+            # Panel pour regrouper les champs
+            FormField::addPanel('Lien avec les autres tables'),
+            # Lien avec l'utilisateur
+            AssociationField::new('utilisateur'),
+            # Lien avec l'article, le rendre non modifiable
+            AssociationField::new('CommentaireManyToOneArticle')
+                ->setDisabled()
+                ->setFormTypeOptions([
+                    'label' => 'Article',
+                    'help' => 'Article non modifiable',
+                ]),
+        ];
+    }
+###
+```
+
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+#### Modification du CRUD pour l'entité Categorie
+
+##### CategorieCrudController : configureCrud
+
+On peut modifier le CRUD pour l'entité Categorie dans le fichier :
+
+`src/Controller/Admin/CategorieCrudController.php`
+
+```php
+###
+public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par titre croissant
+            ->setDefaultSort(['CategorieTitle' => 'ASC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des catégories')
+            ->setPageTitle('new', 'Créer une catégorie')
+            ->setPageTitle('edit', 'Modifier une catégorie');
+
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### CategorieCrudController : configureFields
