@@ -121,6 +121,7 @@ https://sym6.cf2m.be/
       - [Modification du CRUD pour l'entité Categorie](#modification-du-crud-pour-lentité-catégorie)
         - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
         - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
+    - 
 ---
 
 
@@ -4820,3 +4821,35 @@ public function configureFields(string $pageName): iterable
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+### Mise en français de l'interface d'administration
+
+Dans le fichier `src/Controller/Admin/DashboardController.php`
+
+```php
+###
+// on ajoute la variable { _locale } pour la langue à l'URL
+#[Route('/admin/{_locale}', name: 'admin')]
+    public function index(): Response
+###
+```
+
+Puis on change la locale dans le fichier `config/packages/translation.yaml`
+
+```yaml
+framework:
+    default_locale: fr
+```
+
+Les boutons seront automatiquement traduits en français avec une URL de ce type :
+
+https://127.0.0.1:8000/admin/fr
+
+On peut aussi traduire le titre et contenu du tableau de bord de l'administration dans le fichier 
+
+`templates/admin/admin.homepage.html.twig`
+
+```twig
+{% block content_title %}Administration du site{% endblock %}
+```
+
