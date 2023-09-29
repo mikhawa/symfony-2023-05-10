@@ -2,11 +2,8 @@
 
 namespace App\Controller\Admin;
 
-# Importation des entités utiles
+# Importation de l'entité gérée par le CRUD
 use App\Entity\Article;
-use App\Entity\Categorie;
-use App\Entity\Commentaire;
-use App\Entity\Utilisateur;
 
 # Pour gérer le CRUD
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -57,11 +54,15 @@ class ArticleCrudController extends AbstractCrudController
         return [
             # id seulement sur l'accueil
             IntegerField::new('id')->onlyOnIndex(),
-            TextField::new('ArticleTitle'),
+            TextField::new('ArticleTitle')->setFormTypeOptions([
+                'label' => 'Titre',]),
             # slug seulement sur les formulaires,
             # lié au titre avec création automatique
             SlugField::new('ArticleSlug')->onlyOnForms()
-                ->setTargetFieldName('ArticleTitle'),
+                ->setTargetFieldName('ArticleTitle')
+                ->setFormTypeOptions([
+                    'label' => 'Slug',
+                    'help' => 'Créé à partir du titre, modifiable en cliquant sur le cadenas',]),
             TextEditorField::new('ArticleContent'),
             DateTimeField::new('ArticleDateCreate'),
             # date de l'update cachée sur l'accueil
@@ -78,6 +79,8 @@ class ArticleCrudController extends AbstractCrudController
             # Lien avec la table commentaire OneToMany
             AssociationField::new('Commentaires')->setFormTypeOptions([
                 'by_reference' => false,
+                'label' => 'Commentaires',
+                'help' => 'Ajouter, modifier ou supprimer un commentaire',
             ]),
             # Lien avec la table catégorie ManyToMany -
             # Il faut ajouter le setFormTypeOptions pour éviter que les catégories

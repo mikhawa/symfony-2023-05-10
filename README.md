@@ -115,7 +115,9 @@ https://sym6.cf2m.be/
       - [Modification du CRUD pour l'entité Article](#modification-du-crud-pour-lentité-article)
         - [ArticleCrudController : configureCrud](#articlecrudcontroller--configurecrud)
         - [ArticleCrudController : configureFields](#articlecrudcontroller--configurefields)
-        - 
+      - [Modification du CRUD pour l'entité Commentaire](#modification-du-crud-pour-lentité-commentaire)
+        - [CommentaireCrudController : configureCrud](#commentairecrudcontroller--configurecrud)
+        - [CommentaireCrudController : configureFields](#commentairecrudcontroller--configurefields)
 ---
 
 
@@ -4653,3 +4655,42 @@ public function __toString(): string
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+#### Modification du CRUD pour l'entité Commentaire
+
+##### CommentaireCrudController : configureCrud
+
+On peut modifier le CRUD pour l'entité Commentaire dans le fichier :
+
+`src/Controller/Admin/CommentaireCrudController.php`
+
+```php
+###
+public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            // classés par id décroissant
+            ->setDefaultSort(['id' => 'DESC'])
+            // Nombre d'articles par page
+            ->setPaginatorPageSize(20)
+            // Titres des pages
+            ->setPageTitle('index', 'Liste des commentaires')
+            ->setPageTitle('new', 'Créer un commentaire')
+            ->setPageTitle('edit', 'Modifier un commentaire');
+
+    }
+###
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
+##### CommentaireCrudController : configureFields
+
+
+`src/Controller/Admin/CommentaireCrudController.php`
+
+```php

@@ -15,7 +15,7 @@ use App\Entity\Utilisateur;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
         // return parent::index();
