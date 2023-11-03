@@ -30,8 +30,8 @@ class BlogController extends AbstractController
     {
         // récupération de toutes les catégories pour le menu
         $categories = $entityManager->getRepository(Categorie::class)->findAll();
-        // récupération des 9 derniers articles
-        $articles = $entityManager->getRepository(Article::class)->findBy([], ['ArticleDateCreate' => 'DESC'], 12);
+        // récupération des 20 derniers articles publiés, triés par date de création décroissante
+        $articles = $entityManager->getRepository(Article::class)->findBy(['ArticleIsPublished'=>true], ['ArticleDateCreate' => 'DESC'], 20);
         // on retire le slug de l'article pour éviter le retour à l'article après connexion
         $request->getSession()->set('slug', false);
         return $this->render('public/index.html.twig', [

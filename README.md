@@ -122,6 +122,7 @@ https://sym6.cf2m.be/
         - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
         - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
     - [Mise en français de l'interface d'administration](#mise-en-français-de-linterface-dadministration)
+  - 
     
 ---
 
@@ -4862,3 +4863,16 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
 
+## Mise à jour de l'affichage des articles
+
+### Suivant ArticleIsPublished
+
+On peut modifier l'affichage des articles pour ne pas afficher les articles non publiés.
+
+Dans le fichier `src/Controller/BlogController.php`
+
+```php
+### 
+// sur l'accueil, récupération des 20 derniers articles publiés
+        // récupération des 20 derniers articles publiés
+        $articles = $entityManager->getRepository(Article::class)->findBy(['ArticleIsPublished'=>true], ['ArticleDateCreate' => 'DESC'], 20);
