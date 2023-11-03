@@ -4877,7 +4877,8 @@ Dans le fichier `src/Controller/BlogController.php`
 ### 
 // sur l'accueil, récupération des 20 derniers articles publiés
         // récupération des 20 derniers articles publiés
-        $articles = $entityManager->getRepository(Article::class)->findBy(['ArticleIsPublished'=>true], ['ArticleDateCreate' => 'DESC'], 20);
+        $articles = $entityManager->getRepository(Article::class)->findBy(
+        ['ArticleIsPublished'=>true], ['ArticleDateCreate' => 'DESC'], 20);
 ###
 ```
 
@@ -4892,10 +4893,13 @@ Donc dans le fichier `templates/public/categorie.html.twig`, on inverse l'ordre 
     {% for article in articles|reverse %}
         {% if article.ArticleIsPublished %}
         <div class="col-lg-4 mb-5 mb-lg-0">
-            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+            <i class="bi bi-collection"></i></div>
             <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
-            <p>{{ article.ArticleContent|striptags|u.truncate(120, '...', false) }}</p>
-            <a class="text-decoration-none" href="{{ path("article", { 'slug' :  article.ArticleSlug }) }}">
+            <p>{{ article.ArticleContent|striptags|u.truncate(120,
+             '...', false) }}</p>
+            <a class="text-decoration-none" href="{{ path("article", 
+            { 'slug' :  article.ArticleSlug }) }}">
                 Lire la suite
                 <i class="bi bi-arrow-right"></i>
             </a>
