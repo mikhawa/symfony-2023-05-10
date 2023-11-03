@@ -122,7 +122,9 @@ https://sym6.cf2m.be/
         - [CategorieCrudController : configureCrud](#categoriecrudcontroller--configurecrud)
         - [CategorieCrudController : configureFields](#categoriecrudcontroller--configurefields)
     - [Mise en français de l'interface d'administration](#mise-en-français-de-linterface-dadministration)
-  - 
+  - [Mise à jour de l'affichage des articles](#mise-à-jour-de-laffichage-des-articles)
+    - [Suivant ArticleIsPublished sur la homepage](#suivant-articleispublished-sur-la-homepage)
+    - [Suivant ArticleIsPublished dans les sections](#suivant-articleispublished-dans-les-sections)
     
 ---
 
@@ -4865,7 +4867,7 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 ## Mise à jour de l'affichage des articles
 
-### Suivant ArticleIsPublished
+### Suivant ArticleIsPublished sur la homepage
 
 On peut modifier l'affichage des articles pour ne pas afficher les articles non publiés.
 
@@ -4876,3 +4878,35 @@ Dans le fichier `src/Controller/BlogController.php`
 // sur l'accueil, récupération des 20 derniers articles publiés
         // récupération des 20 derniers articles publiés
         $articles = $entityManager->getRepository(Article::class)->findBy(['ArticleIsPublished'=>true], ['ArticleDateCreate' => 'DESC'], 20);
+###
+```
+
+### Suivant ArticleIsPublished dans les sections
+
+Attention, cela doit être fait sur la vue, car on a utilisé le getValues() pour récupérer les articles sur les sections dans le fichier `src/Controller/BlogController.php`
+
+Donc dans le fichier `templates/public/categorie.html.twig`, on inverse l'ordre de sélection des articles pour avoir les plus récents en premier. On ajoute aussi la condition sur ArticleIsPublished :
+
+```twig
+{% block articlePerOne %}
+    {% for article in articles|reverse %}
+        {% if article.ArticleIsPublished %}
+        <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+            <h2 class="h4 fw-bolder">{{ article.ArticleTitle }}</h2>
+            <p>{{ article.ArticleContent|striptags|u.truncate(120, '...', false) }}</p>
+            <a class="text-decoration-none" href="{{ path("article", { 'slug' :  article.ArticleSlug }) }}">
+                Lire la suite
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+```
+
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
