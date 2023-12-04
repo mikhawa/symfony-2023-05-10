@@ -4925,3 +4925,130 @@ Retour au [Menu de navigation](#menu-de-navigation)
 
 Symfony 6.4 étant la version LTS (Long Term Support), on va mettre à jour notre projet vers cette version.
 
+https://endoflife.date/symfony
+
+
+Dans le fichier `composer.json`, on change la version de Symfony :
+
+```json
+{
+  "type": "project",
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.2",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "cocur/slugify": "^4.3",
+    "doctrine/annotations": "^2.0",
+    "doctrine/doctrine-bundle": "^2.9",
+    "doctrine/doctrine-migrations-bundle": "^3.2",
+    "doctrine/orm": "^2.15",
+    "easycorp/easyadmin-bundle": "^4.7",
+    "joshtronic/php-loremipsum": "^2.1",
+    "phpdocumentor/reflection-docblock": "^5.3",
+    "phpstan/phpdoc-parser": "^1.20",
+    "symfony/asset": "6.3.*",
+    "symfony/console": "6.3.*",
+    "symfony/doctrine-messenger": "6.3.*",
+    "symfony/dotenv": "6.3.*",
+    "symfony/expression-language": "6.3.*",
+    "symfony/flex": "^2",
+    "symfony/form": "6.3.*",
+    "symfony/framework-bundle": "6.3.*",
+    "symfony/google-mailer": "6.3.*",
+    "symfony/http-client": "6.3.*",
+    "symfony/intl": "6.3.*",
+    "symfony/mailer": "6.3.*",
+    "symfony/mime": "6.3.*",
+    "symfony/monolog-bundle": "^3.0",
+    "symfony/notifier": "6.3.*",
+    "symfony/process": "6.3.*",
+    "symfony/property-access": "6.3.*",
+    "symfony/property-info": "6.3.*",
+    "symfony/rate-limiter": "6.3.*",
+    "symfony/runtime": "6.3.*",
+    "symfony/security-bundle": "6.3.*",
+    "symfony/serializer": "6.3.*",
+    "symfony/stimulus-bundle": "^2.9",
+    "symfony/string": "6.3.*",
+    "symfony/translation": "6.3.*",
+    "symfony/twig-bundle": "6.3.*",
+    "symfony/validator": "6.3.*",
+    "symfony/web-link": "6.3.*",
+    "symfony/webpack-encore-bundle": "^2.0",
+    "symfony/yaml": "6.3.*",
+    "symfonycasts/verify-email-bundle": "^1.13",
+    "twig/extra-bundle": "^2.12|^3.0",
+    "twig/string-extra": "^3.7",
+    "twig/twig": "^2.12|^3.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "6.3.*"
+    }
+  },
+  "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "phpunit/phpunit": "^9.5",
+    "symfony/browser-kit": "6.3.*",
+    "symfony/css-selector": "6.3.*",
+    "symfony/debug-bundle": "6.3.*",
+    "symfony/maker-bundle": "^1.0",
+    "symfony/phpunit-bridge": "^6.3",
+    "symfony/stopwatch": "6.3.*",
+    "symfony/web-profiler-bundle": "6.3.*"
+  }
+}
+
+```
+
+Par
+
+```json
+
+
