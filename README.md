@@ -125,7 +125,8 @@ https://sym6.cf2m.be/
   - [Mise à jour de l'affichage des articles](#mise-à-jour-de-laffichage-des-articles)
     - [Suivant ArticleIsPublished sur la homepage](#suivant-articleispublished-sur-la-homepage)
     - [Suivant ArticleIsPublished dans les sections](#suivant-articleispublished-dans-les-sections)
-    
+  [Mise à jour de version de Symfony vers Symfony 6.4 LTS](#mise-à-jour-de-version-de-symfony-vers-symfony-64-lts)
+
 ---
 
 
@@ -5050,5 +5051,124 @@ Dans le fichier `composer.json`, on change la version de Symfony :
 Par
 
 ```json
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "cocur/slugify": "^4.3",
+        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "easycorp/easyadmin-bundle": "^4.7",
+        "joshtronic/php-loremipsum": "^2.1",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.20",
+        "symfony/asset": "6.4.*",
+        "symfony/console": "6.4.*",
+        "symfony/doctrine-messenger": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "symfony/expression-language": "6.4.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/google-mailer": "6.4.*",
+        "symfony/http-client": "6.4.*",
+        "symfony/intl": "6.4.*",
+        "symfony/mailer": "6.4.*",
+        "symfony/mime": "6.4.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.4.*",
+        "symfony/process": "6.4.*",
+        "symfony/property-access": "6.4.*",
+        "symfony/property-info": "6.4.*",
+        "symfony/rate-limiter": "6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/serializer": "6.4.*",
+        "symfony/stimulus-bundle": "^2.9",
+        "symfony/string": "6.4.*",
+        "symfony/translation": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/validator": "6.4.*",
+        "symfony/web-link": "6.4.*",
+        "symfony/webpack-encore-bundle": "^2.0",
+        "symfony/yaml": "6.4.*",
+        "symfonycasts/verify-email-bundle": "^1.13",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/string-extra": "^3.7",
+        "twig/twig": "^2.12|^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.4.*"
+        }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^6.4",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
+    }
+}
+```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
 
