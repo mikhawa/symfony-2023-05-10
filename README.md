@@ -4920,3 +4920,8 @@ Donc dans le fichier `templates/public/categorie.html.twig`, on inverse l'ordre 
 Retour au [Menu de navigation](#menu-de-navigation)
 
 ---
+
+## Mise à jour de version de Symfony vers Symfony 6.4 LTS
+
+Symfony 6.4 étant la version LTS (Long Term Support), on va mettre à jour notre projet vers cette version.
+
