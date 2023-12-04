@@ -4882,6 +4882,12 @@ Dans le fichier `src/Controller/BlogController.php`
 ###
 ```
 
+---
+
+Retour au [Menu de navigation](#menu-de-navigation)
+
+---
+
 ### Suivant ArticleIsPublished dans les sections
 
 Attention, cela doit être fait sur la vue, car on a utilisé le getValues() pour récupérer les articles sur les sections dans le fichier `src/Controller/BlogController.php`
