@@ -125,7 +125,7 @@ https://sym6.cf2m.be/
   - [Mise à jour de l'affichage des articles](#mise-à-jour-de-laffichage-des-articles)
     - [Suivant ArticleIsPublished sur la homepage](#suivant-articleispublished-sur-la-homepage)
     - [Suivant ArticleIsPublished dans les sections](#suivant-articleispublished-dans-les-sections)
-  [Mise à jour de version de Symfony vers Symfony 6.4 LTS](#mise-à-jour-de-version-de-symfony-vers-symfony-64-lts)
+  - [Mise à jour de version de Symfony vers Symfony 6.4 LTS](#mise-à-jour-de-version-de-symfony-vers-symfony-64-lts)
 
 ---
 
